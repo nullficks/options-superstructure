@@ -33,8 +33,8 @@
               class="px-3 py-1.5 rounded bg-blue-900/50 hover:bg-blue-800/70 text-blue-200 border border-blue-700 font-bold transition">
         🔗 Αντιγραφή Link Στοιχήματος
       </button>
-      <span id="dartStatus" class="px-2.5 py-1 rounded bg-gray-800 text-gray-400 border border-gray-700 mono">
-        Engine: Standby
+      <span id="dartStatus" class="px-2.5 py-1 rounded bg-emerald-900/50 text-emerald-300 border border-emerald-700 mono">
+        ✅ Core Engine: Ready
       </span>
     </div>
   </header>
@@ -146,70 +146,4 @@
     <div class="card p-4 border-l-4 border-emerald-500">
       <div class="text-xs text-emerald-400 font-bold">ΠΙΘΑΝΟΤΗΤΑ ΝΑ ΜΗΝ ΑΓΓΙΞΕΙ (NO-TOUCH)</div>
       <div id="kpiNoTouch" class="text-2xl font-bold text-emerald-300 mt-1 mono">—</div>
-      <div id="kpiNoTouchSub" class="text-xs text-gray-400 mt-1">—</div>
-    </div>
-  </section>
-
-  <!-- ΑΝΤΙΚΕΙΜΕΝΙΚΗ ΕΤΥΜΗΓΟΡΙΑ ΚΑΙ ΚΟΥΜΠΙΑ ΕΚΤΕΛΕΣΗΣ -->
-  <section class="card p-4 mb-6 bg-slate-900/80">
-    <div class="flex flex-wrap justify-between items-center gap-4">
-      <div class="max-w-4xl">
-        <h2 class="text-sm font-bold text-purple-300">
-          🎯 ΤΙ ΣΗΜΑΙΝΕΙ ΑΥΤΟ ΣΤΗΝ ΠΡΑΞΗ (ΑΝΑΛΥΣΗ ΣΤΟΧΟΥ &amp; ΣΤΟΙΧΗΜΑΤΟΣ)
-        </h2>
-        <div id="verdictText" class="text-xs text-gray-300 mt-1.5 leading-relaxed space-y-1">
-          Φόρτωση δεδομένων αγοράς...
-        </div>
-      </div>
-      <div class="flex flex-wrap gap-2">
-        <a id="optionStratTouchLink" href="#" target="_blank"
-           class="px-3 py-2 rounded bg-blue-700 hover:bg-blue-600 text-white text-xs font-bold transition">
-          Δες το Touch Bet στο OptionStrat ↗
-        </a>
-        <a id="optionStratNoTouchLink" href="#" target="_blank"
-           class="px-3 py-2 rounded bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold transition">
-          Δες το No-Touch Bet στο OptionStrat ↗
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- TABS NAVIGATION (ΧΩΡΙΣ ΟΝΟΜΑΤΑ) -->
-  <div class="mb-4 flex flex-wrap gap-2 border-b border-gray-800 pb-2 text-xs font-bold">
-    <button onclick="switchTab('PROB')" id="tabBtnProb" class="px-4 py-2 rounded bg-blue-600 text-white transition">
-      1. Πίνακας Πιθανοτήτων ανά Τιμή-Στόχο (Touch / No-Touch / Λήξη)
-    </button>
-    <button onclick="switchTab('STRAT')" id="tabBtnStrat" class="px-4 py-2 rounded bg-gray-800 text-gray-300 hover:bg-gray-700 transition">
-      2. Εξερευνητής Στρατηγικών (Covered Calls / Spreads / Straddles / Long Options)
-    </button>
-  </div>
-
-  <!-- TAB 1: VERTICAL SPREAD PROBABILITIES TABLE -->
-  <section id="tabProb" class="card overflow-x-auto">
-    <div class="p-3 bg-slate-900/50 border-b border-gray-800 text-xs text-gray-400">
-      💡 <b>Οδηγία:</b> Κάνε κλικ σε οποιαδήποτε γραμμή του πίνακα για να επιλέξεις εκείνη την τιμή-στόχο. Τα <span class="text-emerald-300 font-bold">πράσινα πολλαπλασιαστικά (π.χ. 2.50x)</span> δείχνουν στοιχήματα όπου το κέρδος στο Touch καλύπτει άνετα την προμήθεια Bid/Ask.
-    </div>
-    <table class="w-full text-left border-collapse text-xs">
-      <thead>
-        <tr class="border-b border-gray-800">
-          <th class="p-3" title="Η τιμή-στόχος που ελέγχουμε">Τιμή-Στόχος</th>
-          <th class="p-3" title="Ποσοστιαία απόσταση από τη σημερινή τιμή Spot">Απόσταση vs Spot</th>
-          <th class="p-3" title="Πραγματική απόσταση από την τιμή Forward (μετά την αφαίρεση του επιτοκίου)">Απόσταση vs Forward</th>
-          <th class="p-3" title="Τα δύο διπλανά Options που συνθέτουν το στοίχημα">Vertical Spread</th>
-          <th class="p-3 text-right" title="Πιθανότητα να αγγίξει τον στόχο έστω και μία φορά πριν τη λήξη">P(Touch)</th>
-          <th class="p-3 text-right" title="Πιθανότητα να ΜΗΝ αγγίξει τον στόχο μέχρι τη λήξη">P(No-Touch)</th>
-          <th class="p-3 text-right" title="Πιθανότητα να κλείσει πέρα από τον στόχο την ημέρα της λήξης">P(Λήξη ITM)</th>
-          <th class="p-3 text-right" title="Πόσο δύσκολη/σπάνια είναι η πρόβλεψη σε bits πληροφορίας (-log2 P)">Δυσκολία (Bits)</th>
-          <th class="p-3 text-right" title="Πόσο κοστίζει να αγοράσεις το Spread τώρα στην αγορά (Ask-Bid)">Κόστος Αγοράς</th>
-          <th class="p-3 text-right" title="Πόσο αξίζει το Spread τη στιγμή που η τιμή αγγίζει τον στόχο (50% του εύρους)">Αξία στο Touch</th>
-          <th class="p-3 text-right" title="Πόσες φορές τα λεφτά σου παίρνεις αν πουλήσεις τη στιγμή του Touch">Απόδοση Touch</th>
-          <th class="p-3 text-center">Γράφημα PnL</th>
-        </tr>
-      </thead>
-      <tbody id="probTableBody" class="divide-y divide-gray-800/60 mono"></tbody>
-    </table>
-  </section>
-
-  <!-- TAB 2: PRAXEOLOGICAL STRATEGY SCANNER (ΚΑΘΑΡΟΙ ΠΙΝΑΚΕΣ + ΕΠΕΞΗΓΗΣΕΙΣ) -->
-  <section id="tabStrat" class="card p-4 hidden">
-    <div class="flex flex-wrap justify-between gap-3 items-center mb-4 text-xs border-b border-gray-800 pb
+      <div id
