@@ -1,9 +1,6 @@
 /**
- * main.dart.js — Options Tools & Probabilistic Superstructure Core Engine
- *
- * Based on https://github.com/DimitrisAndreou/options-tools by Dimitris Andreou
- * Licensed under the Apache License, Version 2.0.
- * Configured for Cloudflare Worker Proxy: https://yfina.julian-883.workers.dev
+ * main.dart.js — Options Probabilistic Superstructure Engine
+ * Licensed under the Apache License, Version 2.0 (see NOTICE).
  */
 (function dartProgram() {
   'use strict';
@@ -49,10 +46,6 @@
     return `https://www.deribit.com/options/${coin}/${coin}-${expStr}/${instrumentName}`;
   }
 
-  // ===========================================================================
-  // 1. DATA FETCHERS (DERIBIT & YAHOO FINANCE VIA CLOUDFLARE WORKER)
-  // ===========================================================================
-
   async function fetchCachedJson(url) {
     const now = Date.now();
     const hit = memCache.get(url);
@@ -95,10 +88,9 @@
 
       const spot = Number(r.estimated_delivery_price);
       const future = Number(r.underlying_price);
-      // Convert Deribit inverse crypto quotes to USD
       const bidUsd = Number(r.bid_price) * spot;
       const askUsd = Number(r.ask_price) * spot;
-      const midUsd = ((bidUsd + askUsd) / 2);
+      const midUsd = (bidUsd + askUsd) / 2;
 
       contracts.push({
         venue: 'Deribit',
@@ -142,7 +134,6 @@
     if (spot <= 0) throw new Error(`Could not determine spot price for ${cleanTicker}`);
 
     const currency = quote.currency || 'USD';
-    const isMarketOpen = quote.marketState === 'REGULAR';
     const allEpochs = firstResult.expirationDates || [];
     const now = Date.now();
 
@@ -160,7 +151,6 @@
       }
     }
 
-    // Fetch up to 6 matching expirations in parallel (cached at Cloudflare Edge)
     const remainingEpochs = targetEpochs
       .filter((ep) => !chainBlocks.some((b) => b.expirationDate === ep))
       .slice(0, 5);
@@ -192,10 +182,7 @@
 
           let bid = 0;
           let ask = 0;
-          if (isMarketOpen && rawBid > 0 && rawAsk >= rawBid) {
-            bid = rawBid;
-            ask = rawAsk;
-          } else if (rawBid > 0 && rawAsk >= rawBid) {
+          if (rawBid > 0 && rawAsk >= rawBid) {
             bid = rawBid;
             ask = rawAsk;
           } else if (last > 0.01 && rawAsk > 0.01) {
@@ -235,10 +222,6 @@
 
     return contracts;
   }
-
-  // ===========================================================================
-  // 2. STRATEGY BUILDERS (COVERED CALLS, VERTICAL SPREADS, STRADDLES, LONGS)
-  // ===========================================================================
 
   function buildVerticalSpreads(contracts, slippageRatio) {
     const byExp = new Map();
@@ -321,7 +304,8 @@
   }
 
   function buildCoveredCalls(contracts, slippageRatio) {
-    const calls = contracts.filter((c) => c.isCall && c.strike >= c.spot * 0.95);
+    // Μόνο OTM / ATM strikes (c.strike >= c.spot)
+    const calls = contracts.filter((c) => c.isCall && c.strike >= c.spot);
     const spreads = buildVerticalSpreads(contracts, slippageRatio);
     const results = [];
 
@@ -333,10 +317,9 @@
       const maxValuePerUnit = c.strike;
       const moneyProfit = (maxValuePerUnit - netOutlayPerUnit) * c.minSize * c.lotSize;
       const moneyYield = maxValuePerUnit / netOutlayPerUnit;
-      const underlyingYield = (c.spot / netOutlayPerUnit);
+      const underlyingYield = c.spot / netOutlayPerUnit;
       const breakEvenMoney = netOutlayPerUnit;
 
-      // Match implied probability from nearest vertical spread
       const sameExpSpreads = spreads.filter((s) => s.DTE === c.dte);
       let moneyProb = null;
       if (sameExpSpreads.length > 0) {
@@ -486,10 +469,6 @@
     }
     return results;
   }
-
-  // ===========================================================================
-  // 3. EXPORTED WINDOW FUNCTIONS (100% COMPATIBLE WITH DIMITRIS ANDREOU API)
-  // ===========================================================================
 
   window.deribitCoveredCallsDart = async function(ticker, slippage, minDTE, maxDTE) {
     const chain = await fetchDeribitChain(ticker, minDTE, maxDTE);
