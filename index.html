@@ -11,60 +11,101 @@
 <style>
   :root {
     /* Παλέτα Wada Sanzo (和田三造) - Φυσικοί ιαπωνικοί τόνοι */
-    --bg-kuro: #101317;        /* Kuro-tsurubami: Βαθύ οργανικό μελάνι */
-    --card-kachi: #171c24;     /* Kachiiro: Σκούρο ίντιγκο επιφανειών */
-    --card-elevated: #1e2430;  /* Ελαφρώς ανυψωμένο στοιχείο */
-    --border-gin: #26303e;     /* Ginjyu: Απαλό γκρι-μπλε γραφίτη */
-    --border-focus: #3b4c63;   /* Τονισμένο περίγραμμα */
-    --text-washi: #e8eaed;     /* Washi: Ζεστό λευκό ιαπωνικού χαρτιού */
-    --text-hai: #9aa4b2;       /* Hai-shirouo: Ήρεμο γκρι δευτερεύοντος κειμένου */
-    --text-faint: #637083;     /* Υποτονικό κείμενο */
-    --aizome-blue: #4a86c6;    /* Aizome: Παραδοσιακό ίντιγκο (Spot / Focus) */
-    --kincha-gold: #d49a42;    /* Kin-cha: Κεχριμπαρένιο χρυσό τσαγιού (Carry / Forward / Drift) */
-    --matsuba-green: #3ea87c;  /* Matsu-ba: Πράσινο πευκοβελόνας (Touch / Payout / Yield) */
-    --shuiro-red: #d95d4e;     /* Shu-iro: Ιαπωνικό βερμιγιόν (No-Touch / Puts / Drop) */
-    --fujiiro-purple: #9b7ad6; /* Fujiiro: Απαλό μοβ γλυκίνης (Bits / Entropy / Spreads) */
+    --bg-kuro: #0e1115;        /* Kuro-tsurubami: Βαθύ οργανικό μελάνι Sumi */
+    --card-kachi: #151b23;     /* Kachiiro: Σκούρο ίντιγκο επιφανειών */
+    --card-elevated: #1c232e;  /* Ελαφρώς ανυψωμένο στοιχείο */
+    --border-gin: #232d3b;     /* Ginjyu: Απαλό γκρι-μπλε γραφίτη */
+    --border-focus: #3a4b61;   /* Τονισμένο περίγραμμα */
+    --text-washi: #ebe8e1;     /* Washi: Ζεστό λευκό ιαπωνικού χαρτιού */
+    --text-hai: #8e99a8;       /* Hai-shirouo: Ήρεμο γκρι δευτερεύοντος κειμένου */
+    --text-faint: #596575;     /* Υποτονικό κείμενο */
+    --aizome-blue: #3d76b8;    /* Aizome: Παραδοσιακό ίντιγκο (Spot / Focus) */
+    --kincha-gold: #c8963e;    /* Kin-cha: Κεχριμπαρένιο χρυσό τσαγιού (Carry / Forward / Drift) */
+    --matsuba-green: #3da678;  /* Matsu-ba: Πράσινο πευκοβελόνας (Touch / Payout / Yield) */
+    --shuiro-red: #c85648;     /* Shu-iro: Ιαπωνικό βερμιγιόν (No-Touch / Puts / Drop) */
+    --fujiiro-purple: #9b88bf; /* Fujiiro: Απαλό μοβ γλυκίνης (Bits / Entropy / Spreads) */
   }
 
   body {
     background-color: var(--bg-kuro);
     color: var(--text-washi);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: -0.01em;
   }
   .mono {
     font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
   }
   .card {
     background-color: var(--card-kachi);
     border: 1px solid var(--border-gin);
-    border-radius: 0.6rem;
+    border-radius: 0.65rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   }
   .card-elevated {
     background-color: var(--card-elevated);
     border: 1px solid var(--border-gin);
-    border-radius: 0.6rem;
+    border-radius: 0.65rem;
   }
   input, select {
-    background-color: #0c0f13;
+    background-color: #0b0e12;
     border: 1px solid var(--border-gin);
     color: var(--text-washi);
+    border-radius: 0.4rem;
   }
   input:focus, select:focus {
     border-color: var(--aizome-blue);
     outline: none;
+    box-shadow: 0 0 0 2px rgba(61, 118, 184, 0.2);
   }
   th {
-    background-color: #13171f;
+    background-color: #11161d;
     color: var(--text-hai);
     font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
   tr:hover {
-    background-color: #1b222d;
+    background-color: #1a222e;
   }
   details > summary { list-style: none; }
   details > summary::-webkit-details-marker { display: none; }
+
+  /* Custom Wada Sanzo Slider */
+  input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #1e2633;
+    height: 6px;
+    border-radius: 9999px;
+    outline: none;
+    border: 1px solid var(--border-gin);
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--aizome-blue);
+    border: 2px solid var(--text-washi);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    transition: transform 0.15s ease, background-color 0.15s ease;
+  }
+  input[type=range]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    background: var(--kincha-gold);
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--aizome-blue);
+    border: 2px solid var(--text-washi);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  }
 </style>
 </head>
 <body class="p-3 md:p-6 max-w-7xl mx-auto">
@@ -399,9 +440,9 @@
       <h3 class="font-bold text-[#3ea87c] text-sm mb-2">3. Drift &amp; Carry με Απλά Λόγια (Put-Call Parity)</h3>
       <p class="text-[#9aa4b2] space-y-2">
         <b>Γιατί η τιμή Forward είναι ψηλότερη από το Spot;</b><br/>
-        Το χρήμα έχει επιτόκιο λόγω χρονικής προτίμησης (Time Preference): 100€ σήμερα αξίζουν περισσότερο από 100€ σε 6 μήνες. Αν μια μετοχή έχει Spot 200€ και το επιτόκιο είναι 4%, η τιμή ισορροπίας για παράδοση σε ένα χρόνο είναι <b>Forward = 208€</b> ($F = S \cdot e^{rT}$).
+        Το χρήμα έχει επιτόκιο λόγω χρονικής προτίμησης (Time Preference): 100€ σήμερα αξίζουν περισσότερο από 100€ σε 6 μήνες. Αν μια μετοχή έχει Spot 200€ και το επιτόκιο είναι 4%, η τιμή ισορροπίας για παράδοση σε ένα χρόνο είναι <b>Forward = 208€</b> (<i>F = S &times; e<sup>r&middot;T</sup></i>).
         <br/><br/>
-        Η θεμελιώδης σχέση <b>Put-Call Parity</b> ($C - P = S - K \cdot e^{-rT}$) συνδέει αδιάσπαστα τα Options, τα Futures και το Spot χωρίς καμία θεωρητική αυθαιρεσία. Αν δεν διορθώσουμε για το Carry, θα υπερτιμήσουμε τα Calls και θα υποτιμήσουμε τα Puts!
+        Η θεμελιώδης σχέση <b>Put-Call Parity</b> (<i>C &minus; P = S &minus; K &times; e<sup>&minus;r&middot;T</sup></i>) συνδέει αδιάσπαστα τα Options, τα Futures και το Spot χωρίς καμία θεωρητική αυθαιρεσία. Αν δεν διορθώσουμε για το Carry, θα υπερτιμήσουμε τα Calls και θα υποτιμήσουμε τα Puts!
       </p>
     </div>
 
@@ -409,9 +450,9 @@
       <h3 class="font-bold text-[#9b7ad6] text-sm mb-2">4. P(Touch) vs P(Expire) &amp; Το Στενό Vertical Spread</h3>
       <p class="text-[#9aa4b2] space-y-2">
         <b>Γιατί η πιθανότητα επαφής P(Touch) είναι περίπου διπλάσια από το P(Expire);</b><br/>
-        Όταν η τιμή ενός asset αγγίξει το επίπεδο-στόχο για πρώτη φορά, βρίσκεται ακριβώς πάνω στο όριο. Από εκείνο το σημείο και μετά, έχει περίπου 50% πιθανότητα να παραμείνει από πάνω και 50% πιθανότητα να γυρίσει πίσω. Επομένως, <b>P(Touch) ≈ 2 · P(Expire)</b>.
+        Όταν η τιμή ενός asset αγγίξει το επίπεδο-στόχο για πρώτη φορά, βρίσκεται ακριβώς πάνω στο όριο. Από εκείνο το σημείο και μετά, έχει περίπου 50% πιθανότητα να παραμείνει από πάνω και 50% πιθανότητα να γυρίσει πίσω. Επομένως, <b>P(Touch) &approx; 2 &middot; P(Expire)</b>.
         <br/><br/>
-        Ένα στενό Vertical Spread ($K_1 / K_2$) γύρω από τον στόχο κοστίζει λίγα λεπτά σήμερα. Τη στιγμή του Touch γίνεται At-The-Money (ATM) και αξίζει περίπου το <b>50% του εύρους του</b>, χαρίζοντας τεράστια ασύμμετρη απόδοση (π.χ. 15x).
+        Ένα στενό Vertical Spread (K1 / K2) γύρω από τον στόχο κοστίζει λίγα λεπτά σήμερα. Τη στιγμή του Touch γίνεται At-The-Money (ATM) και αξίζει περίπου το <b>50% του εύρους του</b>, χαρίζοντας τεράστια ασύμμετρη απόδοση (π.χ. 15x).
       </p>
     </div>
   </div>
