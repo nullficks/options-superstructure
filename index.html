@@ -261,6 +261,69 @@
     </div>
   </section>
 
+  <!-- TAB 1: INTERACTIVE SUPERSTRUCTURE BELL CURVE & TOUCH BARRIER COCKPIT -->
+  <section id="superstructureChartSection" class="card p-4 md:p-5 mb-5 bg-[#12171f]">
+    <div class="flex flex-wrap justify-between items-center gap-2 mb-3 border-b border-[#232d3b] pb-2">
+      <div>
+        <h3 class="text-xs md:text-sm font-bold text-[#c8963e] flex items-center gap-2">
+          <span>⚡ ΚΑΤΑΝΟΜΗ ΠΙΘΑΝΟΤΗΤΩΝ &amp; ΟΡΙΟ ΕΠΑΦΗΣ (BELL CURVE &amp; TOUCH BARRIER)</span>
+        </h3>
+        <p class="text-[11px] text-[#8e99a8] mt-0.5">
+          Lognormal πυκνότητα πιθανότητας γύρω από το Forward (με Carry Drift) • Κλικ στο γράφημα ή σύρσιμο του slider για αλλαγή στόχου
+        </p>
+      </div>
+      <div class="flex items-center gap-3 text-[11px] mono">
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3d76b8]"></span> Spot</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#c8963e]"></span> Forward (Drift)</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3da678]"></span> Target Barrier</span>
+      </div>
+    </div>
+
+    <!-- SVG Bell Curve Container -->
+    <div class="relative w-full overflow-hidden bg-[#0d1117] rounded border border-[#232d3b] p-1">
+      <svg id="bellCurveSvg" viewBox="0 0 800 240" class="w-full h-auto block select-none cursor-crosshair"></svg>
+    </div>
+
+    <!-- Visual Asymmetric Multiplier Bar (Skin in the Game Payoff Bar) -->
+    <div class="mt-4 p-3 rounded bg-[#161d27] border border-[#232d3b]">
+      <div class="flex flex-wrap justify-between items-center gap-2 text-xs mb-2">
+        <span class="font-bold text-[#8e99a8]">ΟΠΤΙΚΟΠΟΙΗΣΗ ΑΣΥΜΜΕΤΡΙΑΣ (SKIN IN THE GAME PAYOFF)</span>
+        <span id="asymBitsBadge" class="text-[11px] mono text-[#9b88bf] bg-[#221c2e] px-2 py-0.5 rounded border border-[#3c2f52]">
+          Πληροφοριακή Δυσκολία: — Bits
+        </span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center text-xs">
+        <div class="md:col-span-3 p-2.5 rounded bg-[#241315] border border-[#c85648]/40">
+          <div class="text-[10px] text-[#c85648] font-bold">1. ΚΟΣΤΟΣ ΑΓΟΡΑΣ (MAX RISK)</div>
+          <div id="asymRiskVal" class="text-base font-bold mono text-[#ebe8e1] mt-0.5">—</div>
+          <div class="text-[10px] text-[#8e99a8]">Κίνδυνος αν δεν αγγίξει</div>
+        </div>
+
+        <div class="md:col-span-6 flex flex-col items-center justify-center px-2 py-1">
+          <div class="flex items-center justify-between w-full text-[11px] font-bold text-[#c8963e] mb-1">
+            <span>Σημείο Εισόδου</span>
+            <span id="asymMultLabel" class="text-sm font-extrabold text-[#3da678] mono">⚡ —x Multiple</span>
+            <span>Στόχος Επαφής</span>
+          </div>
+          <div class="w-full h-3 rounded-full bg-[#1c2430] border border-[#263548] relative overflow-hidden flex">
+            <div id="asymRiskBar" class="h-full bg-[#c85648] transition-all duration-300" style="width: 20%;"></div>
+            <div id="asymPayoutBar" class="h-full bg-gradient-to-r from-[#c8963e] to-[#3da678] transition-all duration-300" style="width: 80%;"></div>
+          </div>
+          <div class="flex justify-between w-full text-[10px] text-[#8e99a8] mt-1 mono">
+            <span id="asymSpotLabel">Spot: —</span>
+            <span id="asymTargetLabel">Target: —</span>
+          </div>
+        </div>
+
+        <div class="md:col-span-3 p-2.5 rounded bg-[#13221b] border border-[#3da678]/40 text-right">
+          <div class="text-[10px] text-[#3da678] font-bold">2. ΑΞΙΑ ΣΤΟ TOUCH (PAYOUT)</div>
+          <div id="asymPayoutVal" class="text-base font-bold mono text-[#ebe8e1] mt-0.5">—</div>
+          <div class="text-[10px] text-[#8e99a8]">Καθαρή αξία στο Touch</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- TABLE OF STRIKES -->
   <section class="card overflow-x-auto">
     <div class="p-3 bg-[#13171f] border-b border-[#26303e] text-xs text-[#9aa4b2] flex justify-between items-center">
@@ -343,6 +406,29 @@
     </div>
   </div>
 
+  <!-- TAB 2: INTERACTIVE TIME-TO-TOUCH TRAJECTORY CHART -->
+  <section class="card p-4 md:p-5 mb-5 bg-[#12171f]">
+    <div class="flex flex-wrap justify-between items-center gap-2 mb-3 border-b border-[#232d3b] pb-2">
+      <div>
+        <h3 class="text-xs md:text-sm font-bold text-[#3da678] flex items-center gap-2">
+          <span>📈 ΚΑΜΠΥΛΗ ΠΙΘΑΝΟΤΗΤΑΣ ΣΤΟΝ ΧΡΟΝΟ (TIME-TO-TOUCH TRAJECTORY)</span>
+        </h3>
+        <p class="text-[11px] text-[#8e99a8] mt-0.5">
+          Πώς αυξάνεται η πιθανότητα επαφής όσο περνούν οι ημέρες (1 έως 365 ημέρες) • Σύγκριση πραγματικής αγοράς (με Carry Drift) έναντι απλοϊκής προσέγγισης (χωρίς Carry).
+        </p>
+      </div>
+      <div class="flex items-center gap-3 text-[11px] mono">
+        <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-[#3da678] inline-block"></span> Με Carry Drift (Πραγματικό)</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-[#596575] border-t border-dashed border-[#8e99a8] inline-block"></span> Χωρίς Carry (Απλοϊκό)</span>
+      </div>
+    </div>
+
+    <!-- SVG Timeline Curve Container -->
+    <div class="relative w-full overflow-hidden bg-[#0d1117] rounded border border-[#232d3b] p-1">
+      <svg id="timelineCurveSvg" viewBox="0 0 800 250" class="w-full h-auto block select-none"></svg>
+    </div>
+  </section>
+
   <div class="overflow-x-auto">
     <table class="w-full text-left border-collapse text-xs">
       <thead>
@@ -398,12 +484,128 @@
 
   <div id="stratTheoryNote" class="mb-4 p-3.5 rounded bg-[#13171f] border border-[#26303e] text-xs text-[#e8eaed] leading-relaxed"></div>
 
-  <div class="overflow-x-auto">
-    <table class="w-full text-left border-collapse text-xs">
-      <thead id="stratTableHead"></thead>
-      <tbody id="stratTableBody" class="divide-y divide-[#26303e]/60 mono"></tbody>
-    </table>
+  <!-- TAB 3: GEOMETRIC COVERED CALL COCKPIT (THE INTERACTIVE FRONTIER) -->
+  <div id="ccCockpitSection" class="hidden mb-5 space-y-4">
+    <!-- Presets bar: Conservative, Sweet-Spot, Aggressive -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <button onclick="selectCcProfile('CONSERVATIVE')" id="btnCcCons" class="card-elevated p-3 text-left border-l-4 border-[#3d76b8] hover:border-[#4a86c6] transition">
+        <div class="flex justify-between items-center text-xs">
+          <span class="font-bold text-[#3d76b8]">🛡️ 1. ΣΥΝΤΗΡΗΤΙΚΟ (DEEP BUFFER)</span>
+          <span class="text-[10px] text-[#8e99a8] mono">Max Cushion</span>
+        </div>
+        <div class="text-xs text-[#ebe8e1] font-semibold mt-1">Βαθύ μαξιλάρι πτώσης &gt; 10%</div>
+        <div class="text-[11px] text-[#8e99a8] mt-0.5">Για προστασία κεφαλαίου με σταθερό yield</div>
+      </button>
+
+      <button onclick="selectCcProfile('BALANCED')" id="btnCcBal" class="card-elevated p-3 text-left border-l-4 border-[#c8963e] hover:border-[#e0aa4f] bg-[#1a2332] transition">
+        <div class="flex justify-between items-center text-xs">
+          <span class="font-bold text-[#c8963e]">⚖️ 2. ΙΣΟΡΡΟΠΗΜΕΝΟ (SWEET SPOT)</span>
+          <span class="text-[10px] text-[#c8963e] font-bold mono">★ Recommended</span>
+        </div>
+        <div class="text-xs text-[#ebe8e1] font-semibold mt-1">Pareto-Optimal Frontier</div>
+        <div class="text-[11px] text-[#8e99a8] mt-0.5">Βέλτιστη σχέση απόδοσης APR και μαξιλαριού</div>
+      </button>
+
+      <button onclick="selectCcProfile('AGGRESSIVE')" id="btnCcAggr" class="card-elevated p-3 text-left border-l-4 border-[#3da678] hover:border-[#4bbd8b] transition">
+        <div class="flex justify-between items-center text-xs">
+          <span class="font-bold text-[#3da678]">🚀 3. ΕΠΙΘΕΤΙΚΟ (MAX APR)</span>
+          <span class="text-[10px] text-[#8e99a8] mono">ATM Yield</span>
+        </div>
+        <div class="text-xs text-[#ebe8e1] font-semibold mt-1">Μέγιστη άμεση χρηματική απόδοση</div>
+        <div class="text-[11px] text-[#8e99a8] mt-0.5">Κοντά στην τιμή Spot (ATM) για κορυφαίο cash flow</div>
+      </button>
+    </div>
+
+    <!-- Frontier SVG Chart -->
+    <div class="card p-4 bg-[#12171f] border border-[#232d3b]">
+      <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
+        <div>
+          <h4 class="text-xs font-bold text-[#c8963e] flex items-center gap-2">
+            <span>📈 GEOMETRIC EFFICIENT FRONTIER: ΠΡΟΣΤΑΣΙΑ ΠΤΩΣΗΣ VS ΕΤΗΣΙΑ ΑΠΟΔΟΣΗ (APR)</span>
+          </h4>
+          <p class="text-[11px] text-[#8e99a8] mt-0.5">
+            Κάθε κύκλος είναι ένα Strike. Κάνε κλικ σε οποιοδήποτε σημείο για άμεση ανάλυση. Η χρυσή καμπύλη ενώνει τα κυρίαρχα (sweet-spot) συμβόλαια.
+          </p>
+        </div>
+        <div class="flex items-center gap-3 text-[11px] mono">
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3d76b8]"></span> Συντηρητικό</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#c8963e]"></span> Sweet Spot</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3da678]"></span> Επιθετικό (Max APR)</span>
+        </div>
+      </div>
+      <div class="relative w-full overflow-hidden bg-[#0d1117] rounded border border-[#232d3b] p-1">
+        <svg id="ccFrontierSvg" viewBox="0 0 800 280" class="w-full h-auto block select-none cursor-pointer"></svg>
+      </div>
+    </div>
+
+    <!-- Active Strike Focus Cards (Dual Economic Reality) -->
+    <div id="ccActiveCardContainer" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <!-- Card 1: Cash Yield if Assigned -->
+      <div class="card p-3.5 border-l-4 border-[#3da678] bg-[#141b22]">
+        <div class="flex justify-between items-center text-[11px] text-[#3da678] font-bold">
+          <span>1. ΧΡΗΜΑΤΙΚΗ ΑΠΟΔΟΣΗ ($/€ CASH)</span>
+          <span class="text-[10px] text-[#8e99a8]">Αν ασκηθεί (Assigned)</span>
+        </div>
+        <div id="ccCardCashYield" class="text-2xl font-bold text-[#3da678] mt-1 mono">+0.00%</div>
+        <div id="ccCardCashSub" class="text-xs text-[#ebe8e1] font-semibold mt-0.5">APR: — | Κέρδος: —</div>
+        <p class="text-[11px] text-[#8e99a8] mt-2 leading-relaxed">
+          Αν η τιμή στη λήξη κλείσει πάνω από το Strike, παραδίδεις το asset και κλειδώνεις αυτό το μέγιστο κέρδος σε ευρώ/δολάρια.
+        </p>
+      </div>
+
+      <!-- Card 2: Asset Compounding if Unassigned -->
+      <div class="card p-3.5 border-l-4 border-[#3d76b8] bg-[#141b22]">
+        <div class="flex justify-between items-center text-[11px] text-[#3d76b8] font-bold">
+          <span>2. ΣΥΣΣΩΡΕΥΣΗ ΤΕΜΑΧΙΩΝ (UNITS)</span>
+          <span class="text-[10px] text-[#8e99a8]">Αν δεν ασκηθεί (OTM)</span>
+        </div>
+        <div id="ccCardUnitYield" class="text-2xl font-bold text-[#3d76b8] mt-1 mono">+0.00%</div>
+        <div id="ccCardUnitSub" class="text-xs text-[#ebe8e1] font-semibold mt-0.5">Δωρεάν Επανεπένδυση Premium</div>
+        <p class="text-[11px] text-[#8e99a8] mt-2 leading-relaxed">
+          Αν η τιμή παραμείνει κάτω από το Strike, κρατάς το 100% των μετοχών/Satoshis σου ΚΑΙ το premium, αυξάνοντας τα τεμάχιά σου.
+        </p>
+      </div>
+
+      <!-- Card 3: Downside Breakeven Buffer -->
+      <div class="card p-3.5 border-l-4 border-[#c8963e] bg-[#141b22]">
+        <div class="flex justify-between items-center text-[11px] text-[#c8963e] font-bold">
+          <span>3. ΜΑΞΙΛΑΡΙ ΑΣΦΑΛΕΙΑΣ (BREAKEVEN)</span>
+          <span class="text-[10px] text-[#8e99a8]">Προστασία Πτώσης</span>
+        </div>
+        <div id="ccCardCushion" class="text-2xl font-bold text-[#c8963e] mt-1 mono">—</div>
+        <div id="ccCardCushionSub" class="text-xs text-[#ebe8e1] font-semibold mt-0.5">Νεκρό Σημείο: —</div>
+        <p class="text-[11px] text-[#8e99a8] mt-2 leading-relaxed">
+          Η τιμή μπορεί να καταρρεύσει μέχρι αυτό το επίπεδο πριν αρχίσεις να καταγράφεις έστω και 0.01€ καθαρή ζημιά.
+        </p>
+      </div>
+    </div>
+
+    <!-- Payoff Action Bar -->
+    <div class="flex flex-wrap justify-between items-center p-3 rounded bg-[#161d27] border border-[#232d3b] text-xs">
+      <div class="text-[#ebe8e1]">
+        Επιλεγμένο Συμβόλαιο: <b id="ccSelectedStrikeLabel" class="text-[#c8963e] mono">—</b>
+      </div>
+      <a id="ccSelectedPayoffLink" href="#" target="_blank" class="px-4 py-2 rounded bg-[#3da678] hover:bg-[#338e68] text-white font-bold transition flex items-center gap-1.5">
+        <span>Άνοιγμα Payoff Στρατηγικής</span> ↗
+      </a>
+    </div>
   </div>
+
+  <!-- Collapsible Raw Strikes Table -->
+  <details id="ccTableDetails" class="mt-4 border border-[#232d3b] rounded-lg overflow-hidden bg-[#12161d]" open>
+    <summary class="p-3 bg-[#151b23] text-xs font-bold text-[#8e99a8] hover:text-[#ebe8e1] cursor-pointer flex justify-between items-center select-none">
+      <span class="flex items-center gap-2">
+        <span>📊</span> <span id="ccTableSummaryTitle">Αναλυτικός Πίνακας Strikes &amp; Δεδομένων</span>
+      </span>
+      <span class="text-[11px] text-[#3d76b8] mono">Κλικ για Εμφάνιση / Απόκρυψη ▼</span>
+    </summary>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse text-xs">
+        <thead id="stratTableHead"></thead>
+        <tbody id="stratTableBody" class="divide-y divide-[#26303e]/60 mono"></tbody>
+      </table>
+    </div>
+  </details>
 </section>
 
 <!-- ==================== TAB 4: ΠΡΑΞΕΟΛΟΓΙΑ & ΘΕΜΕΛΙΑ ΑΓΟΡΑΣ ==================== -->
@@ -1388,6 +1590,35 @@ function onSliderChange(targetVal) {
   }
 
   renderSpreadsTable(nearest);
+
+  // Update Asymmetric Multiplier Bar (Skin in the Game Payoff Bar)
+  const riskCost = nearest.spreadAsk;
+  const payoutVal = nearest.touchExit;
+  const asymRiskValEl = document.getElementById('asymRiskVal');
+  const asymPayoutValEl = document.getElementById('asymPayoutVal');
+  const asymMultLabelEl = document.getElementById('asymMultLabel');
+  const asymBitsBadgeEl = document.getElementById('asymBitsBadge');
+  const asymRiskBarEl = document.getElementById('asymRiskBar');
+  const asymPayoutBarEl = document.getElementById('asymPayoutBar');
+  const asymSpotLabelEl = document.getElementById('asymSpotLabel');
+  const asymTargetLabelEl = document.getElementById('asymTargetLabel');
+
+  if (asymRiskValEl) asymRiskValEl.textContent = fmtMoney(riskCost);
+  if (asymPayoutValEl) asymPayoutValEl.textContent = fmtMoney(payoutVal);
+  if (asymMultLabelEl) asymMultLabelEl.textContent = '⚡ ' + multStr + ' Multiple';
+  if (asymBitsBadgeEl) asymBitsBadgeEl.textContent = 'Πληροφοριακή Δυσκολία: ' + bits + ' Bits (' + Math.round(Number(bits)) + ' κορώνα-γράμματα)';
+  if (asymSpotLabelEl) asymSpotLabelEl.textContent = 'Spot: ' + fmtMoney(spot);
+  if (asymTargetLabelEl) asymTargetLabelEl.textContent = 'Target: ' + fmtMoney(nearest.target);
+
+  if (asymRiskBarEl && asymPayoutBarEl) {
+    const totalVal = Math.max(1e-4, riskCost + payoutVal);
+    const riskRatio = Math.min(60, Math.max(10, (riskCost / totalVal) * 100));
+    asymRiskBarEl.style.width = riskRatio.toFixed(1) + '%';
+    asymPayoutBarEl.style.width = (100 - riskRatio).toFixed(1) + '%';
+  }
+
+  // Render SVG Bell Curve & Target Barrier
+  renderSuperstructureBellChart(spot, forward, nearest.target, nearest.pTouch, nearest.pExpire, spreads);
 }
 
 function renderSpreadsTable(activeSpread) {
@@ -1513,6 +1744,8 @@ function runTimelineCalculator() {
       '<td class="p-3 text-right font-bold text-[#3ea87c]">' + (fairMult > 100 ? '>100x' : (fairMult.toFixed(2) + 'x')) + '</td>' +
       '</tr>';
   }).join('');
+
+  renderTimelineCurveChart(spot, target, ivPct, ratePct, days50, days75);
 }
 
 async function runStrategyScanner() {
@@ -1547,13 +1780,20 @@ async function runStrategyScanner() {
     const jsonStr = await fn(ticker, slip, minDte, maxDte);
     const items = JSON.parse(jsonStr);
 
+    const cockpitEl = document.getElementById('ccCockpitSection');
+
     if (strat === 'CC') {
       const validCC = items.filter(x => x.strikeRelative >= 0.995 && x.moneyYield > 1.002);
       badge.textContent = validCC.length + ' Covered Calls';
 
+      if (cockpitEl) cockpitEl.classList.remove('hidden');
+
       note.innerHTML =
         '💡 <b>Geometric Covered Call (Οικονομικός Υπολογισμός):</b> Αγοράζεις το υποκείμενο και πουλάς ταυτόχρονα Call Option στο Strike. ' +
         'Εδώ εξετάζουμε δύο μεγέθη: <b>Απόδοση σε Χρήμα ($)</b> (αν ασκηθείς) vs <b>Απόδοση σε Τεμάχια</b> (πόσες περισσότερες μετοχές/coins κρατάς λόγω του premium αν δεν ασκηθείς).';
+
+      currentCcItems = validCC;
+      selectCcProfile('BALANCED');
 
       thead.innerHTML = '<tr class="border-b border-[#26303e]">' +
         '<th class="p-3">Λήξη (Μέρες)</th>' +
@@ -1577,7 +1817,7 @@ async function runStrategyScanner() {
         const undYieldPct = ((x.underlyingYield - 1) * 100).toFixed(2);
         const pMax = x.moneyProbability != null ? ((x.moneyProbability * 100).toFixed(1) + '%') : '—';
 
-        return '<tr>' +
+        return '<tr class="cursor-pointer hover:bg-[#1a2332] transition" data-strike="' + x.strikeAbsolute + '" onclick="selectCcItemByStrike(' + x.strikeAbsolute + ')">' +
           '<td class="p-3">' + x.formattedDate + ' <span class="text-gray-500">(' + x.DTE + 'd)</span></td>' +
           '<td class="p-3 font-bold">' + fmtMoney(x.strikeAbsolute) + ' <span class="text-[#3ea87c]">(+' + moveStrike + '%)</span></td>' +
           '<td class="p-3 text-right">' + fmtMoney(x.breakEvenVsFullMoneyAbsolute) + ' <span class="text-gray-400">(' + beMove + '%)</span></td>' +
@@ -1586,10 +1826,12 @@ async function runStrategyScanner() {
           '<td class="p-3 text-right text-[#4a86c6]">+' + undYieldPct + '%</td>' +
           '<td class="p-3 text-right text-[#9b7ad6]">' + pMax + '</td>' +
           '<td class="p-3 text-right">' + fmtMoney(x.moneySize) + '</td>' +
-          '<td class="p-3 text-center"><a href="' + x.strategyURL + '" target="_blank" class="text-[#4a86c6] hover:underline font-sans">Payoff ↗</a></td>' +
+          '<td class="p-3 text-center"><a href="' + x.strategyURL + '" target="_blank" onclick="event.stopPropagation()" class="text-[#4a86c6] hover:underline font-sans">Payoff ↗</a></td>' +
           '</tr>';
       }).join('');
-    } else if (strat === 'VS') {
+    } else {
+      if (cockpitEl) cockpitEl.classList.add('hidden');
+      if (strat === 'VS') {
       const actionable = items.filter(x => x.touchReturnMultiple >= 1.25 && x.probTouchBeforeExpiry >= 0.02);
       badge.textContent = actionable.length + ' Touch Spreads';
 
@@ -1683,9 +1925,487 @@ async function runStrategyScanner() {
           '</tr>';
       }).join('');
     }
-  } catch (e) {
+  }
+} catch (e) {
     tbody.innerHTML = '<tr><td colspan="10" class="p-6 text-center text-[#d95d4e] font-sans">Σφάλμα: ' + e.message + '</td></tr>';
   }
+}
+
+let currentCcItems = [];
+let currentCcActiveItem = null;
+
+function renderSuperstructureBellChart(spot, forward, target, pTouch, pExpire, spreads) {
+  const svg = document.getElementById('bellCurveSvg');
+  if (!svg || spot <= 0) return;
+
+  const W = 800, H = 240;
+  const L = 60, R = 750, T = 35, B = 205;
+  const Wu = R - L, Hu = B - T;
+
+  let minP = spot * 0.85, maxP = spot * 1.15;
+  if (spreads && spreads.length > 0) {
+    minP = Math.min(minP, spreads[0].target * 0.98);
+    maxP = Math.max(maxP, spreads[spreads.length - 1].target * 1.02);
+  }
+  if (target > 0) {
+    minP = Math.min(minP, target * 0.96);
+    maxP = Math.max(maxP, target * 1.04);
+  }
+  if (forward > 0) {
+    minP = Math.min(minP, forward * 0.96);
+    maxP = Math.max(maxP, forward * 1.04);
+  }
+
+  const toX = (p) => L + ((p - minP) / (maxP - minP)) * Wu;
+  const xSpot = Math.max(L, Math.min(R, toX(spot)));
+  const xFwd = Math.max(L, Math.min(R, toX(forward > 0 ? forward : spot)));
+  const xTarget = Math.max(L, Math.min(R, toX(target)));
+
+  // Lognormal probability density function around Forward
+  const dte = Math.max(1, currentState.dte || 7);
+  const tYears = dte / 365.0;
+  const iv = 0.40;
+  const r = (currentState.carryApr || 4.25) / 100.0;
+  const mu = Math.log(spot) + (r - 0.5 * iv * iv) * tYears;
+  const v = Math.max(1e-4, iv * Math.sqrt(tYears));
+
+  const pts = [];
+  const steps = 120;
+  let maxDens = 0;
+  for (let i = 0; i <= steps; i++) {
+    const p = minP + (i / steps) * (maxP - minP);
+    if (p <= 0) continue;
+    const lnDiff = Math.log(p) - mu;
+    const dens = (1.0 / (p * v * Math.sqrt(2 * Math.PI))) * Math.exp(-(lnDiff * lnDiff) / (2 * v * v));
+    if (dens > maxDens) maxDens = dens;
+    pts.push({ p, dens });
+  }
+
+  if (maxDens <= 0) maxDens = 1;
+  const toY = (dens) => B - (dens / maxDens) * (Hu * 0.88);
+  const coords = pts.map(pt => ({ x: toX(pt.p), y: toY(pt.dens), p: pt.p }));
+
+  let dCurve = 'M ' + coords[0].x.toFixed(1) + ' ' + coords[0].y.toFixed(1);
+  for (let i = 1; i < coords.length; i++) {
+    dCurve += ' L ' + coords[i].x.toFixed(1) + ' ' + coords[i].y.toFixed(1);
+  }
+  const dArea = dCurve + ' L ' + coords[coords.length - 1].x.toFixed(1) + ' ' + B + ' L ' + coords[0].x.toFixed(1) + ' ' + B + ' Z';
+
+  const isUp = target >= spot;
+  const shadedPts = isUp ? coords.filter(pt => pt.p >= target) : coords.filter(pt => pt.p <= target);
+  let dShaded = '';
+  if (shadedPts.length > 1) {
+    dShaded = 'M ' + xTarget.toFixed(1) + ' ' + B + ' L ' + xTarget.toFixed(1) + ' ' + toY(shadedPts[0].dens).toFixed(1);
+    for (const pt of shadedPts) {
+      dShaded += ' L ' + pt.x.toFixed(1) + ' ' + pt.y.toFixed(1);
+    }
+    const lastPt = shadedPts[shadedPts.length - 1];
+    dShaded += ' L ' + lastPt.x.toFixed(1) + ' ' + B + ' Z';
+  }
+
+  const carryDeltaPct = forward > 0 ? ((forward / spot - 1) * 100).toFixed(1) : '0.0';
+  const carryDir = Number(carryDeltaPct) >= 0 ? '+' : '';
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="bellGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#3d76b8" stop-opacity="0.32"/>
+        <stop offset="100%" stop-color="#3d76b8" stop-opacity="0.02"/>
+      </linearGradient>
+      <linearGradient id="shadedGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#9b88bf" stop-opacity="0.45"/>
+        <stop offset="100%" stop-color="#9b88bf" stop-opacity="0.05"/>
+      </linearGradient>
+      <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+        <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#3da678" flood-opacity="0.6"/>
+      </filter>
+    </defs>
+
+    <!-- Background guidelines -->
+    <line x1="${L}" y1="${B}" x2="${R}" y2="${B}" stroke="#232d3b" stroke-width="1"/>
+    <line x1="${L}" y1="${B - Hu * 0.5}" x2="${R}" y2="${B - Hu * 0.5}" stroke="#232d3b" stroke-width="1" stroke-dasharray="2,4"/>
+    <line x1="${L}" y1="${T}" x2="${R}" y2="${T}" stroke="#232d3b" stroke-width="1" stroke-dasharray="2,4"/>
+
+    <!-- Bell Curve fill & stroke -->
+    <path d="${dArea}" fill="url(#bellGrad)"/>
+    ${dShaded ? `<path d="${dShaded}" fill="url(#shadedGrad)"/>` : ''}
+    <path d="${dCurve}" fill="none" stroke="#3d76b8" stroke-width="2.5" stroke-linejoin="round"/>
+
+    <!-- Spot Line (Aizome Blue) -->
+    <line x1="${xSpot}" y1="${T + 12}" x2="${xSpot}" y2="${B}" stroke="#3d76b8" stroke-width="2"/>
+    <circle cx="${xSpot}" cy="${B}" r="3.5" fill="#3d76b8"/>
+    <rect x="${Math.max(L, xSpot - 38)}" y="${T - 12}" width="76" height="20" rx="4" fill="#151b23" stroke="#3d76b8" stroke-width="1.2"/>
+    <text x="${Math.max(L + 38, xSpot)}" y="${T + 2}" font-size="10" font-family="'JetBrains Mono', monospace" font-weight="700" fill="#ebe8e1" text-anchor="middle">
+      Spot ${fmtMoney(spot)}
+    </text>
+
+    <!-- Forward Line with Carry Drift (Kin-cha Gold) -->
+    <line x1="${xFwd}" y1="${T + 15}" x2="${xFwd}" y2="${B}" stroke="#c8963e" stroke-width="1.8" stroke-dasharray="3,3"/>
+    <circle cx="${xFwd}" cy="${B}" r="3" fill="#c8963e"/>
+    <rect x="${Math.max(L, xFwd - 46)}" y="${T + 14}" width="92" height="18" rx="4" fill="#151b23" stroke="#c8963e" stroke-width="1"/>
+    <text x="${Math.max(L + 46, xFwd)}" y="${T + 27}" font-size="9.5" font-family="'JetBrains Mono', monospace" font-weight="600" fill="#c8963e" text-anchor="middle">
+      Fwd ${fmtMoney(forward)} (${carryDir}${carryDeltaPct}%)
+    </text>
+
+    <!-- Target Barrier Line (Matsu-ba Green) -->
+    <line x1="${xTarget}" y1="${T - 18}" x2="${xTarget}" y2="${B}" stroke="#3da678" stroke-width="2.5"/>
+    <circle cx="${xTarget}" cy="${T - 18}" r="5" fill="#3da678" filter="url(#glowGreen)"/>
+    <circle cx="${xTarget}" cy="${T - 18}" r="9" fill="none" stroke="#3da678" stroke-width="1" stroke-opacity="0.6"/>
+    
+    <!-- Target Barrier Badge -->
+    <rect x="${Math.max(L, Math.min(R - 115, xTarget - 57))}" y="${T - 34}" width="115" height="22" rx="4" fill="#13221b" stroke="#3da678" stroke-width="1.5"/>
+    <text x="${Math.max(L + 57, Math.min(R - 57, xTarget))}" y="${T - 19}" font-size="10.5" font-family="'JetBrains Mono', monospace" font-weight="700" fill="#3da678" text-anchor="middle">
+      🎯 ${fmtMoney(target)} (${(pTouch * 100).toFixed(1)}%)
+    </text>
+
+    <!-- Shaded ITM Expiry Label -->
+    ${dShaded ? `
+      <text x="${Math.max(L + 45, Math.min(R - 45, isUp ? xTarget + (R - xTarget) / 2 : L + (xTarget - L) / 2))}" y="${B - 10}" font-size="9" font-family="'JetBrains Mono', monospace" fill="#9b88bf" text-anchor="middle">
+        P(Expire): ${(pExpire * 100).toFixed(1)}%
+      </text>
+    ` : ''}
+
+    <!-- Axis Labels -->
+    <text x="${L}" y="${B + 16}" font-size="10" font-family="'JetBrains Mono', monospace" fill="#8e99a8" text-anchor="start">${fmtMoney(minP)}</text>
+    <text x="${W / 2}" y="${B + 16}" font-size="10" font-family="'JetBrains Mono', monospace" fill="#8e99a8" text-anchor="middle">Εύρος Τιμών Λήξης (Lognormal PDF)</text>
+    <text x="${R}" y="${B + 16}" font-size="10" font-family="'JetBrains Mono', monospace" fill="#8e99a8" text-anchor="end">${fmtMoney(maxP)}</text>
+  `;
+
+  svg.onclick = (e) => {
+    const rect = svg.getBoundingClientRect();
+    const clickX = ((e.clientX - rect.left) / rect.width) * W;
+    if (clickX >= L && clickX <= R) {
+      const clickedP = minP + ((clickX - L) / Wu) * (maxP - minP);
+      const slider = document.getElementById('targetSlider');
+      if (slider) {
+        slider.value = clickedP;
+        onSliderChange(clickedP);
+      }
+    }
+  };
+}
+
+function renderTimelineCurveChart(spot, target, ivPct, ratePct, days50, days75) {
+  const svg = document.getElementById('timelineCurveSvg');
+  if (!svg || spot <= 0 || target <= 0) return;
+
+  const W = 800, H = 250;
+  const L = 55, R = 750, T = 30, B = 205;
+  const Wu = R - L, Hu = B - T;
+
+  const toX = (days) => L + (days / 365.0) * Wu;
+  const toY = (prob) => B - Math.max(0, Math.min(1, prob)) * Hu;
+
+  const sigma = ivPct / 100.0;
+  const r = ratePct / 100.0;
+
+  const carryPts = [];
+  const naivePts = [];
+  for (let d = 1; d <= 365; d += 2) {
+    const t = d / 365.0;
+    const pCarry = analyticalTouchProbWithDrift(spot, target, t, sigma, r);
+    const pNaive = analyticalTouchProbWithDrift(spot, target, t, sigma, 0.0);
+    carryPts.push({ x: toX(d), y: toY(pCarry), d, p: pCarry });
+    naivePts.push({ x: toX(d), y: toY(pNaive), d, p: pNaive });
+  }
+
+  let dCarry = 'M ' + carryPts[0].x.toFixed(1) + ' ' + carryPts[0].y.toFixed(1);
+  for (let i = 1; i < carryPts.length; i++) {
+    dCarry += ' L ' + carryPts[i].x.toFixed(1) + ' ' + carryPts[i].y.toFixed(1);
+  }
+  const dCarryArea = dCarry + ' L ' + carryPts[carryPts.length - 1].x.toFixed(1) + ' ' + B + ' L ' + carryPts[0].x.toFixed(1) + ' ' + B + ' Z';
+
+  let dNaive = 'M ' + naivePts[0].x.toFixed(1) + ' ' + naivePts[0].y.toFixed(1);
+  for (let i = 1; i < naivePts.length; i++) {
+    dNaive += ' L ' + naivePts[i].x.toFixed(1) + ' ' + naivePts[i].y.toFixed(1);
+  }
+
+  const y50 = toY(0.50);
+  const y75 = toY(0.75);
+  const x50 = days50 && days50 <= 365 ? toX(days50) : null;
+  const x75 = days75 && days75 <= 365 ? toX(days75) : null;
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="tlGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#3da678" stop-opacity="0.30"/>
+        <stop offset="100%" stop-color="#3da678" stop-opacity="0.02"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Horizontal Probability Gridlines -->
+    <line x1="${L}" y1="${toY(1.0)}" x2="${R}" y2="${toY(1.0)}" stroke="#232d3b" stroke-width="1"/>
+    <text x="${L - 8}" y="${toY(1.0) + 4}" font-size="9" font-family="'JetBrains Mono', monospace" fill="#8e99a8" text-anchor="end">100%</text>
+
+    <line x1="${L}" y1="${y75}" x2="${R}" y2="${y75}" stroke="#c8963e" stroke-width="1" stroke-dasharray="3,3" stroke-opacity="0.5"/>
+    <text x="${L - 8}" y="${y75 + 4}" font-size="9" font-family="'JetBrains Mono', monospace" fill="#c8963e" text-anchor="end">75%</text>
+
+    <line x1="${L}" y1="${y50}" x2="${R}" y2="${y50}" stroke="#3da678" stroke-width="1" stroke-dasharray="3,3" stroke-opacity="0.5"/>
+    <text x="${L - 8}" y="${y50 + 4}" font-size="9" font-family="'JetBrains Mono', monospace" fill="#3da678" text-anchor="end">50%</text>
+
+    <line x1="${L}" y1="${toY(0.25)}" x2="${R}" y2="${toY(0.25)}" stroke="#232d3b" stroke-width="1" stroke-dasharray="2,4"/>
+    <text x="${L - 8}" y="${toY(0.25) + 4}" font-size="9" font-family="'JetBrains Mono', monospace" fill="#8e99a8" text-anchor="end">25%</text>
+
+    <line x1="${L}" y1="${B}" x2="${R}" y2="${B}" stroke="#232d3b" stroke-width="1"/>
+    <text x="${L - 8}" y="${B + 4}" font-size="9" font-family="'JetBrains Mono', monospace" fill="#8e99a8" text-anchor="end">0%</text>
+
+    <!-- Vertical Time Gridlines -->
+    ${[30, 60, 90, 180, 270, 365].map(d => `
+      <line x1="${toX(d)}" y1="${T}" x2="${toX(d)}" y2="${B}" stroke="#1e2633" stroke-width="1" stroke-dasharray="2,4"/>
+      <text x="${toX(d)}" y="${B + 16}" font-size="9" font-family="'JetBrains Mono', monospace" fill="#8e99a8" text-anchor="middle">${d}d</text>
+    `).join('')}
+
+    <!-- Filled Area and Curves -->
+    <path d="${dCarryArea}" fill="url(#tlGrad)"/>
+    <path d="${dNaive}" fill="none" stroke="#596575" stroke-width="1.8" stroke-dasharray="4,4"/>
+    <path d="${dCarry}" fill="none" stroke="#3da678" stroke-width="3" stroke-linejoin="round"/>
+
+    <!-- 50% Median Milestone Callout -->
+    ${x50 ? `
+      <line x1="${x50}" y1="${y50}" x2="${x50}" y2="${B}" stroke="#3da678" stroke-width="1.5" stroke-dasharray="2,2"/>
+      <circle cx="${x50}" cy="${y50}" r="5" fill="#3da678"/>
+      <circle cx="${x50}" cy="${y50}" r="9" fill="none" stroke="#3da678" stroke-width="1"/>
+      <rect x="${Math.max(L, x50 - 45)}" y="${y50 - 24}" width="90" height="18" rx="4" fill="#13221b" stroke="#3da678" stroke-width="1"/>
+      <text x="${Math.max(L + 45, x50)}" y="${y50 - 12}" font-size="9" font-family="'JetBrains Mono', monospace" font-weight="700" fill="#3da678" text-anchor="middle">
+        50% σε ${days50}d
+      </text>
+    ` : ''}
+
+    <!-- 75% High Probability Milestone Callout -->
+    ${x75 ? `
+      <line x1="${x75}" y1="${y75}" x2="${x75}" y2="${B}" stroke="#c8963e" stroke-width="1.5" stroke-dasharray="2,2"/>
+      <circle cx="${x75}" cy="${y75}" r="5" fill="#c8963e"/>
+      <circle cx="${x75}" cy="${y75}" r="9" fill="none" stroke="#c8963e" stroke-width="1"/>
+      <rect x="${Math.max(L, x75 - 45)}" y="${y75 - 24}" width="90" height="18" rx="4" fill="#2a2215" stroke="#c8963e" stroke-width="1"/>
+      <text x="${Math.max(L + 45, x75)}" y="${y75 - 12}" font-size="9" font-family="'JetBrains Mono', monospace" font-weight="700" fill="#c8963e" text-anchor="middle">
+        75% σε ${days75}d
+      </text>
+    ` : ''}
+  `;
+}
+
+function renderCoveredCallFrontierChart(items, activeItem) {
+  const svg = document.getElementById('ccFrontierSvg');
+  if (!svg || !items || !items.length) return;
+
+  const W = 800, H = 280;
+  const L = 60, R = 750, T = 35, B = 230;
+  const Wu = R - L, Hu = B - T;
+
+  const mapped = items.map(x => {
+    const cushionPct = Math.max(0, (1 - x.breakEvenVsFullMoneyRelative) * 100);
+    const aprPct = Math.max(0, ((x.moneyYield - 1) * (365 / Math.max(1, x.DTE))) * 100);
+    const unitYieldPct = ((x.underlyingYield - 1) * 100);
+    const cashYieldPct = ((x.moneyYield - 1) * 100);
+    return {
+      raw: x,
+      cushionPct,
+      aprPct,
+      unitYieldPct,
+      cashYieldPct,
+      score: cushionPct * Math.sqrt(Math.max(0.1, aprPct))
+    };
+  });
+
+  const maxCushion = Math.max(15, Math.ceil(Math.max(...mapped.map(m => m.cushionPct)) * 1.15));
+  const maxApr = Math.max(40, Math.ceil(Math.max(...mapped.map(m => m.aprPct)) * 1.15));
+
+  const toX = (cushion) => L + (cushion / maxCushion) * Wu;
+  const toY = (apr) => B - (apr / maxApr) * Hu;
+
+  const sortedByCushion = [...mapped].sort((a, b) => b.cushionPct - a.cushionPct);
+  const frontier = [];
+  let maxSoFar = -1;
+  for (const p of sortedByCushion) {
+    if (p.aprPct > maxSoFar) {
+      frontier.push(p);
+      maxSoFar = p.aprPct;
+    }
+  }
+  frontier.sort((a, b) => a.cushionPct - b.cushionPct);
+
+  let dFrontier = '';
+  if (frontier.length > 1) {
+    dFrontier = 'M ' + toX(frontier[0].cushionPct).toFixed(1) + ' ' + toY(frontier[0].aprPct).toFixed(1);
+    for (let i = 1; i < frontier.length; i++) {
+      dFrontier += ' L ' + toX(frontier[i].cushionPct).toFixed(1) + ' ' + toY(frontier[i].aprPct).toFixed(1);
+    }
+  }
+
+  const selectedTarget = activeItem ? activeItem.strikeAbsolute : null;
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="frontierGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#3d76b8"/>
+        <stop offset="50%" stop-color="#c8963e"/>
+        <stop offset="100%" stop-color="#3da678"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Guidelines -->
+    <line x1="${L}" y1="${B}" x2="${R}" y2="${B}" stroke="#232d3b" stroke-width="1"/>
+    <line x1="${L}" y1="${T}" x2="${L}" y2="${B}" stroke="#232d3b" stroke-width="1"/>
+
+    <!-- Y-axis ticks -->
+    ${[0.25, 0.5, 0.75, 1.0].map(frac => {
+      const yVal = maxApr * frac;
+      return `
+        <line x1="${L}" y1="${toY(yVal)}" x2="${R}" y2="${toY(yVal)}" stroke="#1e2633" stroke-width="1" stroke-dasharray="2,4"/>
+        <text x="${L - 8}" y="${toY(yVal) + 4}" font-size="9" font-family="'JetBrains Mono', monospace" fill="#8e99a8" text-anchor="end">${yVal.toFixed(0)}%</text>
+      `;
+    }).join('')}
+
+    <!-- X-axis ticks -->
+    ${[0.25, 0.5, 0.75, 1.0].map(frac => {
+      const xVal = maxCushion * frac;
+      return `
+        <line x1="${toX(xVal)}" y1="${T}" x2="${toX(xVal)}" y2="${B}" stroke="#1e2633" stroke-width="1" stroke-dasharray="2,4"/>
+        <text x="${toX(xVal)}" y="${B + 16}" font-size="9" font-family="'JetBrains Mono', monospace" fill="#8e99a8" text-anchor="middle">-${xVal.toFixed(1)}%</text>
+      `;
+    }).join('')}
+
+    <!-- Axis Labels -->
+    <text x="${W / 2}" y="${B + 34}" font-size="10" font-family="'JetBrains Mono', monospace" fill="#ebe8e1" text-anchor="middle" font-weight="600">
+      ← Ασθενέστερη Προστασία | ΜΑΞΙΛΑΡΙ ΠΤΩΣΗΣ (BREAKEVEN CUSHION %) | Ισχυρότερη Προστασία →
+    </text>
+    <text x="${L + 5}" y="${T - 12}" font-size="10" font-family="'JetBrains Mono', monospace" fill="#ebe8e1" text-anchor="start" font-weight="600">
+      ΕΤΗΣΙΑ ΑΠΟΔΟΣΗ (APR %) ↑
+    </text>
+
+    <!-- Sweet-Spot Frontier Line -->
+    ${dFrontier ? `<path d="${dFrontier}" fill="none" stroke="url(#frontierGrad)" stroke-width="2.5" stroke-dasharray="4,2"/>` : ''}
+
+    <!-- Strike Scatter Points -->
+    ${mapped.map(m => {
+      const isSel = selectedTarget && m.raw.strikeAbsolute === selectedTarget;
+      const cx = toX(m.cushionPct);
+      const cy = toY(m.aprPct);
+      
+      let fillColor = '#c8963e';
+      if (m.cushionPct > 10) fillColor = '#3d76b8';
+      else if (m.cushionPct < 4) fillColor = '#3da678';
+
+      return `
+        <g class="cursor-pointer" onclick="selectCcItemByStrike(${m.raw.strikeAbsolute})">
+          ${isSel ? `
+            <circle cx="${cx}" cy="${cy}" r="11" fill="none" stroke="#ffffff" stroke-width="2"/>
+            <circle cx="${cx}" cy="${cy}" r="7" fill="${fillColor}"/>
+          ` : `
+            <circle cx="${cx}" cy="${cy}" r="5" fill="${fillColor}" fill-opacity="0.85" stroke="#151b23" stroke-width="1"/>
+          `}
+          <title>${m.raw.underlying} Strike: ${fmtMoney(m.raw.strikeAbsolute)} | Μαξιλάρι: -${m.cushionPct.toFixed(1)}% | APR: ${m.aprPct.toFixed(1)}% (${m.raw.DTE}d)</title>
+        </g>
+      `;
+    }).join('')}
+  `;
+}
+
+function selectCcProfile(profile) {
+  if (!currentCcItems || !currentCcItems.length) return;
+
+  const mapped = currentCcItems.map(x => {
+    const cushionPct = Math.max(0, (1 - x.breakEvenVsFullMoneyRelative) * 100);
+    const aprPct = Math.max(0, ((x.moneyYield - 1) * (365 / Math.max(1, x.DTE))) * 100);
+    return {
+      raw: x,
+      cushionPct,
+      aprPct,
+      score: cushionPct * Math.sqrt(Math.max(0.1, aprPct))
+    };
+  });
+
+  let chosen = null;
+  if (profile === 'CONSERVATIVE') {
+    const withDecentYield = mapped.filter(m => m.aprPct >= 8.0);
+    const pool = withDecentYield.length > 0 ? withDecentYield : mapped;
+    pool.sort((a, b) => b.cushionPct - a.cushionPct);
+    chosen = pool[0];
+  } else if (profile === 'AGGRESSIVE') {
+    mapped.sort((a, b) => b.aprPct - a.aprPct);
+    chosen = mapped[0];
+  } else {
+    mapped.sort((a, b) => b.score - a.score);
+    chosen = mapped[0];
+  }
+
+  const btnCons = document.getElementById('btnCcCons');
+  const btnBal = document.getElementById('btnCcBal');
+  const btnAggr = document.getElementById('btnCcAggr');
+
+  const activeCons = profile === 'CONSERVATIVE';
+  const activeBal = profile === 'BALANCED';
+  const activeAggr = profile === 'AGGRESSIVE';
+
+  if (btnCons) {
+    btnCons.className = 'card-elevated p-3 text-left border-l-4 border-[#3d76b8] transition ' + (activeCons ? 'bg-[#1e2a3a] ring-1 ring-[#3d76b8]' : 'bg-[#151b23] opacity-80 hover:opacity-100');
+  }
+  if (btnBal) {
+    btnBal.className = 'card-elevated p-3 text-left border-l-4 border-[#c8963e] transition ' + (activeBal ? 'bg-[#292218] ring-1 ring-[#c8963e]' : 'bg-[#151b23] opacity-80 hover:opacity-100');
+  }
+  if (btnAggr) {
+    btnAggr.className = 'card-elevated p-3 text-left border-l-4 border-[#3da678] transition ' + (activeAggr ? 'bg-[#182820] ring-1 ring-[#3da678]' : 'bg-[#151b23] opacity-80 hover:opacity-100');
+  }
+
+  if (chosen) {
+    selectCcItem(chosen.raw);
+  }
+}
+
+function selectCcItemByStrike(strike) {
+  if (!currentCcItems) return;
+  const match = currentCcItems.find(x => x.strikeAbsolute === strike);
+  if (match) selectCcItem(match);
+}
+
+function selectCcItem(item) {
+  currentCcActiveItem = item;
+  updateCcActiveCards(item);
+  renderCoveredCallFrontierChart(currentCcItems, item);
+
+  // Synchronize and highlight table row
+  const tbody = document.getElementById('stratTableBody');
+  if (tbody) {
+    const rows = tbody.querySelectorAll('tr[data-strike]');
+    rows.forEach(tr => {
+      const isMatch = tr.getAttribute('data-strike') === String(item.strikeAbsolute);
+      if (isMatch) {
+        tr.className = 'cursor-pointer bg-[#222e40] font-bold text-white transition';
+      } else {
+        tr.className = 'cursor-pointer hover:bg-[#1a2332] transition';
+      }
+    });
+  }
+}
+
+function updateCcActiveCards(item) {
+  if (!item) return;
+
+  const cushionPct = Math.max(0, (1 - item.breakEvenVsFullMoneyRelative) * 100);
+  const aprPct = (((item.moneyYield - 1) * (365 / Math.max(1, item.DTE))) * 100);
+  const cashYieldPct = ((item.moneyYield - 1) * 100);
+  const unitYieldPct = ((item.underlyingYield - 1) * 100);
+
+  const cashYieldEl = document.getElementById('ccCardCashYield');
+  const cashSubEl = document.getElementById('ccCardCashSub');
+  const unitYieldEl = document.getElementById('ccCardUnitYield');
+  const unitSubEl = document.getElementById('ccCardUnitSub');
+  const cushionEl = document.getElementById('ccCardCushion');
+  const cushionSubEl = document.getElementById('ccCardCushionSub');
+  const labelEl = document.getElementById('ccSelectedStrikeLabel');
+  const linkEl = document.getElementById('ccSelectedPayoffLink');
+
+  if (cashYieldEl) cashYieldEl.textContent = '+' + cashYieldPct.toFixed(2) + '%';
+  if (cashSubEl) cashSubEl.textContent = 'Ετησιοποιημένο APR: ' + aprPct.toFixed(1) + '% | Κεφάλαιο: ' + fmtMoney(item.moneySize);
+
+  if (unitYieldEl) unitYieldEl.textContent = '+' + unitYieldPct.toFixed(2) + '%';
+  if (unitSubEl) unitSubEl.textContent = 'Δωρεάν Επανεπένδυση (' + item.underlying + ')';
+
+  if (cushionEl) cushionEl.textContent = '-' + cushionPct.toFixed(1) + '%';
+  if (cushionSubEl) cushionSubEl.textContent = 'Νεκρό Σημείο: ' + fmtMoney(item.breakEvenVsFullMoneyAbsolute);
+
+  if (labelEl) labelEl.textContent = fmtMoney(item.strikeAbsolute) + ' (Λήξη: ' + item.formattedDate + ', ' + item.DTE + 'd)';
+  if (linkEl) linkEl.href = item.strategyURL;
 }
 
 function copyShareableUrl() {
