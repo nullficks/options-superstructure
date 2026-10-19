@@ -3,333 +3,430 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Options Probabilistic Superstructure</title>
+<title>Options Probabilistic Superstructure — Praxeological Market Reality</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body { background-color: #0b0e14; color: #e6edf3; font-family: system-ui, -apple-system, sans-serif; }
-.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-.card { background-color: #131822; border: 1px solid #262f40; border-radius: 0.5rem; }
-input, select { background-color: #0b0e14; border: 1px solid #30363d; color: #e6edf3; }
-th { background-color: #1b2230; color: #9ca3af; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; }
-tr:hover { background-color: #1c2433; }
-details > summary { list-style: none; }
-details > summary::-webkit-details-marker { display: none; }
+  :root {
+    /* Παλέτα Wada Sanzo (和田三造) - Φυσικοί ιαπωνικοί τόνοι */
+    --bg-kuro: #101317;        /* Kuro-tsurubami: Βαθύ οργανικό μελάνι */
+    --card-kachi: #171c24;     /* Kachiiro: Σκούρο ίντιγκο επιφανειών */
+    --card-elevated: #1e2430;  /* Ελαφρώς ανυψωμένο στοιχείο */
+    --border-gin: #26303e;     /* Ginjyu: Απαλό γκρι-μπλε γραφίτη */
+    --border-focus: #3b4c63;   /* Τονισμένο περίγραμμα */
+    --text-washi: #e8eaed;     /* Washi: Ζεστό λευκό ιαπωνικού χαρτιού */
+    --text-hai: #9aa4b2;       /* Hai-shirouo: Ήρεμο γκρι δευτερεύοντος κειμένου */
+    --text-faint: #637083;     /* Υποτονικό κείμενο */
+    --aizome-blue: #4a86c6;    /* Aizome: Παραδοσιακό ίντιγκο (Spot / Focus) */
+    --kincha-gold: #d49a42;    /* Kin-cha: Κεχριμπαρένιο χρυσό τσαγιού (Carry / Forward / Drift) */
+    --matsuba-green: #3ea87c;  /* Matsu-ba: Πράσινο πευκοβελόνας (Touch / Payout / Yield) */
+    --shuiro-red: #d95d4e;     /* Shu-iro: Ιαπωνικό βερμιγιόν (No-Touch / Puts / Drop) */
+    --fujiiro-purple: #9b7ad6; /* Fujiiro: Απαλό μοβ γλυκίνης (Bits / Entropy / Spreads) */
+  }
+
+  body {
+    background-color: var(--bg-kuro);
+    color: var(--text-washi);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  .mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+  .card {
+    background-color: var(--card-kachi);
+    border: 1px solid var(--border-gin);
+    border-radius: 0.6rem;
+  }
+  .card-elevated {
+    background-color: var(--card-elevated);
+    border: 1px solid var(--border-gin);
+    border-radius: 0.6rem;
+  }
+  input, select {
+    background-color: #0c0f13;
+    border: 1px solid var(--border-gin);
+    color: var(--text-washi);
+  }
+  input:focus, select:focus {
+    border-color: var(--aizome-blue);
+    outline: none;
+  }
+  th {
+    background-color: #13171f;
+    color: var(--text-hai);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  tr:hover {
+    background-color: #1b222d;
+  }
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
 </style>
 </head>
-<body class="p-4 md:p-6 max-w-7xl mx-auto">
+<body class="p-3 md:p-6 max-w-7xl mx-auto">
 
+<!-- HEADER -->
 <header class="mb-5 border-b border-gray-800 pb-4 flex flex-wrap justify-between items-center gap-4">
-<div>
-<h1 class="text-xl md:text-2xl font-bold text-blue-400">
-⚡ ΑΝΤΙΚΕΙΜΕΝΙΚΕΣ ΠΙΘΑΝΟΤΗΤΕΣ ΑΓΟΡΑΣ (OPTIONS SUPERSTRUCTURE)
-</h1>
-<p class="text-xs text-gray-400 mt-1">
-Υπολογισμός πιθανοτήτων επαφής (Touch), μη-επαφής (No-Touch), λήξης (Expire) &amp; Χρονοδιαγράμματος Στόχου με διόρθωση επιτοκίου
-</p>
-</div>
-<div class="flex flex-wrap items-center gap-2 text-xs">
-<button onclick="copyShareableUrl()" id="shareBtn" class="px-3 py-1.5 rounded bg-blue-900/50 hover:bg-blue-800/70 text-blue-200 border border-blue-700 font-bold transition">
-🔗 Αντιγραφή Link Στοιχήματος
-</button>
-<span id="engineStatus" class="px-2.5 py-1 rounded bg-emerald-900/50 text-emerald-300 border border-emerald-700 mono">
-✅ Engine: Ready
-</span>
-</div>
+  <div>
+    <div class="flex items-center gap-2">
+      <span class="text-xl">⚡</span>
+      <h1 class="text-lg md:text-xl font-bold tracking-tight text-[#4a86c6]">
+        OPTIONS PROBABILISTIC SUPERSTRUCTURE
+      </h1>
+      <span class="text-xs px-2 py-0.5 rounded bg-[#1e2430] text-[#9aa4b2] border border-[#26303e]">
+        Praxeological Market Reality
+      </span>
+    </div>
+    <p class="text-xs text-[#9aa4b2] mt-1">
+      Αντικειμενικές Πιθανότητες Αγοράς • Touch &amp; No-Touch Bets • Put-Call Parity Forward Drift • Debunker Αερολογίας Finfluencers
+    </p>
+  </div>
+  <div class="flex flex-wrap items-center gap-2 text-xs">
+    <button onclick="copyShareableUrl()" id="shareBtn" class="px-3 py-1.5 rounded bg-[#1e2837] hover:bg-[#253347] text-[#4a86c6] border border-[#26303e] font-semibold transition">
+      🔗 Αντιγραφή Link Στοιχήματος
+    </button>
+    <span id="engineStatus" class="px-2.5 py-1 rounded bg-[#13221b] text-[#3ea87c] border border-[#1e4433] mono">
+      ✅ Engine: Ready
+    </span>
+  </div>
 </header>
 
-<div id="errorBanner" class="hidden mb-4 p-3 rounded bg-red-950/80 border border-red-700 text-red-200 text-xs mono"></div>
+<div id="errorBanner" class="hidden mb-4 p-3 rounded bg-[#241315] border border-[#d95d4e]/40 text-[#f3a49b] text-xs mono"></div>
 
-<!-- ΑΝΑΛΥΤΙΚΟΣ ΟΔΗΓΟΣ ΓΙΑ ΟΛΟΥΣ -->
-<details class="card mb-6 bg-slate-900/60 border-blue-900/50" open>
-<summary class="p-3.5 cursor-pointer flex justify-between items-center text-xs md:text-sm font-bold text-blue-300 hover:text-blue-200">
-<span>💡 Πώς δουλεύει αυτό το εργαλείο &amp; πώς διαβάζονται οι αριθμοί (Πάτησε για εμφάνιση/απόκρυψη)</span>
-<span class="text-xs text-gray-400">▼ Άνοιγμα / Κλείσιμο</span>
-</summary>
-<div class="p-4 pt-2 border-t border-gray-800/80 text-xs text-gray-300 grid grid-cols-1 md:grid-cols-3 gap-4 leading-relaxed">
-<div class="bg-black/30 p-3 rounded border border-gray-800">
-<h3 class="font-bold text-blue-300 mb-1">1. Touch vs Expire (Η Βασική Ιδέα)</h3>
-<p class="text-gray-400">
-Όταν κάποιος προβλέπει ότι ένα asset θα πάει από το <b>1,20</b> στο <b>1,29</b>, υπάρχουν δύο ερωτήματα:
-<br/>• <b>P(Touch) — Πιθανότητα Επαφής:</b> Να <i>αγγίξει</i> το 1,29 έστω και για 1 δευτερόλεπτο μέχρι τη λήξη. Στήνεται αγοράζοντας ένα στενό Vertical Spread γύρω από το 1,29 και κλείνοντάς το μόλις η τιμή φτάσει εκεί (όπου το spread γίνεται At-The-Money και αξίζει ~50% του εύρους του).
-<br/>• <b>P(Λήξη ITM):</b> Να <i>κλείσει</i> πάνω από το 1,29 την ημέρα της λήξης.
-</p>
-</div>
-<div class="bg-black/30 p-3 rounded border border-gray-800">
-<h3 class="font-bold text-amber-300 mb-1">2. Γιατί διορθώνουμε για το Επιτόκιο (Forward Drift);</h3>
-<p class="text-gray-400">
-Το χρήμα έχει επιτόκιο (χρονική προτίμηση). Λόγω θετικού επιτοκίου, η μελλοντική τιμή ισορροπίας (<b>Forward</b>) βρίσκεται ψηλότερα από τη σημερινή τιμή (<b>Spot</b>).
-<br/>Ο απλοϊκός τρόπος (χωρίς επιτόκιο) <b>υπερτιμάει τα πάνω (Calls)</b> και <b>υποτιμάει τα κάτω (Puts)</b>. Εδώ εξάγουμε την τιμή Forward μέσω <b>Put-Call Parity</b> ($F = K + C - P$) και προσαρμόζουμε αυτόματα την αξία εξόδου στο Touch!
-</p>
-</div>
-<div class="bg-black/30 p-3 rounded border border-gray-800">
-<h3 class="font-bold text-emerald-300 mb-1">3. «Σήμερα έχει 1,20 — Πότε θα πάει 1,29;»</h3>
-<p class="text-gray-400">
-Κανένας δεν ξέρει την ακριβή μέρα με βεβαιότητα, αλλά η αγορά σού δίνει την <b>Καμπύλη Χρόνου (Timeline)</b>: βλέπεις για κάθε επόμενη εβδομάδα και μήνα πώς ανεβαίνει η πιθανότητα $P(\text{Touch})$ από το 10% στο 50% (ημερομηνία 50-50) και στο 80%. Πάτησε το <b>Tab 2 («Πότε θα φτάσει στον Στόχο;»)</b> για να το δεις!
-</p>
-</div>
-</div>
-</details>
+<!-- UNIVERSAL ASSET CONTROL BAR -->
+<section id="marketControlBar" class="card p-4 mb-5">
+  <div class="grid grid-cols-1 md:grid-cols-6 gap-3 items-end">
+    <div>
+      <label class="block text-xs text-[#9aa4b2] mb-1 font-medium">1. Αγορά</label>
+      <select id="venueSelect" class="w-full px-3 py-2 rounded text-sm font-medium" onchange="onVenueChange()">
+        <option value="CRYPTO">Crypto (Deribit 24/7)</option>
+        <option value="STOCK">Μετοχές &amp; ETFs (ΗΠΑ via Yahoo)</option>
+      </select>
+    </div>
+    <div>
+      <label class="block text-xs text-[#9aa4b2] mb-1 font-medium">2. Σύμβολο (Ticker)</label>
+      <input id="tickerInput" type="text" value="BTC" class="w-full px-3 py-2 rounded text-sm font-bold uppercase mono text-[#4a86c6]" onkeydown="if(event.key==='Enter') loadChain()" />
+    </div>
+    <div>
+      <label class="block text-xs text-[#9aa4b2] mb-1 font-medium">3. Ημερομηνία Λήξης</label>
+      <select id="expSelect" class="w-full px-3 py-2 rounded text-sm mono" onchange="onExpirationChange()"></select>
+    </div>
+    <div class="md:col-span-2">
+      <div class="flex justify-between text-xs text-[#9aa4b2] mb-1">
+        <span>4. Τιμή-Στόχος (Touch Bet):</span>
+        <span id="targetLabel" class="text-[#4a86c6] font-bold mono">—</span>
+      </div>
+      <input id="targetSlider" type="range" min="100" max="300" step="0.5" value="220" class="w-full accent-[#4a86c6] cursor-pointer" oninput="onSliderChange(this.value)" />
+    </div>
+    <div>
+      <button onclick="loadChain()" class="w-full bg-[#4a86c6] hover:bg-[#3d74af] text-white font-bold py-2 px-4 rounded text-sm transition">
+        Φόρτωση Orderbook
+      </button>
+    </div>
+  </div>
+
+  <!-- ΓΡΗΓΟΡΗ ΕΠΙΛΟΓΗ ASSETS -->
+  <div class="mt-3 flex flex-wrap gap-1.5 items-center text-xs border-t border-[#26303e] pt-3">
+    <span class="text-[#637083] mr-1">Γρήγορη Επιλογή:</span>
+    <button onclick="quickLoad('CRYPTO','BTC')" class="px-2.5 py-1 rounded bg-[#2a2215] text-[#d49a42] hover:bg-[#362b1b] font-semibold border border-[#3f311c]">BTC (Deribit 24/7)</button>
+    <button onclick="quickLoad('CRYPTO','ETH')" class="px-2.5 py-1 rounded bg-[#201d2d] text-[#9b7ad6] hover:bg-[#2c2640] font-semibold border border-[#352c4e]">ETH (Deribit 24/7)</button>
+    <span class="text-[#3b4c63] mx-1">|</span>
+    <button onclick="quickLoad('STOCK','NVDA')" class="px-2.5 py-1 rounded bg-[#171c24] hover:bg-[#1e2430] text-[#e8eaed] font-medium border border-[#26303e]">NVDA</button>
+    <button onclick="quickLoad('STOCK','TSLA')" class="px-2.5 py-1 rounded bg-[#171c24] hover:bg-[#1e2430] text-[#e8eaed] font-medium border border-[#26303e]">TSLA</button>
+    <button onclick="quickLoad('STOCK','GOOG')" class="px-2.5 py-1 rounded bg-[#171c24] hover:bg-[#1e2430] text-[#e8eaed] font-medium border border-[#26303e]">GOOG</button>
+    <button onclick="quickLoad('STOCK','AAPL')" class="px-2.5 py-1 rounded bg-[#171c24] hover:bg-[#1e2430] text-[#e8eaed] font-medium border border-[#26303e]">AAPL</button>
+    <button onclick="quickLoad('STOCK','SPY')" class="px-2.5 py-1 rounded bg-[#171c24] hover:bg-[#1e2430] text-[#e8eaed] font-medium border border-[#26303e]">SPY</button>
+    <button onclick="quickLoad('STOCK','MSTR')" class="px-2.5 py-1 rounded bg-[#171c24] hover:bg-[#1e2430] text-[#e8eaed] font-medium border border-[#26303e]">MSTR</button>
+  </div>
+
+  <!-- ΕΙΛΙΚΡΙΝΗΣ ΣΗΜΕΙΩΣΗ ΩΡΑΡΙΟΥ ΧΩΡΙΣ MOCKS -->
+  <div class="mt-2.5 text-[11px] text-[#9aa4b2] flex items-center gap-1.5 bg-[#12161d] p-2 rounded border border-[#26303e]">
+    <span>ℹ️</span>
+    <span>
+      <b>Πραγματικά Δεδομένα Αγοράς (Zero Mocks):</b> Στο Crypto (Deribit) τα orderbooks ανανεώνονται 24/7. Στις Μετοχές (Yahoo), όταν η Wall Street είναι κλειστή (νύχτα ή Σαββατοκύριακο), τα δεδομένα αντικατοπτρίζουν τις τελευταίες επίσημες τιμές κλεισίματος (Friday Close) της OPRA.
+    </span>
+  </div>
+</section>
 
 <!-- TABS NAVIGATION -->
-<div class="mb-5 flex flex-wrap gap-2 border-b border-gray-800 pb-3 text-xs font-bold">
-<button onclick="switchTab('PROB')" id="tabBtnProb" class="px-4 py-2 rounded bg-blue-600 text-white transition">
-1. Live Option Chain (Touch / No-Touch / Λήξη)
-</button>
-<button onclick="switchTab('TIMELINE')" id="tabBtnTimeline" class="px-4 py-2 rounded bg-gray-800 text-gray-300 hover:bg-gray-700 transition">
-2. «Πότε θα φτάσει από το Χ στο Υ;» (Χρονοδιάγραμμα Στόχου π.χ. 1,20 → 1,29)
-</button>
-<button onclick="switchTab('STRAT')" id="tabBtnStrat" class="px-4 py-2 rounded bg-gray-800 text-gray-300 hover:bg-gray-700 transition">
-3. Εξερευνητής Στρατηγικών (Covered Calls / Spreads / Straddles / Longs)
-</button>
+<div class="mb-5 flex flex-wrap gap-2 border-b border-[#26303e] pb-3 text-xs font-bold">
+  <button onclick="switchTab('PROB')" id="tabBtnProb" class="px-4 py-2 rounded bg-[#4a86c6] text-white transition">
+    1. Finfluencer Reality Check &amp; Live Orderbook
+  </button>
+  <button onclick="switchTab('TIMELINE')" id="tabBtnTimeline" class="px-4 py-2 rounded bg-[#171c24] text-[#9aa4b2] hover:bg-[#1e2430] transition">
+    2. Χρονοδιάγραμμα Στόχου («Πότε θα φτάσει;»)
+  </button>
+  <button onclick="switchTab('STRAT')" id="tabBtnStrat" class="px-4 py-2 rounded bg-[#171c24] text-[#9aa4b2] hover:bg-[#1e2430] transition">
+    3. Geometric Covered Calls &amp; Capital Allocation
+  </button>
+  <button onclick="switchTab('THEORY')" id="tabBtnTheory" class="px-4 py-2 rounded bg-[#171c24] text-[#9aa4b2] hover:bg-[#1e2430] transition">
+    4. Πραξεολογία &amp; Θεμέλια Αγοράς (Mises &amp; Carry)
+  </button>
 </div>
 
-<!-- ΚΟΙΝΗ ΜΠΑΡΑ ΕΠΙΛΟΓΗΣ ΑΓΟΡΑΣ (ΓΙΑ TAB 1 & 3) -->
-<section id="marketControlBar" class="card p-4 mb-6">
-<div class="grid grid-cols-1 md:grid-cols-6 gap-4 items-end">
-<div>
-<label class="block text-xs text-gray-400 mb-1">1. Επίλεξε Αγορά</label>
-<select id="venueSelect" class="w-full px-3 py-2 rounded text-sm" onchange="onVenueChange()">
-<option value="CRYPTO">Crypto (Deribit Live 24/7)</option>
-<option value="STOCK">Μετοχές &amp; ETFs (ΗΠΑ)</option>
-</select>
-</div>
-<div>
-<label class="block text-xs text-gray-400 mb-1">2. Σύμβολο (Ticker)</label>
-<input id="tickerInput" type="text" value="BTC" class="w-full px-3 py-2 rounded text-sm font-bold uppercase mono" onkeydown="if(event.key==='Enter') loadChain()" />
-</div>
-<div>
-<label class="block text-xs text-gray-400 mb-1">3. Ημερομηνία Λήξης</label>
-<select id="expSelect" class="w-full px-3 py-2 rounded text-sm mono" onchange="onExpirationChange()"></select>
-</div>
-<div class="md:col-span-2">
-<div class="flex justify-between text-xs text-gray-400 mb-1">
-<span>4. Τιμή-Στόχος (Touch / No-Touch):</span>
-<span id="targetLabel" class="text-blue-400 font-bold mono">—</span>
-</div>
-<input id="targetSlider" type="range" min="100" max="300" step="0.5" value="220" class="w-full accent-blue-500 cursor-pointer" oninput="onSliderChange(this.value)" />
-</div>
-<div>
-<button onclick="loadChain()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded text-sm transition">
-Φόρτωση Δεδομένων
-</button>
-</div>
-</div>
-
-<div class="mt-3 flex flex-wrap gap-1.5 items-center text-xs">
-<span class="text-gray-500 mr-1">Γρήγορη Επιλογή:</span>
-<button onclick="quickLoad('CRYPTO','BTC')" class="px-2.5 py-1 rounded bg-amber-900/40 text-amber-300 hover:bg-amber-800/50 font-semibold">BTC (Bitcoin)</button>
-<button onclick="quickLoad('CRYPTO','ETH')" class="px-2.5 py-1 rounded bg-indigo-900/40 text-indigo-300 hover:bg-indigo-800/50 font-semibold">ETH (Ethereum)</button>
-<span class="text-gray-600 mx-1">|</span>
-<button onclick="quickLoad('STOCK','NVDA')" class="px-2.5 py-1 rounded bg-gray-800 hover:bg-gray-700 font-semibold">NVDA</button>
-<button onclick="quickLoad('STOCK','TSLA')" class="px-2.5 py-1 rounded bg-gray-800 hover:bg-gray-700 font-semibold">TSLA</button>
-<button onclick="quickLoad('STOCK','GOOG')" class="px-2.5 py-1 rounded bg-gray-800 hover:bg-gray-700 font-semibold">GOOG</button>
-<button onclick="quickLoad('STOCK','AAPL')" class="px-2.5 py-1 rounded bg-gray-800 hover:bg-gray-700 font-semibold">AAPL</button>
-<button onclick="quickLoad('STOCK','SPY')" class="px-2.5 py-1 rounded bg-gray-800 hover:bg-gray-700 font-semibold">SPY</button>
-<button onclick="quickLoad('STOCK','MSTR')" class="px-2.5 py-1 rounded bg-gray-800 hover:bg-gray-700 font-semibold">MSTR</button>
-</div>
-</section>
-
-<!-- ==================== TAB 1: LIVE OPTION CHAIN ==================== -->
+<!-- ==================== TAB 1: FINFLUENCER REALITY CHECK & LIVE ORDERBOOK ==================== -->
 <div id="tabProb">
-<section class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-<div class="card p-4 border-l-4 border-gray-500">
-<div class="text-xs text-gray-400 font-semibold">1. ΤΡΕΧΟΥΣΑ ΤΙΜΗ (SPOT)</div>
-<div id="kpiSpot" class="text-2xl font-bold mt-1 mono">—</div>
-<div id="kpiDte" class="text-xs text-gray-400 mt-1">Ορίζοντας: —</div>
+  <!-- TOP 4 KPI CARDS -->
+  <section class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-5">
+    <div class="card p-3.5 border-l-4 border-[#4a86c6]">
+      <div class="text-[11px] text-[#9aa4b2] font-semibold">1. ΤΡΕΧΟΥΣΑ ΤΙΜΗ (SPOT)</div>
+      <div id="kpiSpot" class="text-2xl font-bold mt-1 mono text-[#e8eaed]">—</div>
+      <div id="kpiDte" class="text-xs text-[#9aa4b2] mt-0.5">Ορίζοντας: —</div>
+    </div>
+
+    <div class="card p-3.5 border-l-4 border-[#d49a42]">
+      <div class="text-[11px] text-[#d49a42] font-bold">2. ΤΙΜΗ FORWARD (PUT-CALL PARITY)</div>
+      <div id="kpiForward" class="text-2xl font-bold text-[#d49a42] mt-1 mono">—</div>
+      <div id="kpiCarry" class="text-xs text-[#9aa4b2] mt-0.5">Τεκμαρτό επιτόκιο / Carry Rate</div>
+    </div>
+
+    <div class="card p-3.5 border-l-4 border-[#3ea87c]">
+      <div class="text-[11px] text-[#3ea87c] font-bold">3. ΠΙΘΑΝΟΤΗΤΑ ΕΠΑΦΗΣ P(TOUCH)</div>
+      <div id="kpiTouch" class="text-2xl font-bold text-[#3ea87c] mt-1 mono">—</div>
+      <div id="kpiTouchSub" class="text-xs text-[#9aa4b2] mt-0.5">—</div>
+    </div>
+
+    <div class="card p-3.5 border-l-4 border-[#d95d4e]">
+      <div class="text-[11px] text-[#d95d4e] font-bold">4. ΠΙΘΑΝΟΤΗΤΑ ΜΗ-ΕΠΑΦΗΣ P(NO-TOUCH)</div>
+      <div id="kpiNoTouch" class="text-2xl font-bold text-[#d95d4e] mt-1 mono">—</div>
+      <div id="kpiNoTouchSub" class="text-xs text-[#9aa4b2] mt-0.5">—</div>
+    </div>
+  </section>
+
+  <!-- FINFLUENCER DEBUNKER VERDICT BOX -->
+  <section class="card p-4 md:p-5 mb-5 border-l-4 border-[#9b7ad6] bg-[#141922]">
+    <div class="flex flex-wrap justify-between items-center gap-4">
+      <div class="max-w-4xl">
+        <div class="flex items-center gap-2">
+          <span class="text-sm font-bold text-[#9b7ad6]">🎯 FINFLUENCER REALITY CHECK (SKIN IN THE GAME)</span>
+          <span class="text-[10px] px-2 py-0.2 rounded bg-[#201d2d] text-[#9b7ad6] border border-[#352c4e]">Objective Market Odds</span>
+        </div>
+        <div id="verdictText" class="text-xs text-[#e8eaed] mt-2 leading-relaxed space-y-1.5">
+          Φόρτωση δεδομένων αγοράς...
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <a id="optionStratTouchLink" href="#" target="_blank" class="px-3.5 py-2 rounded bg-[#2d4d3e] hover:bg-[#38624f] text-[#3ea87c] text-xs font-bold transition border border-[#3ea87c]/40">
+          Touch Bet Payoff ↗
+        </a>
+        <a id="optionStratNoTouchLink" href="#" target="_blank" class="px-3.5 py-2 rounded bg-[#452723] hover:bg-[#57312c] text-[#d95d4e] text-xs font-bold transition border border-[#d95d4e]/40">
+          No-Touch Bet Payoff ↗
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLE OF STRIKES -->
+  <section class="card overflow-x-auto">
+    <div class="p-3 bg-[#13171f] border-b border-[#26303e] text-xs text-[#9aa4b2] flex justify-between items-center">
+      <span>💡 <b>Οδηγία:</b> Κάνε κλικ σε οποιαδήποτε γραμμή για να επιλέξεις εκείνο το επίπεδο τιμής. Όλες οι πιθανότητες υπολογίζονται με βάση το <b>Forward Drift (Επιτόκιο Carry)</b>.</span>
+      <span class="text-[11px] mono text-[#637083]">Formula: Clean HTML, Zero Math Rendering Glitches</span>
+    </div>
+    <table class="w-full text-left border-collapse text-xs">
+      <thead>
+        <tr class="border-b border-[#26303e]">
+          <th class="p-3">Τιμή-Στόχος</th>
+          <th class="p-3">Απόσταση vs Spot</th>
+          <th class="p-3">Απόσταση vs Forward</th>
+          <th class="p-3">Vertical Spread</th>
+          <th class="p-3 text-right">P(Touch) (Adj)</th>
+          <th class="p-3 text-right">P(No-Touch)</th>
+          <th class="p-3 text-right">P(Expire ITM)</th>
+          <th class="p-3 text-right">Δυσκολία (Bits)</th>
+          <th class="p-3 text-right">Κόστος Αγοράς</th>
+          <th class="p-3 text-right">Αξία στο Touch</th>
+          <th class="p-3 text-right text-[#3ea87c]">Απόδοση (Multiple)</th>
+          <th class="p-3 text-center">Payoff</th>
+        </tr>
+      </thead>
+      <tbody id="probTableBody" class="divide-y divide-[#26303e]/60 mono"></tbody>
+    </table>
+  </section>
 </div>
 
-<div class="card p-4 border-l-4 border-amber-500">
-<div class="text-xs text-amber-400 font-bold">2. ΤΙΜΗ FORWARD (PUT-CALL PARITY)</div>
-<div id="kpiForward" class="text-2xl font-bold text-amber-300 mt-1 mono">—</div>
-<div id="kpiCarry" class="text-xs text-gray-400 mt-1">Ενσωματωμένο επιτόκιο (Base Rate)</div>
-</div>
-
-<div class="card p-4 border-l-4 border-blue-500">
-<div class="text-xs text-blue-400 font-bold">3. ΠΙΘΑΝΟΤΗΤΑ ΝΑ ΑΓΓΙΞΕΙ (TOUCH)</div>
-<div id="kpiTouch" class="text-2xl font-bold text-blue-300 mt-1 mono">—</div>
-<div id="kpiTouchSub" class="text-xs text-gray-400 mt-1">—</div>
-</div>
-
-<div class="card p-4 border-l-4 border-emerald-500">
-<div class="text-xs text-emerald-400 font-bold">4. ΠΙΘΑΝΟΤΗΤΑ ΝΑ ΜΗΝ ΑΓΓΙΞΕΙ (NO-TOUCH)</div>
-<div id="kpiNoTouch" class="text-2xl font-bold text-emerald-300 mt-1 mono">—</div>
-<div id="kpiNoTouchSub" class="text-xs text-gray-400 mt-1">—</div>
-</div>
-</section>
-
-<section class="card p-4 mb-6 bg-slate-900/80">
-<div class="flex flex-wrap justify-between items-center gap-4">
-<div class="max-w-4xl">
-<h2 class="text-sm font-bold text-purple-300">
-🎯 ΑΝΑΛΥΣΗ ΣΤΟΧΟΥ &amp; ΠΩΣ ΣΤΗΝΕΤΑΙ Η ΘΕΣΗ (ΜΕ ΔΙΟΡΘΩΣΗ ΕΠΙΤΟΚΙΟΥ)
-</h2>
-<div id="verdictText" class="text-xs text-gray-300 mt-1.5 leading-relaxed space-y-1">
-Φόρτωση δεδομένων αγοράς...
-</div>
-</div>
-<div class="flex flex-wrap gap-2">
-<a id="optionStratTouchLink" href="#" target="_blank" class="px-3 py-2 rounded bg-blue-700 hover:bg-blue-600 text-white text-xs font-bold transition">
-Touch Bet στο OptionStrat / Deribit ↗
-</a>
-<a id="optionStratNoTouchLink" href="#" target="_blank" class="px-3 py-2 rounded bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold transition">
-No-Touch Bet στο OptionStrat / Deribit ↗
-</a>
-</div>
-</div>
-</section>
-
-<section class="card overflow-x-auto">
-<div class="p-3 bg-slate-900/50 border-b border-gray-800 text-xs text-gray-400">
-💡 <b>Οδηγία:</b> Κάνε κλικ σε οποιαδήποτε γραμμή για να επιλέξεις εκείνη την τιμή-στόχο. Όλες οι πιθανότητες έχουν διορθωθεί ως προς το <b>Forward Drift (Επιτόκιο)</b> ώστε να μην υπερτιμώνται τα Calls και να μην υποτιμώνται τα Puts.
-</div>
-<table class="w-full text-left border-collapse text-xs">
-<thead>
-<tr class="border-b border-gray-800">
-<th class="p-3">Τιμή-Στόχος</th>
-<th class="p-3">Απόσταση vs Spot</th>
-<th class="p-3">Απόσταση vs Forward</th>
-<th class="p-3">Vertical Spread</th>
-<th class="p-3 text-right">P(Touch) (Adj)</th>
-<th class="p-3 text-right">P(No-Touch)</th>
-<th class="p-3 text-right">P(Λήξη ITM)</th>
-<th class="p-3 text-right">Δυσκολία (Bits)</th>
-<th class="p-3 text-right">Κόστος Αγοράς</th>
-<th class="p-3 text-right">Αξία στο Touch</th>
-<th class="p-3 text-right">Απόδοση Touch</th>
-<th class="p-3 text-center">Γράφημα PnL</th>
-</tr>
-</thead>
-<tbody id="probTableBody" class="divide-y divide-gray-800/60 mono"></tbody>
-</table>
-</section>
-</div>
-
-<!-- ==================== TAB 2: ΠΟΤΕ ΘΑ ΦΤΑΣΕΙ ΣΤΟΝ ΣΤΟΧΟ (1,20 -> 1,29) ==================== -->
+<!-- ==================== TAB 2: ΧΡΟΝΟΔΙΑΓΡΑΜΜΑ ΣΤΟΧΟΥ ==================== -->
 <section id="tabTimeline" class="card p-5 hidden">
-<h2 class="text-base font-bold text-blue-400 mb-1">
-⏱️ ΧΡΟΝΟΔΙΑΓΡΑΜΜΑ ΣΤΟΧΟΥ: «ΣΗΜΕΡΑ ΕΧΟΥΜΕ ΤΙΜΗ Χ (π.χ. 1,20) — ΠΟΤΕ ΘΑ ΦΤΑΣΕΙ ΣΤΟ Υ (π.χ. 1,29);»
-</h2>
-<p class="text-xs text-gray-400 mb-4 leading-relaxed">
-Βάλε οποιαδήποτε σημερινή τιμή (π.χ. <b>1.20</b>) και την τιμή-στόχο (π.χ. <b>1.29</b>), ή πάτησε <b>« φόρτωση από το ενεργό Ticker »</b>. Το εργαλείο υπολογίζει με βάση την τεκμαρτή μεταβλητότητα (Implied Volatility) και το επιτόκιο (Carry / Drift) τις πιθανότητες να αγγίξει ή να κλείσει στον στόχο σε κάθε χρονικό ορίζοντα, και βρίσκει <b>πότε η πιθανότητα επαφής περνάει το 50% (Median Time-to-Touch)</b>!
-</p>
+  <div class="border-b border-[#26303e] pb-3 mb-4 flex flex-wrap justify-between items-center gap-2">
+    <div>
+      <h2 class="text-base font-bold text-[#4a86c6]">
+        ⏱️ ΧΡΟΝΟΔΙΑΓΡΑΜΜΑ ΣΤΟΧΟΥ: «ΣΗΜΕΡΑ ΕΧΟΥΜΕ ΤΙΜΗ Χ — ΠΟΤΕ ΘΑ ΦΤΑΣΕΙ ΣΤΟ Υ;»
+      </h2>
+      <p class="text-xs text-[#9aa4b2] mt-0.5">
+        Αυτόματος συγχρονισμός με το ενεργό Ticker. Υπολογίζει πότε η πιθανότητα επαφής P(Touch) περνάει το 50% (Median Horizon) και το 75%.
+      </p>
+    </div>
+    <button onclick="syncTimelineWithLiveChain()" class="px-3 py-1.5 rounded bg-[#1e2837] hover:bg-[#273447] text-[#4a86c6] text-xs font-bold border border-[#26303e] transition">
+      🔄 Επανασυγχρονισμός με το Ticker
+    </button>
+  </div>
 
-<div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end bg-slate-900/70 p-4 rounded border border-gray-800 mb-5">
-<div>
-<label class="block text-xs text-gray-400 mb-1">Σημερινή Τιμή (Spot)</label>
-<input id="tlSpot" type="number" step="any" value="1.20" class="w-full px-3 py-2 rounded text-sm font-bold mono" oninput="runTimelineCalculator()" />
-</div>
-<div>
-<label class="block text-xs text-gray-400 mb-1">Τιμή-Στόχος (Target)</label>
-<input id="tlTarget" type="number" step="any" value="1.29" class="w-full px-3 py-2 rounded text-sm font-bold mono text-blue-400" oninput="runTimelineCalculator()" />
-</div>
-<div>
-<label class="block text-xs text-gray-400 mb-1">Ετήσια Μεταβλητότητα IV (%)</label>
-<input id="tlIv" type="number" step="1" value="25" class="w-full px-3 py-2 rounded text-sm mono" oninput="runTimelineCalculator()" />
-</div>
-<div>
-<label class="block text-xs text-gray-400 mb-1">Επιτόκιο / Carry (% ετησίως)</label>
-<input id="tlRate" type="number" step="0.5" value="4.0" class="w-full px-3 py-2 rounded text-sm mono" oninput="runTimelineCalculator()" />
-</div>
-<div>
-<button onclick="syncTimelineWithLiveChain()" class="w-full bg-purple-700 hover:bg-purple-600 text-white font-bold py-2 px-3 rounded text-xs transition">
-📥 Φόρτωση Τιμής από το Live Ticker
-</button>
-</div>
-</div>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-3 bg-[#12161d] p-3.5 rounded border border-[#26303e] mb-5 items-end">
+    <div>
+      <label class="block text-xs text-[#9aa4b2] mb-1">Σημερινή Τιμή (Spot)</label>
+      <input id="tlSpot" type="number" step="any" value="214.13" class="w-full px-3 py-1.5 rounded text-sm font-bold mono" oninput="runTimelineCalculator()" />
+    </div>
+    <div>
+      <label class="block text-xs text-[#9aa4b2] mb-1">Τιμή-Στόχος (Target)</label>
+      <input id="tlTarget" type="number" step="any" value="240.00" class="w-full px-3 py-1.5 rounded text-sm font-bold mono text-[#4a86c6]" oninput="runTimelineCalculator()" />
+    </div>
+    <div>
+      <label class="block text-xs text-[#9aa4b2] mb-1">Ετήσια Μεταβλητότητα IV (%)</label>
+      <input id="tlIv" type="number" step="1" value="45" class="w-full px-3 py-1.5 rounded text-sm mono" oninput="runTimelineCalculator()" />
+    </div>
+    <div>
+      <label class="block text-xs text-[#9aa4b2] mb-1">Επιτόκιο / Carry Rate (% ετησίως)</label>
+      <input id="tlRate" type="number" step="0.25" value="4.25" class="w-full px-3 py-1.5 rounded text-sm mono text-[#d49a42]" oninput="runTimelineCalculator()" />
+    </div>
+  </div>
 
-<!-- ΚΑΡΤΕΣ ΑΠΑΝΤΗΣΗΣ ΧΡΟΝΟΔΙΑΓΡΑΜΜΑΤΟΣ -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
-<div class="card p-4 border-l-4 border-blue-500">
-<div class="text-xs text-gray-400">ΑΠΑΙΤΟΥΜΕΝΗ ΚΙΝΗΣΗ</div>
-<div id="tlMovePct" class="text-2xl font-bold text-blue-300 mt-1 mono">+7.50%</div>
-<div id="tlMoveSub" class="text-xs text-gray-400 mt-1">Από 1.20 σε 1.29</div>
-</div>
-<div class="card p-4 border-l-4 border-emerald-500">
-<div class="text-xs text-emerald-400 font-bold">ΠΟΤΕ ΠΕΡΝΑΕΙ ΤΟ 50% ΠΙΘΑΝΟΤΗΤΑ TOUCH;</div>
-<div id="tlMedianDays" class="text-2xl font-bold text-emerald-300 mt-1 mono">—</div>
-<div id="tlMedianDate" class="text-xs text-gray-400 mt-1">Εκτιμώμενη ημερομηνία 50-50</div>
-</div>
-<div class="card p-4 border-l-4 border-amber-500">
-<div class="text-xs text-amber-400 font-bold">ΠΟΤΕ ΠΕΡΝΑΕΙ ΤΟ 75% ΠΙΘΑΝΟΤΗΤΑ TOUCH;</div>
-<div id="tlHighDays" class="text-2xl font-bold text-amber-300 mt-1 mono">—</div>
-<div id="tlHighDate" class="text-xs text-gray-400 mt-1">Ορίζοντας υψηλής πιθανότητας</div>
-</div>
-</div>
+  <!-- ΚΑΡΤΕΣ ΑΠΑΝΤΗΣΗΣ ΧΡΟΝΟΔΙΑΓΡΑΜΜΑΤΟΣ -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-5">
+    <div class="card p-3.5 border-l-4 border-[#4a86c6]">
+      <div class="text-[11px] text-[#9aa4b2]">ΑΠΑΙΤΟΥΜΕΝΗ ΚΙΝΗΣΗ</div>
+      <div id="tlMovePct" class="text-2xl font-bold text-[#4a86c6] mt-1 mono">—</div>
+      <div id="tlMoveSub" class="text-xs text-[#9aa4b2] mt-0.5">—</div>
+    </div>
+    <div class="card p-3.5 border-l-4 border-[#3ea87c]">
+      <div class="text-[11px] text-[#3ea87c] font-bold">ΠΟΤΕ ΠΕΡΝΑΕΙ ΤΟ 50% P(TOUCH);</div>
+      <div id="tlMedianDays" class="text-2xl font-bold text-[#3ea87c] mt-1 mono">—</div>
+      <div id="tlMedianDate" class="text-xs text-[#9aa4b2] mt-0.5">Εκτιμώμενη ημερομηνία 50-50</div>
+    </div>
+    <div class="card p-3.5 border-l-4 border-[#d49a42]">
+      <div class="text-[11px] text-[#d49a42] font-bold">ΠΟΤΕ ΠΕΡΝΑΕΙ ΤΟ 75% P(TOUCH);</div>
+      <div id="tlHighDays" class="text-2xl font-bold text-[#d49a42] mt-1 mono">—</div>
+      <div id="tlHighDate" class="text-xs text-[#9aa4b2] mt-0.5">Ορίζοντας υψηλής πιθανότητας</div>
+    </div>
+  </div>
 
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse text-xs">
-<thead>
-<tr class="border-b border-gray-800">
-<th class="p-3">Χρονικός Ορίζοντας</th>
-<th class="p-3">Ημερομηνία</th>
-<th class="p-3 text-right">Forward Τιμή (με Επιτόκιο)</th>
-<th class="p-3 text-right">P(Touch) (Με Επιτόκιο)</th>
-<th class="p-3 text-right">P(Touch) (Απλοϊκό Χωρίς Επιτόκιο)</th>
-<th class="p-3 text-right">P(No-Touch)</th>
-<th class="p-3 text-right">P(Λήξη Πέρα από Στόχο)</th>
-<th class="p-3 text-right">Δίκαιη Απόδοση Touch Bet</th>
-</tr>
-</thead>
-<tbody id="tlTableBody" class="divide-y divide-gray-800/60 mono"></tbody>
-</table>
-</div>
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse text-xs">
+      <thead>
+        <tr class="border-b border-[#26303e]">
+          <th class="p-3">Χρονικός Ορίζοντας</th>
+          <th class="p-3">Ημερομηνία</th>
+          <th class="p-3 text-right">Forward Τιμή (με Carry)</th>
+          <th class="p-3 text-right">P(Touch) (με Carry)</th>
+          <th class="p-3 text-right">P(Touch) (χωρίς Carry)</th>
+          <th class="p-3 text-right">P(No-Touch)</th>
+          <th class="p-3 text-right">P(Expire ITM)</th>
+          <th class="p-3 text-right text-[#3ea87c]">Δίκαιο Multiple</th>
+        </tr>
+      </thead>
+      <tbody id="tlTableBody" class="divide-y divide-[#26303e]/60 mono"></tbody>
+    </table>
+  </div>
 </section>
 
-<!-- ==================== TAB 3: ΕΞΕΡΕΥΝΗΤΗΣ ΣΤΡΑΤΗΓΙΚΩΝ ==================== -->
-<section id="tabStrat" class="card p-4 hidden">
-<div class="flex flex-wrap justify-between gap-3 items-center mb-4 text-xs border-b border-gray-800 pb-4">
-<div class="flex flex-wrap gap-3 items-end">
-<div>
-<label class="block text-[11px] text-gray-400 mb-1">Επίλεξε Στρατηγική προς Ανάλυση</label>
-<select id="stratType" class="px-3 py-2 rounded font-bold text-xs" onchange="runStrategyScanner()">
-<option value="CC">1. Geometric Covered Calls (Απόδοση σε Χρήμα vs Υποκείμενο)</option>
-<option value="VS">2. Touch Spreads σε Όλες τις Λήξεις (Ασύμμετρα Στοιχήματα)</option>
-<option value="STRADDLE">3. Straddles (Αναμενόμενο Εύρος Κίνησης της Αγοράς)</option>
-<option value="LONG">4. Απλά Calls &amp; Puts (Κατάταξη Μέγιστης Μόχλευσης)</option>
-</select>
-</div>
-<div>
-<label class="block text-[11px] text-gray-400 mb-1">Slippage (0 έως 1)</label>
-<input id="stratSlippage" type="number" step="0.05" min="0" max="1" value="0.25" class="w-24 px-2 py-1.5 rounded mono" />
-</div>
-<div>
-<label class="block text-[11px] text-gray-400 mb-1">Ελάχιστες Μέρες (Min DTE)</label>
-<input id="stratMinDte" type="number" value="1" class="w-20 px-2 py-1.5 rounded mono" />
-</div>
-<div>
-<label class="block text-[11px] text-gray-400 mb-1">Μέγιστες Μέρες (Max DTE)</label>
-<input id="stratMaxDte" type="number" value="90" class="w-20 px-2 py-1.5 rounded mono" />
-</div>
-<div>
-<button onclick="runStrategyScanner()" class="px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition">
-Υπολογισμός Πίνακα
-</button>
-</div>
-</div>
-<div id="stratSummaryBadge" class="text-xs font-bold text-emerald-400"></div>
-</div>
+<!-- ==================== TAB 3: GEOMETRIC COVERED CALLS & ALLOCATION ==================== -->
+<section id="tabStrat" class="card p-5 hidden">
+  <div class="flex flex-wrap justify-between gap-3 items-center mb-4 text-xs border-b border-[#26303e] pb-4">
+    <div class="flex flex-wrap gap-3 items-end">
+      <div>
+        <label class="block text-[11px] text-[#9aa4b2] mb-1">Στρατηγική Ανάλυσης</label>
+        <select id="stratType" class="px-3 py-1.5 rounded font-bold text-xs" onchange="runStrategyScanner()">
+          <option value="CC">1. Geometric Covered Calls (Απόδοση σε Χρήμα vs Τεμάχια)</option>
+          <option value="VS">2. Touch Spreads σε Όλες τις Λήξεις (Ασύμμετρα Στοιχήματα)</option>
+          <option value="STRADDLE">3. Straddles (Αναμενόμενο Εύρος Κίνησης της Αγοράς)</option>
+          <option value="LONG">4. Απλά Calls &amp; Puts (Κατάταξη Μέγιστης Μόχλευσης)</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-[11px] text-[#9aa4b2] mb-1">Slippage (0 έως 1)</label>
+        <input id="stratSlippage" type="number" step="0.05" min="0" max="1" value="0.25" class="w-24 px-2 py-1.5 rounded mono" />
+      </div>
+      <div>
+        <label class="block text-[11px] text-[#9aa4b2] mb-1">Min DTE (Μέρες)</label>
+        <input id="stratMinDte" type="number" value="1" class="w-20 px-2 py-1.5 rounded mono" />
+      </div>
+      <div>
+        <label class="block text-[11px] text-[#9aa4b2] mb-1">Max DTE (Μέρες)</label>
+        <input id="stratMaxDte" type="number" value="90" class="w-20 px-2 py-1.5 rounded mono" />
+      </div>
+      <div>
+        <button onclick="runStrategyScanner()" class="px-4 py-2 rounded bg-[#3ea87c] hover:bg-[#338e68] text-white font-bold transition">
+          Σάρωση Στρατηγικών
+        </button>
+      </div>
+    </div>
+    <div id="stratSummaryBadge" class="text-xs font-bold text-[#3ea87c]"></div>
+  </div>
 
-<div id="stratTheoryNote" class="mb-4 p-3.5 rounded bg-slate-900/90 border border-slate-800 text-xs text-gray-300 leading-relaxed"></div>
+  <div id="stratTheoryNote" class="mb-4 p-3.5 rounded bg-[#13171f] border border-[#26303e] text-xs text-[#e8eaed] leading-relaxed"></div>
 
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse text-xs">
-<thead id="stratTableHead"></thead>
-<tbody id="stratTableBody" class="divide-y divide-gray-800/60 mono"></tbody>
-</table>
-</div>
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse text-xs">
+      <thead id="stratTableHead"></thead>
+      <tbody id="stratTableBody" class="divide-y divide-[#26303e]/60 mono"></tbody>
+    </table>
+  </div>
 </section>
 
-<!-- FOOTER: APACHE 2.0 CREDENTIALS -->
-<footer class="mt-10 pt-4 border-t border-gray-800/80 text-[11px] text-gray-500 flex flex-wrap justify-between gap-2">
-<div>
-Options Probabilistic Superstructure • Praxeological Market Mechanics
-</div>
-<div>
-Core options math adapted from
-<a href="https://github.com/DimitrisAndreou/options-tools" target="_blank" class="text-gray-400 hover:underline">DimitrisAndreou/options-tools</a>
-(Dimitris Andreou) under the
-<a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" class="text-gray-400 hover:underline">Apache-2.0 License</a>.
-</div>
+<!-- ==================== TAB 4: ΠΡΑΞΕΟΛΟΓΙΑ & ΘΕΜΕΛΙΑ ΑΓΟΡΑΣ ==================== -->
+<section id="tabTheory" class="card p-5 hidden leading-relaxed text-xs space-y-5">
+  <div class="border-b border-[#26303e] pb-3">
+    <h2 class="text-base font-bold text-[#4a86c6]">
+      📜 ΠΡΑΞΕΟΛΟΓΙΚΑ ΘΕΜΕΛΙΑ &amp; ΜΗΧΑΝΙΚΗ ΤΩΝ OPTIONS (MISES &amp; ROTHBARD)
+    </h2>
+    <p class="text-xs text-[#9aa4b2] mt-0.5">
+      Γιατί η αγορά των options είναι η μόνη αντικειμενική αλήθεια κατανομής πιθανοτήτων στον κόσμο.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="card-elevated p-4">
+      <h3 class="font-bold text-[#4a86c6] text-sm mb-2">1. Η Πραξεολογία &amp; Το «Skin in the Game»</h3>
+      <p class="text-[#9aa4b2] space-y-2">
+        Υιοθετούμε την <b>πραξεολογική προσέγγιση των Ludwig von Mises και Murray Rothbard</b>. Στην οικονομία, τα λόγια είναι φθηνά («talk is cheap»). Όταν ένας finfluencer σχεδιάζει γραμμές σε ένα γράφημα και ισχυρίζεται ότι <i>«η μετοχή Χ θα πάει στα 250€»</i>, εκφράζει μια γνώμη χωρίς κανένα προσωπικό κόστος.
+        <br/><br/>
+        Αντίθετα, η αγορά των Options είναι ο <b>μοναδικός μηχανισμός στον πλανήτη όπου χιλιάδες συμμετέχοντες τοποθετούν δισεκατομμύρια πραγματικού κεφαλαίου πάνω στον χρόνο και την τιμή</b>. Η τεκμαρτή κατανομή πιθανοτήτων (Market-Implied Probability) δεν είναι πρόβλεψη ενός «γκουρού»· είναι η αντικειμενική τιμή ισορροπίας της ανθρωπότητας.
+      </p>
+    </div>
+
+    <div class="card-elevated p-4">
+      <h3 class="font-bold text-[#d49a42] text-sm mb-2">2. Το Χρήμα ως Αγαθό &amp; Το Zero-Sum Παίγνιο</h3>
+      <p class="text-[#9aa4b2] space-y-2">
+        Το χρήμα δεν είναι αφηρημένο «μέτρο αξίας», αλλά απλώς ένα ακόμα οικονομικό αγαθό — το πιο εμπορεύσιμο μέσο ανταλλαγής. Είναι το απαραίτητο εργαλείο για τον οικονομικό υπολογισμό (Economic Calculation) και την εκτίμηση του PnL.
+        <br/><br/>
+        Σε καθαρά χρηματικούς όρους, τα παράγωγα συμβόλαια είναι <b>παίγνιο μηδενικού αθροίσματος (Zero-Sum Game)</b>. Κανένας δεν μπορεί να έχει μόνιμο «edge» απέναντι στην αγορά. Τα δεδομένα της αγοράς (Orderbook) υπερέχουν πάντα οποιουδήποτε στατιστικού μοντέλου: <i>Market Data &gt; Statistical Models</i>.
+      </p>
+    </div>
+
+    <div class="card-elevated p-4">
+      <h3 class="font-bold text-[#3ea87c] text-sm mb-2">3. Drift &amp; Carry με Απλά Λόγια (Put-Call Parity)</h3>
+      <p class="text-[#9aa4b2] space-y-2">
+        <b>Γιατί η τιμή Forward είναι ψηλότερη από το Spot;</b><br/>
+        Το χρήμα έχει επιτόκιο λόγω χρονικής προτίμησης (Time Preference): 100€ σήμερα αξίζουν περισσότερο από 100€ σε 6 μήνες. Αν μια μετοχή έχει Spot 200€ και το επιτόκιο είναι 4%, η τιμή ισορροπίας για παράδοση σε ένα χρόνο είναι <b>Forward = 208€</b> ($F = S \cdot e^{rT}$).
+        <br/><br/>
+        Η θεμελιώδης σχέση <b>Put-Call Parity</b> ($C - P = S - K \cdot e^{-rT}$) συνδέει αδιάσπαστα τα Options, τα Futures και το Spot χωρίς καμία θεωρητική αυθαιρεσία. Αν δεν διορθώσουμε για το Carry, θα υπερτιμήσουμε τα Calls και θα υποτιμήσουμε τα Puts!
+      </p>
+    </div>
+
+    <div class="card-elevated p-4">
+      <h3 class="font-bold text-[#9b7ad6] text-sm mb-2">4. P(Touch) vs P(Expire) &amp; Το Στενό Vertical Spread</h3>
+      <p class="text-[#9aa4b2] space-y-2">
+        <b>Γιατί η πιθανότητα επαφής P(Touch) είναι περίπου διπλάσια από το P(Expire);</b><br/>
+        Όταν η τιμή ενός asset αγγίξει το επίπεδο-στόχο για πρώτη φορά, βρίσκεται ακριβώς πάνω στο όριο. Από εκείνο το σημείο και μετά, έχει περίπου 50% πιθανότητα να παραμείνει από πάνω και 50% πιθανότητα να γυρίσει πίσω. Επομένως, <b>P(Touch) ≈ 2 · P(Expire)</b>.
+        <br/><br/>
+        Ένα στενό Vertical Spread ($K_1 / K_2$) γύρω από τον στόχο κοστίζει λίγα λεπτά σήμερα. Τη στιγμή του Touch γίνεται At-The-Money (ATM) και αξίζει περίπου το <b>50% του εύρους του</b>, χαρίζοντας τεράστια ασύμμετρη απόδοση (π.χ. 15x).
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="mt-10 pt-4 border-t border-[#26303e] text-[11px] text-[#637083] flex flex-wrap justify-between gap-2">
+  <div>
+    Options Probabilistic Superstructure • Praxeological Market Reality
+  </div>
+  <div>
+    Core options engine adapted from
+    <a href="https://github.com/DimitrisAndreou/options-tools" target="_blank" class="text-[#9aa4b2] hover:underline">DimitrisAndreou/options-tools</a>
+    under the <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" class="text-[#9aa4b2] hover:underline">Apache-2.0 License</a>.
+  </div>
 </footer>
 
 <script>
@@ -339,773 +436,696 @@ const engineCache = new Map();
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
 const MONTHS = {
-JAN: 0, FEB: 1, MAR: 2, APR: 3, MAY: 4, JUN: 5,
-JUL: 6, AUG: 7, SEP: 8, OCT: 9, NOV: 10, DEC: 11
+  JAN: 0, FEB: 1, MAR: 2, APR: 3, MAY: 4, JUN: 5,
+  JUL: 6, AUG: 7, SEP: 8, OCT: 9, NOV: 10, DEC: 11
 };
 const MONTH_NAMES = [
-'January', 'February', 'March', 'April', 'May', 'June',
-'July', 'August', 'September', 'October', 'November', 'December'
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
+let currentState = {
+  venue: 'CRYPTO',
+  symbol: 'BTC',
+  currency: '$',
+  spot: 0,
+  forward: 0,
+  carryApr: 0,
+  selectedExp: null,
+  dte: 7,
+  spreads: [],
+  rawCryptoContracts: [],
+  rawYahooRoot: null,
+  activeTarget: 0
+};
+
 function showError(msg) {
-const el = document.getElementById('errorBanner');
-if (!msg) {
-el.classList.add('hidden');
-el.textContent = '';
-} else {
-el.classList.remove('hidden');
-el.textContent = '⚠️ ' + msg;
-}
+  const el = document.getElementById('errorBanner');
+  if (!msg) {
+    el.classList.add('hidden');
+    el.textContent = '';
+  } else {
+    el.classList.remove('hidden');
+    el.textContent = '⚠️ ' + msg;
+  }
 }
 
 function setStatus(text, isOk) {
-const badge = document.getElementById('engineStatus');
-badge.textContent = text;
-badge.className = isOk
-? 'px-2.5 py-1 rounded bg-emerald-900/50 text-emerald-300 border border-emerald-700 mono'
-: 'px-2.5 py-1 rounded bg-amber-900/50 text-amber-300 border border-amber-700 mono';
+  const badge = document.getElementById('engineStatus');
+  badge.textContent = text;
+  badge.className = isOk
+    ? 'px-2.5 py-1 rounded bg-[#13221b] text-[#3ea87c] border border-[#1e4433] mono'
+    : 'px-2.5 py-1 rounded bg-[#2a2215] text-[#d49a42] border border-[#3f311c] mono';
 }
 
 function formatIsoDate(dt) {
-const y = dt.getUTCFullYear();
-const m = String(dt.getUTCMonth() + 1).padStart(2, '0');
-const d = String(dt.getUTCDate()).padStart(2, '0');
-return y + '-' + m + '-' + d;
+  const y = dt.getUTCFullYear();
+  const m = String(dt.getUTCMonth() + 1).padStart(2, '0');
+  const d = String(dt.getUTCDate()).padStart(2, '0');
+  return y + '-' + m + '-' + d;
 }
 
 function formatHumanDate(dt) {
-return dt.getUTCDate() + ' ' + MONTH_NAMES[dt.getUTCMonth()] + ' ' + dt.getUTCFullYear();
+  return dt.getUTCDate() + ' ' + MONTH_NAMES[dt.getUTCMonth()] + ' ' + dt.getUTCFullYear();
 }
 
 function buildCustomOptionStratUrl(ticker, legs) {
-const clean = (sym) => {
-const m = /^(.*[CP])(\d{8})$/.exec(sym);
-if (!m) return sym;
-return m[1] + (Number(m[2]) / 1000);
-};
-const parts = legs.map((l) => {
-if (l.isUnderlying) return ticker + 'x' + Math.round(l.qty);
-return '.' + clean(l.symbol) + 'x' + Math.round(l.qty);
-});
-return 'https://optionstrat.com/build/custom/' + ticker + '/' + parts.join(',');
+  const clean = (sym) => {
+    const m = /^(.*[CP])(\d{8})$/.exec(sym);
+    if (!m) return sym;
+    return m[1] + (Number(m[2]) / 1000);
+  };
+  const parts = legs.map((l) => {
+    if (l.isUnderlying) return ticker + 'x' + Math.round(l.qty);
+    return '.' + clean(l.symbol) + 'x' + Math.round(l.qty);
+  });
+  return 'https://optionstrat.com/build/custom/' + ticker + '/' + parts.join(',');
 }
 
 function buildDeribitOptionUrl(coin, expStr, instrumentName) {
-return 'https://www.deribit.com/options/' + coin + '/' + coin + '-' + expStr + '/' + instrumentName;
+  return 'https://www.deribit.com/options/' + coin + '/' + coin + '-' + expStr + '/' + instrumentName;
 }
 
-// Κανονική κατανομή N(x) για τον υπολογισμό Χρονοδιαγράμματος (Tab 2) και Drift Barrier
 function normCdf(x) {
-const a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741, a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
-const sign = x < 0 ? -1 : 1;
-const absX = Math.abs(x) / Math.sqrt(2.0);
-const t = 1.0 / (1.0 + p * absX);
-const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-absX * absX);
-return 0.5 * (1.0 + sign * y);
+  const a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741, a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+  const sign = x < 0 ? -1 : 1;
+  const absX = Math.abs(x) / Math.sqrt(2.0);
+  const t = 1.0 / (1.0 + p * absX);
+  const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-absX * absX);
+  return 0.5 * (1.0 + sign * y);
 }
 
-// Ακριβής αναλυτική εξίσωση Πιθανότητας Επαφής (First Passage Time of GBM with Drift r)
 function analyticalTouchProbWithDrift(spot, target, tYears, sigma, r) {
-if (tYears <= 0 || sigma <= 0) return 0;
-if ((target >= spot && spot >= target) || Math.abs(target - spot) < 1e-9) return 1.0;
-const isUp = target > spot;
-const mu = r - 0.5 * sigma * sigma;
-const logRatio = Math.log(target / spot);
-const sqrtT = Math.sqrt(tYears);
+  if (tYears <= 0 || sigma <= 0) return 0;
+  if ((target >= spot && spot >= target) || Math.abs(target - spot) < 1e-9) return 1.0;
+  const isUp = target > spot;
+  const mu = r - 0.5 * sigma * sigma;
+  const logRatio = Math.log(target / spot);
+  const sqrtT = Math.sqrt(tYears);
 
-const z1 = isUp
-? (-logRatio + mu * tYears) / (sigma * sqrtT)
-: (logRatio - mu * tYears) / (sigma * sqrtT);
-const z2 = isUp
-? (-logRatio - mu * tYears) / (sigma * sqrtT)
-: (logRatio + mu * tYears) / (sigma * sqrtT);
+  const z1 = isUp
+    ? (-logRatio + mu * tYears) / (sigma * sqrtT)
+    : (logRatio - mu * tYears) / (sigma * sqrtT);
+  const z2 = isUp
+    ? (-logRatio - mu * tYears) / (sigma * sqrtT)
+    : (logRatio + mu * tYears) / (sigma * sqrtT);
 
-const exponent = (2.0 * mu) / (sigma * sigma);
-const reflectTerm = Math.pow(target / spot, exponent) * normCdf(z2);
-const pTouch = normCdf(z1) + reflectTerm;
-return Math.min(1.0, Math.max(0.0, pTouch));
+  const exponent = (2.0 * mu) / (sigma * sigma);
+  const reflectTerm = Math.pow(target / spot, exponent) * normCdf(z2);
+  const pTouch = normCdf(z1) + reflectTerm;
+  return Math.min(1.0, Math.max(0.0, pTouch));
 }
 
 function analyticalExpireProbWithDrift(spot, target, tYears, sigma, r) {
-if (tYears <= 0 || sigma <= 0) return 0;
-const isUp = target > spot;
-const mu = r - 0.5 * sigma * sigma;
-const logRatio = Math.log(target / spot);
-const sqrtT = Math.sqrt(tYears);
-const z = isUp
-? (-logRatio + mu * tYears) / (sigma * sqrtT)
-: (logRatio - mu * tYears) / (sigma * sqrtT);
-return Math.min(1.0, Math.max(0.0, normCdf(z)));
+  if (tYears <= 0 || sigma <= 0) return 0;
+  const isUp = target > spot;
+  const mu = r - 0.5 * sigma * sigma;
+  const logRatio = Math.log(target / spot);
+  const sqrtT = Math.sqrt(tYears);
+  const z = isUp
+    ? (-logRatio + mu * tYears) / (sigma * sqrtT)
+    : (logRatio - mu * tYears) / (sigma * sqrtT);
+  return Math.min(1.0, Math.max(0.0, normCdf(z)));
 }
 
 async function fetchCachedJson(url) {
-const now = Date.now();
-const hit = engineCache.get(url);
-if (hit && (now - hit.ts < CACHE_TTL_MS)) {
-return hit.data;
-}
-const res = await fetch(url);
-if (!res.ok) {
-const errTxt = await res.text().catch(() => '');
-throw new Error('HTTP ' + res.status + ' ' + errTxt);
-}
-const data = await res.json();
-engineCache.set(url, { ts: now, data });
-return data;
+  const now = Date.now();
+  const hit = engineCache.get(url);
+  if (hit && (now - hit.ts < CACHE_TTL_MS)) {
+    return hit.data;
+  }
+  const res = await fetch(url);
+  if (!res.ok) {
+    const errTxt = await res.text().catch(() => '');
+    throw new Error('HTTP ' + res.status + ' ' + errTxt);
+  }
+  const data = await res.json();
+  engineCache.set(url, { ts: now, data });
+  return data;
 }
 
 async function fetchDeribitChain(ticker, minDTE, maxDTE) {
-const currency = (ticker === 'BTC' || ticker === 'ETH') ? ticker : 'USDC';
-const url = 'https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=' + currency + '&kind=option';
-const json = await fetchCachedJson(url);
-const raw = json.result || [];
-const rx = /^(\w+)-(\d+)([A-Z]{3})(\d+)-(\d+)-(P|C)$/;
-const now = Date.now();
-const contracts = [];
+  const currency = (ticker === 'BTC' || ticker === 'ETH') ? ticker : 'USDC';
+  const url = 'https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=' + currency + '&kind=option';
+  const json = await fetchCachedJson(url);
+  const raw = json.result || [];
+  const rx = /^(\w+)-(\d+)([A-Z]{3})(\d+)-(\d+)-(P|C)$/;
+  const now = Date.now();
+  const contracts = [];
 
-for (const r of raw) {
-if (!r.bid_price || !r.ask_price || r.bid_price <= 0 || r.ask_price < r.bid_price) continue;
-const m = rx.exec(r.instrument_name);
-if (!m) continue;
-const asset = m[1];
-if (asset !== ticker) continue;
+  for (const r of raw) {
+    if (!r.bid_price || !r.ask_price || r.bid_price <= 0 || r.ask_price < r.bid_price) continue;
+    const m = rx.exec(r.instrument_name);
+    if (!m) continue;
+    const asset = m[1];
+    if (asset !== ticker) continue;
 
-const dd = Number(m[2]);
-const mmm = m[3];
-const yy = Number(m[4]);
-const expStr = m[2] + mmm + m[4];
-const strike = Number(m[5]);
-const type = m[6];
+    const dd = Number(m[2]);
+    const mmm = m[3];
+    const yy = Number(m[4]);
+    const expStr = m[2] + mmm + m[4];
+    const strike = Number(m[5]);
+    const type = m[6];
 
-const expDate = new Date(Date.UTC(2000 + yy, MONTHS[mmm], dd, 8, 0, 0));
-const dte = Math.max(1, Math.round((expDate.getTime() - now) / 86400000));
-if (dte < minDTE || dte > maxDTE) continue;
+    const expDate = new Date(Date.UTC(2000 + yy, MONTHS[mmm], dd, 8, 0, 0));
+    const dte = Math.max(1, Math.round((expDate.getTime() - now) / 86400000));
+    if (dte < minDTE || dte > maxDTE) continue;
 
-const spot = Number(r.estimated_delivery_price);
-const future = Number(r.underlying_price);
-const bidUsd = Number(r.bid_price) * spot;
-const askUsd = Number(r.ask_price) * spot;
-const midUsd = (bidUsd + askUsd) / 2;
+    const spot = Number(r.estimated_delivery_price);
+    const future = Number(r.underlying_price);
+    const bidUsd = Number(r.bid_price) * spot;
+    const askUsd = Number(r.ask_price) * spot;
+    const midUsd = (bidUsd + askUsd) / 2;
 
-contracts.push({
-venue: 'Deribit',
-asset,
-money: 'USD',
-symbol: r.instrument_name,
-expDate,
-expStr,
-dte,
-strike,
-isCall: type === 'C',
-isPut: type === 'P',
-bid: bidUsd,
-ask: askUsd,
-mid: midUsd,
-spot,
-future,
-minSize: asset === 'BTC' ? 0.1 : 1.0,
-lotSize: 1.0,
-optionUrl: buildDeribitOptionUrl(asset, expStr, r.instrument_name),
-underlyingUrl: 'https://www.deribit.com/spot/' + asset + '_USDT'
-});
-}
-return contracts;
+    contracts.push({
+      venue: 'Deribit',
+      asset,
+      money: 'USD',
+      symbol: r.instrument_name,
+      expDate,
+      expStr,
+      dte,
+      strike,
+      isCall: type === 'C',
+      isPut: type === 'P',
+      bid: bidUsd,
+      ask: askUsd,
+      mid: midUsd,
+      spot,
+      future,
+      minSize: asset === 'BTC' ? 0.1 : 1.0,
+      lotSize: 1.0,
+      optionUrl: buildDeribitOptionUrl(asset, expStr, r.instrument_name),
+      underlyingUrl: 'https://www.deribit.com/spot/' + asset + '_USDT'
+    });
+  }
+  return contracts;
 }
 
 async function fetchYahooChainAllExpirations(ticker, minDTE, maxDTE) {
-const cleanTicker = ticker.trim().toUpperCase();
-const firstUrl = WORKER_URL + '/?symbol=' + encodeURIComponent(cleanTicker);
-const rootJson = await fetchCachedJson(firstUrl);
-const firstResult = rootJson && rootJson.optionChain && rootJson.optionChain.result && rootJson.optionChain.result[0];
-if (!firstResult) throw new Error('Δεν βρέθηκαν δεδομένα στο Yahoo για ' + cleanTicker);
+  const cleanTicker = ticker.trim().toUpperCase();
+  const firstUrl = WORKER_URL + '/?symbol=' + encodeURIComponent(cleanTicker);
+  const rootJson = await fetchCachedJson(firstUrl);
+  const firstResult = rootJson && rootJson.optionChain && rootJson.optionChain.result && rootJson.optionChain.result[0];
+  if (!firstResult) throw new Error('Δεν βρέθηκαν δεδομένα στο Yahoo για ' + cleanTicker);
 
-const quote = firstResult.quote || {};
-const spot = Number(quote.regularMarketPrice || quote.postMarketPrice || quote.regularMarketPreviousClose || 0);
-if (spot <= 0) throw new Error('Αδυναμία ανάγνωσης Spot Price για ' + cleanTicker);
+  const quote = firstResult.quote || {};
+  const spot = Number(quote.regularMarketPrice || quote.postMarketPrice || quote.regularMarketPreviousClose || 0);
+  if (spot <= 0) throw new Error('Αδυναμία ανάγνωσης Spot Price για ' + cleanTicker);
 
-const currency = quote.currency || 'USD';
-const allEpochs = firstResult.expirationDates || [];
-const now = Date.now();
+  const currency = quote.currency || 'USD';
+  const allEpochs = firstResult.expirationDates || [];
+  const now = Date.now();
 
-const targetEpochs = allEpochs.filter((ep) => {
-const dte = Math.max(1, Math.round((ep * 1000 - now) / 86400000));
-return dte >= minDTE && dte <= maxDTE;
-});
+  const targetEpochs = allEpochs.filter((ep) => {
+    const dte = Math.max(1, Math.round((ep * 1000 - now) / 86400000));
+    return dte >= minDTE && dte <= maxDTE;
+  });
 
-const chainBlocks = [];
-if (firstResult.options && firstResult.options[0]) {
-const firstEp = firstResult.options[0].expirationDate;
-const firstDte = Math.max(1, Math.round((firstEp * 1000 - now) / 86400000));
-if (firstDte >= minDTE && firstDte <= maxDTE) {
-chainBlocks.push(firstResult.options[0]);
-}
-}
+  const chainBlocks = [];
+  if (firstResult.options && firstResult.options[0]) {
+    const firstEp = firstResult.options[0].expirationDate;
+    const firstDte = Math.max(1, Math.round((firstEp * 1000 - now) / 86400000));
+    if (firstDte >= minDTE && firstDte <= maxDTE) {
+      chainBlocks.push(firstResult.options[0]);
+    }
+  }
 
-const remainingEpochs = targetEpochs
-.filter((ep) => !chainBlocks.some((b) => b.expirationDate === ep))
-.slice(0, 5);
+  const remainingEpochs = targetEpochs
+    .filter((ep) => !chainBlocks.some((b) => b.expirationDate === ep))
+    .slice(0, 5);
 
-const extraResponses = await Promise.all(
-remainingEpochs.map((ep) =>
-fetchCachedJson(WORKER_URL + '/?symbol=' + encodeURIComponent(cleanTicker) + '&date=' + ep).catch(() => null)
-)
-);
+  const extraResponses = await Promise.all(
+    remainingEpochs.map((ep) =>
+      fetchCachedJson(WORKER_URL + '/?symbol=' + encodeURIComponent(cleanTicker) + '&date=' + ep).catch(() => null)
+    )
+  );
 
-for (const extra of extraResponses) {
-const block = extra && extra.optionChain && extra.optionChain.result && extra.optionChain.result[0] && extra.optionChain.result[0].options && extra.optionChain.result[0].options[0];
-if (block) chainBlocks.push(block);
-}
+  for (const extra of extraResponses) {
+    const block = extra && extra.optionChain && extra.optionChain.result && extra.optionChain.result[0] && extra.optionChain.result[0].options && extra.optionChain.result[0].options[0];
+    if (block) chainBlocks.push(block);
+  }
 
-const contracts = [];
-for (const block of chainBlocks) {
-const expEpoch = block.expirationDate;
-const expDate = new Date(expEpoch * 1000);
-const dte = Math.max(1, Math.round((expDate.getTime() - now) / 86400000));
-const expStr = formatIsoDate(expDate);
+  const contracts = [];
+  for (const block of chainBlocks) {
+    const expEpoch = block.expirationDate;
+    const expDate = new Date(expEpoch * 1000);
+    const dte = Math.max(1, Math.round((expDate.getTime() - now) / 86400000));
+    const expStr = formatIsoDate(expDate);
 
-const parseSide = (items, isCall) => {
-for (const c of (items || [])) {
-const last = Number(c.lastPrice || 0);
-const rawBid = Number(c.bid || 0);
-const rawAsk = Number(c.ask || 0);
+    const parseSide = (items, isCall) => {
+      for (const c of (items || [])) {
+        const last = Number(c.lastPrice || 0);
+        const rawBid = Number(c.bid || 0);
+        const rawAsk = Number(c.ask || 0);
 
-let bid = 0, ask = 0;
-if (rawBid > 0 && rawAsk >= rawBid) {
-bid = rawBid; ask = rawAsk;
-} else if (last > 0.01 && rawAsk > 0.01) {
-bid = last * 0.96; ask = Math.max(rawAsk, last * 1.04);
-} else if (last > 0.01) {
-bid = last * 0.95; ask = last * 1.05;
-} else {
-continue;
-}
+        let bid = 0, ask = 0;
+        if (rawBid > 0 && rawAsk >= rawBid) {
+          bid = rawBid; ask = rawAsk;
+        } else if (last > 0.01 && rawAsk > 0.01) {
+          bid = last * 0.96; ask = Math.max(rawAsk, last * 1.04);
+        } else if (last > 0.01) {
+          bid = last * 0.95; ask = last * 1.05;
+        } else {
+          continue;
+        }
 
-contracts.push({
-venue: 'OptionStrat',
-asset: cleanTicker,
-money: currency,
-symbol: c.contractSymbol,
-expDate,
-expStr,
-dte,
-strike: Number(c.strike),
-isCall,
-isPut: !isCall,
-bid,
-ask,
-mid: (bid + ask) / 2,
-spot,
-future: spot,
-minSize: 1.0,
-lotSize: 100.0,
-optionUrl: 'https://finance.yahoo.com/quote/' + c.contractSymbol + '/',
-underlyingUrl: 'https://finance.yahoo.com/quote/' + cleanTicker + '/'
-});
-}
-};
-
-parseSide(block.calls, true);
-parseSide(block.puts, false);
-}
-
-return contracts;
+        contracts.push({
+          venue: 'OptionStrat',
+          asset: cleanTicker,
+          money: currency,
+          symbol: c.contractSymbol,
+          expDate,
+          expStr,
+          dte,
+          strike: Number(c.strike),
+          isCall,
+          isPut: !isCall,
+          bid,
+          ask,
+          mid: (bid + ask) / 2,
+          spot,
+          future: spot,
+          minSize: 1.0,
+          lotSize: 100.0,
+          optionUrl: 'https://optionstrat.com/build/long-call/' + cleanTicker + '/.' + c.contractSymbol,
+          underlyingUrl: 'https://finance.yahoo.com/quote/' + cleanTicker
+        });
+      }
+    };
+    parseSide(block.calls, true);
+    parseSide(block.puts, false);
+  }
+  return contracts;
 }
 
-function engineBuildVerticalSpreads(contracts, slippageRatio) {
-const byExp = new Map();
-for (const c of contracts) {
-const key = c.expStr + '_' + (c.isCall ? 'C' : 'P');
-if (!byExp.has(key)) byExp.set(key, []);
-byExp.get(key).push(c);
+function engineBuildCoveredCalls(contracts, slippageRatio = 0.25) {
+  const result = [];
+  for (const c of contracts) {
+    if (!c.isCall || c.strike < c.spot * 0.99) continue;
+    const bidAfterSlip = c.bid - (c.ask - c.bid) * slippageRatio;
+    if (bidAfterSlip <= 0) continue;
+
+    const netMoneyCost = c.spot - bidAfterSlip;
+    if (netMoneyCost <= 0) continue;
+
+    const moneyYield = c.strike / netMoneyCost;
+    const underlyingYield = c.spot / netMoneyCost;
+    const breakEvenVsFullMoneyAbsolute = netMoneyCost;
+    const breakEvenVsFullMoneyRelative = netMoneyCost / c.spot;
+    const strikeRelative = c.strike / c.spot;
+
+    const iv = 0.35;
+    const tYears = c.dte / 365.0;
+    const pExpire = analyticalExpireProbWithDrift(c.spot, c.strike, tYears, iv, 0.04);
+
+    result.push({
+      strategyType: 'coveredCall',
+      venue: c.venue,
+      money: c.money,
+      underlying: c.asset,
+      option: c.symbol,
+      expDate: c.expDate,
+      formattedDate: c.expStr,
+      DTE: c.dte,
+      strikeAbsolute: c.strike,
+      strikeRelative,
+      breakEvenVsFullMoneyAbsolute,
+      breakEvenVsFullMoneyRelative,
+      moneyYield,
+      underlyingYield,
+      moneyProbability: pExpire,
+      moneySize: netMoneyCost * (c.lotSize || 1),
+      strategyURL: c.venue === 'Deribit'
+        ? c.optionUrl
+        : buildCustomOptionStratUrl(c.asset, [{ isUnderlying: true, qty: 100 }, { symbol: c.symbol, qty: -1 }])
+    });
+  }
+  return result;
 }
 
-const spreads = [];
-for (const [, legs] of byExp.entries()) {
-legs.sort((a, b) => a.strike - b.strike);
-for (let i = 0; i < legs.length - 1; i++) {
-const k1 = legs[i];
-const k2 = legs[i + 1];
-const width = k2.strike - k1.strike;
-if (width <= 0) continue;
+function engineBuildVerticalSpreads(contracts, slippageRatio = 0.25) {
+  const list = [];
+  const grouped = new Map();
+  for (const c of contracts) {
+    const key = c.expStr + '_' + (c.isCall ? 'C' : 'P');
+    if (!grouped.has(key)) grouped.set(key, []);
+    grouped.get(key).push(c);
+  }
 
-const isCall = k1.isCall;
-const midTarget = (k1.strike + k2.strike) / 2;
-if (isCall && midTarget < k1.spot) continue;
-if (!isCall && midTarget >= k1.spot) continue;
+  for (const [key, legs] of grouped.entries()) {
+    legs.sort((a, b) => a.strike - b.strike);
+    const isCall = key.endsWith('_C');
+    for (let i = 0; i < legs.length - 1; i++) {
+      const k1 = legs[i];
+      const k2 = legs[i + 1];
+      const width = k2.strike - k1.strike;
+      if (width <= 0) continue;
 
-const buyLeg = isCall ? k1 : k2;
-const sellLeg = isCall ? k2 : k1;
+      const target = (k1.strike + k2.strike) / 2;
+      const isOtm = isCall ? (target > k1.spot) : (target < k1.spot);
+      if (!isOtm) continue;
 
-const buyCost = buyLeg.bid + (buyLeg.ask - buyLeg.bid) * (0.5 + 0.5 * slippageRatio);
-const sellCredit = sellLeg.ask - (sellLeg.ask - sellLeg.bid) * (0.5 + 0.5 * slippageRatio);
-const netDebit = buyCost - sellCredit;
-const midDebit = Math.abs(k1.mid - k2.mid);
+      const spreadMid = isCall ? (k1.mid - k2.mid) : (k2.mid - k1.mid);
+      const rawAsk = isCall ? (k1.ask - k2.bid) : (k2.ask - k1.bid);
+      const spreadAsk = rawAsk + (rawAsk - spreadMid) * slippageRatio;
+      if (spreadAsk <= 0 || spreadAsk >= width) continue;
 
-if (netDebit <= 0 || netDebit >= width) continue;
+      const touchExit = 0.50 * width;
+      const pExpire = Math.min(1, Math.max(0, spreadMid / width));
+      const pTouch = Math.min(1, Math.max(0, spreadMid / touchExit));
+      const touchReturnMultiple = touchExit / spreadAsk;
 
-const carryFactor = (k1.spot > 0 && k1.future > 0) ? (k1.future / k1.spot) : 1.0;
-const logCarry = Math.log(carryFactor);
-const distRatio = Math.max(0.02, Math.abs(Math.log(midTarget / k1.spot)));
-const driftTilt = Math.min(0.15, Math.max(-0.15, (logCarry / (2 * distRatio)) * 0.25));
-const touchFraction = isCall ? (0.50 + driftTilt) : (0.50 - driftTilt);
-const touchExitValue = touchFraction * width;
-
-const maxProfit = width - netDebit;
-const maxYield = 1 + maxProfit / netDebit;
-const probExpire = Math.min(1, Math.max(0, (midDebit * carryFactor) / width));
-const probTouch = Math.min(1, Math.max(0, (midDebit * carryFactor) / touchExitValue));
-const touchMultiple = touchExitValue / netDebit;
-const breakEven = isCall ? k1.strike + netDebit : k2.strike - netDebit;
-
-const stratUrl = k1.venue === 'OptionStrat'
-? buildCustomOptionStratUrl(k1.asset, [
-{ symbol: buyLeg.symbol, qty: 1 },
-{ symbol: sellLeg.symbol, qty: -1 }
-])
-: buyLeg.optionUrl;
-
-spreads.push({
-id: k1.expStr + '~' + k1.strike + '~' + k2.strike + '~' + (isCall ? 'call' : 'put'),
-strategyType: 'verticalSpread',
-strategyURL: stratUrl,
-underlying: k1.asset,
-underlyingURL: k1.underlyingUrl,
-money: k1.money,
-moneySize: netDebit * k1.lotSize,
-spotPrice: k1.spot,
-shortLeg: sellLeg.symbol,
-shortLegURL: sellLeg.optionUrl,
-longLeg: buyLeg.symbol,
-longLegURL: buyLeg.optionUrl,
-type: isCall ? 'over' : 'under',
-DTE: k1.dte,
-formattedDate: formatHumanDate(k1.expDate),
-targetMidpoint: midTarget,
-spreadWidth: width,
-breakEvenVsFullMoneyAbsolute: breakEven,
-breakEvenVsFullMoneyRelative: breakEven / k1.spot,
-maxYield,
-maxRisk: netDebit * k1.lotSize,
-maxProbAbove: isCall ? probExpire : 1 - probExpire,
-maxProbBelow: isCall ? 1 - probExpire : probExpire,
-probTouchBeforeExpiry: probTouch,
-probNoTouchBeforeExpiry: 1 - probTouch,
-touchReturnMultiple: touchMultiple
-});
-}
-}
-return spreads;
+      list.push({
+        strategyType: isCall ? 'bullCallSpread' : 'bearPutSpread',
+        venue: k1.venue,
+        money: k1.money,
+        underlying: k1.asset,
+        formattedDate: k1.expStr,
+        DTE: k1.dte,
+        target,
+        lowerStrike: k1.strike,
+        upperStrike: k2.strike,
+        spreadLabel: k1.strike + '/' + k2.strike + (isCall ? ' C' : ' P'),
+        probTouchBeforeExpiry: pTouch,
+        probExpireBeyondTarget: pExpire,
+        spreadCostAsk: spreadAsk,
+        touchExitValue: touchExit,
+        touchReturnMultiple,
+        strategyURL: k1.venue === 'Deribit'
+          ? k1.optionUrl
+          : buildCustomOptionStratUrl(k1.asset, isCall
+              ? [{ symbol: k1.symbol, qty: 1 }, { symbol: k2.symbol, qty: -1 }]
+              : [{ symbol: k2.symbol, qty: 1 }, { symbol: k1.symbol, qty: -1 }])
+      });
+    }
+  }
+  return list;
 }
 
-function engineBuildCoveredCalls(contracts, slippageRatio) {
-const calls = contracts.filter((c) => c.isCall && c.strike >= c.spot);
-const spreads = engineBuildVerticalSpreads(contracts, slippageRatio);
-const results = [];
+function engineBuildLongOptions(contracts, slippageRatio = 0.25) {
+  const result = [];
+  for (const c of contracts) {
+    const askCost = c.ask + (c.ask - c.mid) * slippageRatio;
+    if (askCost <= 0) continue;
+    const maxLeverage = c.spot / askCost;
+    const breakEven = c.isCall ? (c.strike + askCost) : (c.strike - askCost);
 
-for (const c of calls) {
-const callPremium = c.ask - (c.ask - c.bid) * (0.5 + 0.5 * slippageRatio);
-if (callPremium <= 0 || callPremium >= c.spot) continue;
-
-const netOutlayPerUnit = c.spot - callPremium;
-const maxValuePerUnit = c.strike;
-const moneyProfit = (maxValuePerUnit - netOutlayPerUnit) * c.minSize * c.lotSize;
-const moneyYield = maxValuePerUnit / netOutlayPerUnit;
-const underlyingYield = c.spot / netOutlayPerUnit;
-const breakEvenMoney = netOutlayPerUnit;
-
-const sameExpSpreads = spreads.filter((s) => s.DTE === c.dte);
-let moneyProb = null;
-if (sameExpSpreads.length > 0) {
-let closest = sameExpSpreads[0];
-for (const s of sameExpSpreads) {
-if (Math.abs(s.targetMidpoint - c.strike) < Math.abs(closest.targetMidpoint - c.strike)) {
-closest = s;
-}
-}
-moneyProb = closest.maxProbAbove;
-}
-
-const stratUrl = c.venue === 'OptionStrat'
-? buildCustomOptionStratUrl(c.asset, [
-{ isUnderlying: true, qty: 100 },
-{ symbol: c.symbol, qty: -1 }
-])
-: c.optionUrl;
-
-results.push({
-id: c.expStr + '~' + c.strike,
-strategyType: 'coveredCall',
-strategyURL: stratUrl,
-moneyYield,
-underlyingYield,
-underlying: c.asset,
-underlyingURL: c.underlyingUrl,
-underlyingToBuy: c.minSize * (1 - callPremium / c.spot),
-premiumToReceive: (callPremium / c.spot) * c.minSize,
-money: c.money,
-moneySize: netOutlayPerUnit * c.minSize * c.lotSize,
-moneyProfit,
-spotPrice: c.spot,
-call: c.symbol,
-callURL: c.optionUrl,
-callSize: -c.minSize,
-DTE: c.dte,
-formattedDate: formatHumanDate(c.expDate),
-strikeAbsolute: c.strike,
-strikeRelative: c.strike / c.spot,
-breakEvenVsFullMoneyAbsolute: breakEvenMoney,
-breakEvenVsFullMoneyRelative: breakEvenMoney / c.spot,
-moneyProbability: moneyProb,
-underlyingProbability: moneyProb !== null ? 1 - moneyProb : null
-});
-}
-return results;
+    result.push({
+      strategyType: c.isCall ? 'longCall' : 'longPut',
+      venue: c.venue,
+      money: c.money,
+      underlying: c.asset,
+      option: c.symbol,
+      formattedDate: c.expStr,
+      DTE: c.dte,
+      strikeAbsolute: c.strike,
+      breakEvenVsFullMoneyAbsolute: breakEven,
+      breakEvenVsFullMoneyRelative: breakEven / c.spot,
+      maxLeverage,
+      moneySize: askCost * (c.lotSize || 1),
+      strategyURL: c.optionUrl
+    });
+  }
+  return result;
 }
 
-function engineBuildLongOptions(contracts, slippageRatio) {
-const results = [];
-for (const c of contracts) {
-if (c.isCall && c.strike < c.spot) continue;
-if (c.isPut && c.strike > c.spot) continue;
+function engineBuildStraddles(contracts, slippageRatio = 0.25) {
+  const list = [];
+  const exps = [...new Set(contracts.map(c => c.expStr))];
+  for (const exp of exps) {
+    const subset = contracts.filter(c => c.expStr === exp);
+    if (!subset.length) continue;
+    const spot = subset[0].spot;
+    const calls = subset.filter(c => c.isCall);
+    const puts = subset.filter(c => c.isPut);
+    const putMap = new Map(puts.map(p => [p.strike, p]));
 
-const cost = c.bid + (c.ask - c.bid) * (0.5 + 0.5 * slippageRatio);
-if (cost <= 0) continue;
+    let bestPair = null, minDiff = 1e9;
+    for (const c of calls) {
+      const p = putMap.get(c.strike);
+      if (!p) continue;
+      const diff = Math.abs(c.strike - spot);
+      if (diff < minDiff) {
+        minDiff = diff;
+        bestPair = { c, p };
+      }
+    }
+    if (!bestPair) continue;
 
-const breakEven = c.isCall ? c.strike + cost : c.strike - cost;
-const stratUrl = c.venue === 'OptionStrat'
-? buildCustomOptionStratUrl(c.asset, [{ symbol: c.symbol, qty: 1 }])
-: c.optionUrl;
+    const { c, p } = bestPair;
+    const cost = (c.ask + p.ask) * (1 + slippageRatio * 0.1);
+    const corridor = (cost / spot) * 100;
 
-results.push({
-id: c.expStr + '~' + c.strike + '~' + (c.isCall ? 'C' : 'P'),
-strategyType: c.isCall ? 'longCall' : 'longPut',
-strategyURL: stratUrl,
-maxLeverage: c.spot / cost,
-underlying: c.asset,
-underlyingURL: c.underlyingUrl,
-costInUnderlying: (cost / c.spot) * c.minSize,
-moneySize: cost * c.minSize * c.lotSize,
-money: c.money,
-spotPrice: c.spot,
-option: c.symbol,
-optionURL: c.optionUrl,
-DTE: c.dte,
-formattedDate: formatHumanDate(c.expDate),
-strikeAbsolute: c.strike,
-strikeRelative: c.strike / c.spot,
-breakEvenVsFullMoneyAbsolute: breakEven,
-breakEvenVsFullMoneyRelative: breakEven / c.spot
-});
-}
-return results;
-}
-
-function engineBuildStraddles(contracts, slippageRatio) {
-const byExp = new Map();
-for (const c of contracts) {
-if (!byExp.has(c.expStr)) byExp.set(c.expStr, []);
-byExp.get(c.expStr).push(c);
-}
-
-const results = [];
-for (const [, list] of byExp.entries()) {
-const calls = list.filter((c) => c.isCall);
-const puts = new Map(list.filter((c) => c.isPut).map((p) => [p.strike, p]));
-
-let bestPair = null;
-let bestDist = Infinity;
-for (const c of calls) {
-const p = puts.get(c.strike);
-if (!p) continue;
-const dist = Math.abs(c.strike - c.spot);
-if (dist < bestDist) {
-bestDist = dist;
-bestPair = { c, p };
-}
-}
-if (!bestPair) continue;
-
-const { c, p } = bestPair;
-const callCost = c.bid + (c.ask - c.bid) * (0.5 + 0.5 * slippageRatio);
-const putCost = p.bid + (p.ask - p.bid) * (0.5 + 0.5 * slippageRatio);
-const totalCost = callCost + putCost;
-const beDown = c.strike - totalCost;
-const beUp = c.strike + totalCost;
-
-const stratUrl = c.venue === 'OptionStrat'
-? buildCustomOptionStratUrl(c.asset, [
-{ symbol: c.symbol, qty: 1 },
-{ symbol: p.symbol, qty: 1 }
-])
-: c.optionUrl;
-
-results.push({
-id: c.expStr + '~' + c.strike,
-strategyType: 'straddle',
-strategyURL: stratUrl,
-underlying: c.asset,
-spotPrice: c.spot,
-DTE: c.dte,
-formattedDate: formatHumanDate(c.expDate),
-strikeAbsolute: c.strike,
-strikeRelative: c.strike / c.spot,
-moneySize: totalCost * c.minSize * c.lotSize,
-callCostInMoney: callCost * c.minSize * c.lotSize,
-putCostInMoney: putCost * c.minSize * c.lotSize,
-breakEvenVsFullMoneyDownAbsolute: beDown,
-breakEvenVsFullMoneyDownRelative: beDown / c.spot,
-breakEvenVsFullMoneyUpAbsolute: beUp,
-breakEvenVsFullMoneyUpRelative: beUp / c.spot,
-distanceBetweenBreakEvensAbsolute: beUp - beDown,
-distanceBetweenBreakEvensRelative: (beUp - beDown) / c.spot
-});
-}
-return results;
+    list.push({
+      strategyType: 'straddle',
+      venue: c.venue,
+      money: c.money,
+      underlying: c.asset,
+      formattedDate: c.expStr,
+      DTE: c.dte,
+      strikeAbsolute: c.strike,
+      breakEvenVsFullMoneyDownAbsolute: c.strike - cost,
+      breakEvenVsFullMoneyUpAbsolute: c.strike + cost,
+      impliedCorridorPct: corridor,
+      moneySize: cost * (c.lotSize || 1),
+      strategyURL: c.venue === 'Deribit'
+        ? c.optionUrl
+        : buildCustomOptionStratUrl(c.asset, [{ symbol: c.symbol, qty: 1 }, { symbol: p.symbol, qty: 1 }])
+    });
+  }
+  return list;
 }
 
 window.deribitCoveredCallsDart = async (t, s, min, max) => JSON.stringify(engineBuildCoveredCalls(await fetchDeribitChain(t, min, max), s));
 window.deribitVerticalSpreadsDart = async (t, s, min, max) => JSON.stringify(engineBuildVerticalSpreads(await fetchDeribitChain(t, min, max), s));
 window.deribitLongOptionsDart = async (t, s, min, max) => JSON.stringify(engineBuildLongOptions(await fetchDeribitChain(t, min, max), s));
 window.deribitStraddlesDart = async (t, s, min, max) => JSON.stringify(engineBuildStraddles(await fetchDeribitChain(t, min, max), s));
+
 window.yfinanceCoveredCallsDart = async (t, s, min, max) => JSON.stringify(engineBuildCoveredCalls(await fetchYahooChainAllExpirations(t, min, max), s));
 window.yfinanceVerticalSpreadsDart = async (t, s, min, max) => JSON.stringify(engineBuildVerticalSpreads(await fetchYahooChainAllExpirations(t, min, max), s));
 window.yfinanceLongOptionsDart = async (t, s, min, max) => JSON.stringify(engineBuildLongOptions(await fetchYahooChainAllExpirations(t, min, max), s));
 window.yfinanceStraddlesDart = async (t, s, min, max) => JSON.stringify(engineBuildStraddles(await fetchYahooChainAllExpirations(t, min, max), s));
 
-let currentState = {
-venue: 'CRYPTO',
-symbol: 'BTC',
-currency: '$',
-spot: 0,
-forward: 0,
-carryApr: 0,
-dte: 0,
-selectedExp: null,
-spreads: [],
-rawCryptoContracts: []
-};
-
-function buildOptionStratUrl(symbol, sym1, qty1, sym2, qty2) {
-const cleanSym = (s) => {
-const m = /^(.*[CP])(\d{8})$/.exec(s);
-if (!m) return s;
-const strike = Number(m[2]) / 1000;
-return m[1] + strike;
-};
-return 'https://optionstrat.com/build/custom/' + symbol + '/.' + cleanSym(sym1) + 'x' + qty1 + ',.' + cleanSym(sym2) + 'x' + qty2;
+function parseDeribitDte(expStr) {
+  const rx = /^(\d+)([A-Z]{3})(\d+)$/;
+  const m = rx.exec(expStr);
+  if (!m) return 7;
+  const dd = Number(m[1]), mmm = m[2], yy = Number(m[3]);
+  const dt = new Date(Date.UTC(2000 + yy, MONTHS[mmm], dd, 8, 0, 0));
+  return Math.max(1, Math.round((dt.getTime() - Date.now()) / 86400000));
 }
 
-function copyShareableUrl() {
-const url = new URL(window.location.href);
-url.searchParams.set('venue', currentState.venue);
-url.searchParams.set('symbol', currentState.symbol);
-if (currentState.selectedExp) url.searchParams.set('exp', currentState.selectedExp);
-url.searchParams.set('target', document.getElementById('targetSlider').value);
-navigator.clipboard.writeText(url.toString());
-const btn = document.getElementById('shareBtn');
-btn.textContent = '✅ Αντιγράφηκε το Link!';
-setTimeout(() => { btn.textContent = '🔗 Αντιγραφή Link Στοιχήματος'; }, 2000);
+function fmtMoney(val) {
+  const cur = currentState.currency || '$';
+  if (val == null || isNaN(val)) return '—';
+  if (val < 10) return cur + val.toFixed(4);
+  if (val < 1000) return cur + val.toFixed(2);
+  return cur + Math.round(val).toLocaleString('en-US');
 }
 
 function switchTab(tab) {
-document.getElementById('tabProb').classList.toggle('hidden', tab !== 'PROB');
-document.getElementById('tabTimeline').classList.toggle('hidden', tab !== 'TIMELINE');
-document.getElementById('tabStrat').classList.toggle('hidden', tab !== 'STRAT');
+  document.getElementById('tabProb').classList.toggle('hidden', tab !== 'PROB');
+  document.getElementById('tabTimeline').classList.toggle('hidden', tab !== 'TIMELINE');
+  document.getElementById('tabStrat').classList.toggle('hidden', tab !== 'STRAT');
+  document.getElementById('tabTheory').classList.toggle('hidden', tab !== 'THEORY');
 
-document.getElementById('tabBtnProb').className = tab === 'PROB'
-? 'px-4 py-2 rounded bg-blue-600 text-white transition'
-: 'px-4 py-2 rounded bg-gray-800 text-gray-300 hover:bg-gray-700 transition';
-document.getElementById('tabBtnTimeline').className = tab === 'TIMELINE'
-? 'px-4 py-2 rounded bg-blue-600 text-white transition'
-: 'px-4 py-2 rounded bg-gray-800 text-gray-300 hover:bg-gray-700 transition';
-document.getElementById('tabBtnStrat').className = tab === 'STRAT'
-? 'px-4 py-2 rounded bg-blue-600 text-white transition'
-: 'px-4 py-2 rounded bg-gray-800 text-gray-300 hover:bg-gray-700 transition';
+  document.getElementById('marketControlBar').classList.toggle('hidden', tab === 'THEORY');
 
-if (tab === 'TIMELINE') {
-runTimelineCalculator();
-} else if (tab === 'STRAT') {
-runStrategyScanner();
-}
+  const btnProb = document.getElementById('tabBtnProb');
+  const btnTl = document.getElementById('tabBtnTimeline');
+  const btnSt = document.getElementById('tabBtnStrat');
+  const btnTh = document.getElementById('tabBtnTheory');
+
+  const activeCls = 'px-4 py-2 rounded bg-[#4a86c6] text-white transition font-bold';
+  const inactiveCls = 'px-4 py-2 rounded bg-[#171c24] text-[#9aa4b2] hover:bg-[#1e2430] transition font-bold';
+
+  btnProb.className = tab === 'PROB' ? activeCls : inactiveCls;
+  btnTl.className = tab === 'TIMELINE' ? activeCls : inactiveCls;
+  btnSt.className = tab === 'STRAT' ? activeCls : inactiveCls;
+  btnTh.className = tab === 'THEORY' ? activeCls : inactiveCls;
+
+  if (tab === 'TIMELINE') {
+    syncTimelineWithLiveChain();
+  } else if (tab === 'STRAT') {
+    runStrategyScanner();
+  }
 }
 
 function quickLoad(venue, ticker) {
-document.getElementById('venueSelect').value = venue;
-document.getElementById('tickerInput').value = ticker;
-currentState.selectedExp = null;
-loadChain();
+  document.getElementById('venueSelect').value = venue;
+  document.getElementById('tickerInput').value = ticker;
+  currentState.selectedExp = null;
+  loadChain();
 }
 
 function onVenueChange() {
-const venue = document.getElementById('venueSelect').value;
-document.getElementById('tickerInput').value = venue === 'CRYPTO' ? 'BTC' : 'NVDA';
-currentState.selectedExp = null;
-loadChain();
+  const venue = document.getElementById('venueSelect').value;
+  document.getElementById('tickerInput').value = venue === 'CRYPTO' ? 'BTC' : 'NVDA';
+  currentState.selectedExp = null;
+  loadChain();
 }
 
 function onExpirationChange() {
-const val = document.getElementById('expSelect').value;
-currentState.selectedExp = val;
-if (currentState.venue === 'STOCK') {
-loadStockChain(currentState.symbol, val);
-} else {
-processCryptoExpiration(val);
-}
+  const val = document.getElementById('expSelect').value;
+  currentState.selectedExp = val;
+  if (currentState.venue === 'STOCK') {
+    loadStockChain(currentState.symbol, val);
+  } else {
+    processCryptoExpiration(val);
+  }
 }
 
 async function loadChain(desiredTarget = null) {
-showError(null);
-setStatus('⏳ Φόρτωση...', false);
-const venue = document.getElementById('venueSelect').value;
-const ticker = document.getElementById('tickerInput').value.trim().toUpperCase();
-currentState.venue = venue;
-currentState.symbol = ticker;
-try {
-if (venue === 'STOCK') {
-await loadStockChain(ticker, currentState.selectedExp, desiredTarget);
-} else {
-await loadCryptoChain(ticker, currentState.selectedExp, desiredTarget);
-}
-setStatus('✅ Engine: Ready', true);
-if (!document.getElementById('tabStrat').classList.contains('hidden')) {
-runStrategyScanner();
-}
-} catch (err) {
-setStatus('⚠️ Σφάλμα', false);
-showError(
-'Αδυναμία φόρτωσης ' + ticker + ' (' + err.message + '). ' +
-'Αν είσαι σε Μετοχές (Yahoo) και το Yahoo έριξε προσωρινό block στον Cloudflare Worker, δοκίμασε BTC/ETH (Deribit) ή το Tab 2 (Χρονοδιάγραμμα Στόχου)!'
-);
-}
+  showError(null);
+  setStatus('⏳ Φόρτωση...', false);
+  const venue = document.getElementById('venueSelect').value;
+  const ticker = document.getElementById('tickerInput').value.trim().toUpperCase();
+  currentState.venue = venue;
+  currentState.symbol = ticker;
+  try {
+    if (venue === 'STOCK') {
+      await loadStockChain(ticker, currentState.selectedExp, desiredTarget);
+    } else {
+      await loadCryptoChain(ticker, currentState.selectedExp, desiredTarget);
+    }
+    setStatus('✅ Engine: Ready', true);
+    if (!document.getElementById('tabStrat').classList.contains('hidden')) {
+      runStrategyScanner();
+    }
+  } catch (err) {
+    setStatus('⚠️ Σφάλμα', false);
+    showError(
+      'Αδυναμία φόρτωσης ' + ticker + ' (' + err.message + '). ' +
+      'Αν είσαι σε Μετοχές και το Yahoo επιστρέφει σφάλμα, δοκίμασε BTC/ETH (Deribit) ή το Tab 2 (Χρονοδιάγραμμα)!'
+    );
+  }
 }
 
 async function loadStockChain(ticker, epochDate, desiredTarget = null) {
-const cacheKey = 'STOCK_' + ticker + '_' + (epochDate || 'first');
-let json;
-if (localCache.has(cacheKey)) {
-json = localCache.get(cacheKey);
-} else {
-let url = WORKER_URL + '/?symbol=' + encodeURIComponent(ticker);
-if (epochDate) url += '&date=' + epochDate;
-const res = await fetch(url);
-if (!res.ok) throw new Error('Worker HTTP ' + res.status);
-json = await res.json();
-if (json.error) throw new Error(json.error);
-localCache.set(cacheKey, json);
-}
+  const cacheKey = 'STOCK_' + ticker + '_' + (epochDate || 'first');
+  let json;
+  if (localCache.has(cacheKey)) {
+    json = localCache.get(cacheKey);
+  } else {
+    let url = WORKER_URL + '/?symbol=' + encodeURIComponent(ticker);
+    if (epochDate) url += '&date=' + epochDate;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Worker HTTP ' + res.status);
+    json = await res.json();
+    if (json.error) throw new Error(json.error);
+    localCache.set(cacheKey, json);
+  }
 
-const result = json && json.optionChain && json.optionChain.result && json.optionChain.result[0];
-if (!result) {
-throw new Error('Δεν βρέθηκαν δεδομένα options για το σύμβολο ' + ticker);
-}
+  const result = json && json.optionChain && json.optionChain.result && json.optionChain.result[0];
+  if (!result) {
+    throw new Error('Δεν βρέθηκαν δεδομένα options για το σύμβολο ' + ticker);
+  }
 
-const quote = result.quote || {};
-const spot = Number(quote.regularMarketPrice || quote.postMarketPrice || quote.regularMarketPreviousClose || 0);
-const currency = quote.currency === 'EUR' ? '€' : '$';
-const exps = result.expirationDates || [];
-const optBlock = (result.options && result.options[0]) || {};
+  const quote = result.quote || {};
+  const spot = Number(quote.regularMarketPrice || quote.postMarketPrice || quote.regularMarketPreviousClose || 0);
+  const currency = quote.currency === 'EUR' ? '€' : '$';
+  const exps = result.expirationDates || [];
+  const optBlock = (result.options && result.options[0]) || {};
 
-const expSelect = document.getElementById('expSelect');
-const activeEpoch = epochDate ? Number(epochDate) : exps[0];
-currentState.selectedExp = activeEpoch;
+  const expSelect = document.getElementById('expSelect');
+  const activeEpoch = epochDate ? Number(epochDate) : exps[0];
+  currentState.selectedExp = activeEpoch;
 
-expSelect.innerHTML = exps.map(ep => {
-const dt = new Date(ep * 1000);
-const days = Math.max(1, Math.round((dt - Date.now()) / 86400000));
-const str = dt.toISOString().slice(0, 10);
-return '<option value="' + ep + '" ' + (ep === activeEpoch ? 'selected' : '') + '>' + str + ' (' + days + ' μέρες)</option>';
-}).join('');
+  expSelect.innerHTML = exps.map(ep => {
+    const dt = new Date(ep * 1000);
+    const days = Math.max(1, Math.round((dt - Date.now()) / 86400000));
+    const str = dt.toISOString().slice(0, 10);
+    return '<option value="' + ep + '" ' + (ep === activeEpoch ? 'selected' : '') + '>' + str + ' (' + days + ' μέρες)</option>';
+  }).join('');
 
-const dte = Math.max(1, Math.round((activeEpoch * 1000 - Date.now()) / 86400000));
+  const dte = Math.max(1, Math.round((activeEpoch * 1000 - Date.now()) / 86400000));
 
-const parseSide = (arr, type) => (arr || []).map(c => {
-const rawBid = Number(c.bid || 0);
-const rawAsk = Number(c.ask || 0);
-const last = Number(c.lastPrice || 0);
-let bid = 0, ask = 0, mid = 0;
-if (rawBid > 0 && rawAsk >= rawBid) {
-bid = rawBid; ask = rawAsk; mid = (rawBid + rawAsk) / 2;
-} else if (rawAsk > 0.01 && last > 0.01) {
-mid = last; bid = last * 0.95; ask = Math.max(rawAsk, last * 1.05);
-} else if (last > 0.01) {
-mid = last; bid = last * 0.95; ask = last * 1.05;
-} else {
-return null;
-}
-return { symbol: c.contractSymbol, strike: Number(c.strike), bid, ask, mid, iv: Number(c.impliedVolatility || 0), type };
-}).filter(Boolean);
+  const parseSide = (arr, type) => (arr || []).map(c => {
+    const rawBid = Number(c.bid || 0);
+    const rawAsk = Number(c.ask || 0);
+    const last = Number(c.lastPrice || 0);
+    let bid = 0, ask = 0, mid = 0;
+    if (rawBid > 0 && rawAsk >= rawBid) {
+      bid = rawBid; ask = rawAsk; mid = (rawBid + rawAsk) / 2;
+    } else if (rawAsk > 0.01 && last > 0.01) {
+      mid = last; bid = last * 0.95; ask = Math.max(rawAsk, last * 1.05);
+    } else if (last > 0.01) {
+      mid = last; bid = last * 0.95; ask = last * 1.05;
+    } else {
+      return null;
+    }
+    return { symbol: c.contractSymbol, strike: Number(c.strike), bid, ask, mid, iv: Number(c.impliedVolatility || 0), type };
+  }).filter(Boolean);
 
-const calls = parseSide(optBlock.calls, 'C');
-const puts = parseSide(optBlock.puts, 'P');
-const forward = estimatePutCallParityForward(spot, calls, puts);
-const carryApr = ((forward / spot - 1) * (365 / dte)) * 100;
-const spreads = buildVerticalSpreads(spot, forward, 1.0, calls, puts);
+  const calls = parseSide(optBlock.calls, 'C');
+  const puts = parseSide(optBlock.puts, 'P');
+  const forward = estimatePutCallParityForward(spot, calls, puts);
+  const carryApr = ((forward / spot - 1) * (365 / dte)) * 100;
+  
+  currentState.dte = dte;
+  const spreads = buildVerticalSpreads(spot, forward, 1.0, calls, puts);
 
-currentState = { ...currentState, currency, spot, forward, carryApr, dte, spreads };
-updateUiAfterLoad(desiredTarget);
+  currentState = { ...currentState, currency, spot, forward, carryApr, dte, spreads };
+  updateUiAfterLoad(desiredTarget);
 }
 
 async function loadCryptoChain(coin, desiredExp = null, desiredTarget = null) {
-const url = 'https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=' + coin + '&kind=option';
-const res = await fetch(url);
-const data = await res.json();
-const raw = data.result || [];
+  const url = 'https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=' + coin + '&kind=option';
+  const res = await fetch(url);
+  const data = await res.json();
+  const raw = data.result || [];
 
-const parsed = [];
-const rx = /^(\w+)-(.*?)-(\d+)-(P|C)$/;
-for (const item of raw) {
-if (!item.bid_price || !item.ask_price || !item.mid_price) continue;
-if (item.bid_price <= 0 || item.mid_price > item.ask_price) continue;
-const m = rx.exec(item.instrument_name);
-if (!m) continue;
-parsed.push({
-symbol: item.instrument_name,
-expStr: m[2],
-strike: Number(m[3]),
-type: m[4],
-bid: item.bid_price,
-ask: item.ask_price,
-mid: item.mid_price,
-spot: item.estimated_delivery_price,
-future: item.underlying_price
-});
-}
+  const parsed = [];
+  const rx = /^(\w+)-(.*?)-(\d+)-(P|C)$/;
+  for (const item of raw) {
+    if (!item.bid_price || !item.ask_price || !item.mid_price) continue;
+    if (item.bid_price <= 0 || item.mid_price > item.ask_price) continue;
+    const m = rx.exec(item.instrument_name);
+    if (!m) continue;
+    parsed.push({
+      symbol: item.instrument_name,
+      expStr: m[2],
+      strike: Number(m[3]),
+      type: m[4],
+      bid: item.bid_price,
+      ask: item.ask_price,
+      mid: item.mid_price,
+      spot: item.estimated_delivery_price,
+      future: item.underlying_price
+    });
+  }
 
-currentState.rawCryptoContracts = parsed;
-const expSet = [...new Set(parsed.map(c => c.expStr))];
-const validExps = expSet.filter(e => parseDeribitDte(e) >= 2);
-const activeExp = (desiredExp && validExps.includes(desiredExp)) ? desiredExp : (validExps[0] || expSet[0]);
-currentState.selectedExp = activeExp;
+  currentState.rawCryptoContracts = parsed;
+  const expSet = [...new Set(parsed.map(c => c.expStr))];
+  const validExps = expSet.filter(e => parseDeribitDte(e) >= 2);
+  const activeExp = (desiredExp && validExps.includes(desiredExp)) ? desiredExp : (validExps[0] || expSet[0]);
+  currentState.selectedExp = activeExp;
 
-const expSelect = document.getElementById('expSelect');
-expSelect.innerHTML = validExps.map(e =>
-'<option value="' + e + '" ' + (e === activeExp ? 'selected' : '') + '>' + e + ' (' + parseDeribitDte(e) + ' μέρες)</option>'
-).join('');
+  const expSelect = document.getElementById('expSelect');
+  expSelect.innerHTML = validExps.map(e =>
+    '<option value="' + e + '" ' + (e === activeExp ? 'selected' : '') + '>' + e + ' (' + parseDeribitDte(e) + ' μέρες)</option>'
+  ).join('');
 
-processCryptoExpiration(activeExp, desiredTarget);
+  processCryptoExpiration(activeExp, desiredTarget);
 }
 
 function processCryptoExpiration(expStr, desiredTarget = null) {
-const subset = currentState.rawCryptoContracts.filter(c => c.expStr === expStr);
-if (!subset.length) return;
-const spot = subset[0].spot;
-const forward = subset[0].future;
-const dte = Math.max(1, parseDeribitDte(expStr));
-const carryApr = ((forward / spot - 1) * (365 / dte)) * 100;
+  const subset = currentState.rawCryptoContracts.filter(c => c.expStr === expStr);
+  if (!subset.length) return;
+  const spot = subset[0].spot;
+  const forward = subset[0].future;
+  const dte = Math.max(1, parseDeribitDte(expStr));
+  const carryApr = ((forward / spot - 1) * (365 / dte)) * 100;
 
-const calls = subset.filter(c => c.type === 'C');
-const puts = subset.filter(c => c.type === 'P');
-const spreads = buildVerticalSpreads(spot, forward, forward, calls, puts);
+  const calls = subset.filter(c => c.type === 'C');
+  const puts = subset.filter(c => c.type === 'P');
+  
+  currentState.dte = dte;
+  const spreads = buildVerticalSpreads(spot, forward, forward, calls, puts);
 
-currentState = { ...currentState, currency: '$', spot, forward, carryApr, dte, spreads };
-updateUiAfterLoad(desiredTarget);
-}
-
-function parseDeribitDte(expStr) {
-const m = /^(\d+)([A-Z]{3})(\d+)$/.exec(expStr);
-if (!m) return 7;
-const dt = Date.UTC(2000 + Number(m[3]), MONTHS[m[2]], Number(m[1]), 8, 0);
-return Math.max(1, Math.round((dt - Date.now()) / 86400000));
+  currentState = { ...currentState, currency: '$', spot, forward, carryApr, dte, spreads };
+  updateUiAfterLoad(desiredTarget);
 }
 
 function estimatePutCallParityForward(spot, calls, puts) {
@@ -1113,7 +1133,6 @@ function estimatePutCallParityForward(spot, calls, puts) {
   const pairs = [];
   for (const c of calls) {
     const p = putMap.get(c.strike);
-    // Κρατάμε τα ρευστά ζεύγη κοντά στο Spot (±15%) για καθαρό Box Spread
     if (p && Math.abs(c.strike - spot) / spot <= 0.15) {
       pairs.push({ k: c.strike, diff: c.mid - p.mid, cMid: c.mid, pMid: p.mid, iv: c.iv || p.iv || 0 });
     }
@@ -1121,7 +1140,6 @@ function estimatePutCallParityForward(spot, calls, puts) {
   if (pairs.length === 0) return spot;
   pairs.sort((a, b) => a.k - b.k);
 
-  // Βρίσκουμε το ακριβές σημείο μηδενισμού C(K) - P(K) = 0 με γραμμική παρεμβολή (όπως στο A.jl)
   for (let i = 0; i < pairs.length - 1; i++) {
     const p1 = pairs[i];
     const p2 = pairs[i + 1];
@@ -1130,7 +1148,6 @@ function estimatePutCallParityForward(spot, calls, puts) {
     }
   }
 
-  // Fallback: το πιο κοντινό στο Spot ζεύγος
   let closest = pairs[0];
   for (const pr of pairs) {
     if (Math.abs(pr.k - spot) < Math.abs(closest.k - spot)) closest = pr;
@@ -1138,88 +1155,78 @@ function estimatePutCallParityForward(spot, calls, puts) {
   return closest.k + closest.diff;
 }
 
-// ΔΙΟΡΘΩΜΕΝΟ ΓΙΑ ΤΟ ΕΠΙΤΟΚΙΟ (CARRY DRIFT):
-// Λαμβάνει υπόψη το Forward/Spot ώστε να μην υπερτιμάει τα Calls και να μην υποτιμάει τα Puts!
 function buildVerticalSpreads(spot, forward, multFactor, calls, puts) {
   const list = [];
   const dteDays = Math.max(1, currentState.dte || 7);
   const tYears = dteDays / 365.0;
 
-  // 1. Εξαγωγή Box-Spread Discount Factor df = e^(-rT) από τα ATM ζεύγη C(K) - P(K)
   const putMap = new Map(puts.map(p => [p.strike, p]));
   const parityPairs = [];
   for (const c of calls) {
     const p = putMap.get(c.strike);
-    if (p && Math.abs(c.strike - spot) / spot <= 0.10) {
-      parityPairs.push({ k: c.strike, y: (c.mid - p.mid) * multFactor });
+    if (p && c.mid > 0 && p.mid > 0 && Math.abs(c.strike - spot) / spot <= 0.10) {
+      parityPairs.push({ k: c.strike, cMid: c.mid, pMid: p.mid });
     }
   }
-  parityPairs.sort((a, b) => a.k - b.k);
 
-  let df = spot / Math.max(1e-9, forward); // Προεπιλογή e^(-rT) = S / F
+  let discountFactor = 1.0;
   if (parityPairs.length >= 2) {
-    const first = parityPairs[0];
-    const last = parityPairs[parityPairs.length - 1];
-    if (last.k > first.k) {
-      const boxDf = (first.y - last.y) / (last.k - first.k);
-      if (boxDf > 0.70 && boxDf <= 1.05) df = boxDf;
+    parityPairs.sort((a, b) => a.k - b.k);
+    const pA = parityPairs[0];
+    const pB = parityPairs[parityPairs.length - 1];
+    const deltaK = pB.k - pA.k;
+    const deltaBox = (pA.cMid - pA.pMid) - (pB.cMid - pB.pMid);
+    if (deltaK > 0 && deltaBox > 0) {
+      discountFactor = Math.min(1.05, Math.max(0.70, deltaBox / deltaK));
     }
   }
-
-  // Ετήσιο επιτόκιο carry b = ln(F/S) / T
-  const bCarry = Math.log(Math.max(1e-9, forward / spot)) / tYears;
-
-  // Εκτίμηση ATM Implied Volatility αν κάποιο strike δεν έχει δικό του IV (π.χ. Deribit summary)
-  let atmIv = 0.45;
-  const atmCall = calls.reduce((best, c) =>
-    Math.abs(c.strike - forward) < Math.abs(best.strike - forward) ? c : best, calls[0] || { strike: forward, mid: 0, iv: 0.45 });
-  if (atmCall) {
-    if (atmCall.iv && atmCall.iv > 0.01) {
-      atmIv = atmCall.iv;
-    } else if (atmCall.mid > 0) {
-      // Brenner-Subrahmanyam ATM IV formula: sigma ≈ sqrt(2*pi/T) * (C_ATM / F)
-      const cUsd = atmCall.mid * multFactor;
-      atmIv = Math.min(2.5, Math.max(0.05, Math.sqrt((2 * Math.PI) / tYears) * (cUsd / forward)));
-    }
+  if (discountFactor === 1.0 && forward > 0 && spot > 0) {
+    discountFactor = spot / forward;
   }
 
-  const processLegs = (legs, isCall) => {
-    legs.sort((a, b) => a.strike - b.strike);
-    for (let i = 0; i < legs.length - 1; i++) {
-      const k1 = legs[i];
-      const k2 = legs[i + 1];
-      const midTarget = (k1.strike + k2.strike) / 2;
+  const bCarry = tYears > 0 ? -Math.log(discountFactor) / tYears : 0.04;
+
+  let atmIv = 0.40;
+  const atmCalls = calls.filter(c => Math.abs(c.strike - spot) / spot <= 0.05 && c.iv > 0.01);
+  if (atmCalls.length > 0) {
+    atmIv = atmCalls.reduce((s, c) => s + c.iv, 0) / atmCalls.length;
+  }
+
+  const processLegs = (items, isCall) => {
+    const sorted = [...items].sort((a, b) => a.strike - b.strike);
+    for (let i = 0; i < sorted.length - 1; i++) {
+      const k1 = sorted[i];
+      const k2 = sorted[i + 1];
       const width = k2.strike - k1.strike;
       if (width <= 0) continue;
 
-      if (isCall && midTarget < spot) continue;
-      if (!isCall && midTarget >= spot) continue;
+      const midTarget = (k1.strike + k2.strike) / 2;
+      const isOtm = isCall ? (midTarget >= spot) : (midTarget <= spot);
+      if (!isOtm) continue;
 
       const spreadMid = isCall
         ? (k1.mid - k2.mid) * multFactor
         : (k2.mid - k1.mid) * multFactor;
+
       const spreadAsk = isCall
         ? (k1.ask - k2.bid) * multFactor
         : (k2.ask - k1.bid) * multFactor;
 
-      // 2. Ακριβής Breeden-Litzenberger Πιθανότητα Λήξης (προεξοφλημένη με το Box-Spread df)
-      const pExpire = Math.min(1, Math.max(0, spreadMid / (df * width)));
+      const pExpire = Math.min(1.0, Math.max(0.0, (spreadMid / width) / discountFactor));
 
-      // 3. Ακριβής Αναλυτική Αναλογία P(Expire) / P(Touch) με Drift bCarry & τοπικό IV
-      const localSigma = (k1.iv && k2.iv && k1.iv > 0.01 && k2.iv > 0.01)
+      const localSigma = (k1.iv > 0.05 && k2.iv > 0.05)
         ? (k1.iv + k2.iv) / 2
         : atmIv;
 
       const modelExp = analyticalExpireProbWithDrift(spot, midTarget, tYears, localSigma, bCarry);
       const modelTouch = analyticalTouchProbWithDrift(spot, midTarget, tYears, localSigma, bCarry);
 
-      // Το ακριβές ποσοστό του εύρους που αξίζει το spread τη στιγμή του Touch:
       const touchFraction = (modelTouch > 1e-6 && modelExp > 1e-6)
         ? Math.min(0.85, Math.max(0.15, modelExp / modelTouch))
         : 0.50;
 
       const touchExit = touchFraction * width;
-      const pTouch = Math.min(1, Math.max(0, pExpire / touchFraction));
+      const pTouch = Math.min(1.0, Math.max(0.0, pExpire / touchFraction));
       const pNoTouch = 1.0 - pTouch;
       const touchMult = spreadAsk > 0 ? (touchExit / spreadAsk) : 0;
       const fairMult = pTouch > 0 ? (1.0 / pTouch) : 0;
@@ -1243,421 +1250,433 @@ function buildVerticalSpreads(spot, forward, multFactor, calls, puts) {
   processLegs(calls, true);
   return list.sort((a, b) => a.target - b.target);
 }
-};
-
-processLegs(puts, false);
-processLegs(calls, true);
-return list.sort((a, b) => a.target - b.target);
-}
 
 function updateUiAfterLoad(desiredTarget = null) {
-const { spreads, spot } = currentState;
-if (!spreads.length) {
-showError('Δεν βρέθηκαν ρευστά Vertical Spreads σε αυτή τη λήξη. Επίλεξε την επόμενη ημερομηνία λήξης από το μενού.');
-return;
+  const { spreads, spot } = currentState;
+  if (!spreads.length) {
+    showError('Δεν βρέθηκαν ρευστά Vertical Spreads σε αυτή τη λήξη. Επίλεξε την επόμενη ημερομηνία λήξης από το μενού.');
+    return;
+  }
+
+  const slider = document.getElementById('targetSlider');
+  const minTarget = spreads[0].target;
+  const maxTarget = spreads[spreads.length - 1].target;
+
+  slider.min = minTarget;
+  slider.max = maxTarget;
+  slider.step = ((maxTarget - minTarget) / 100).toFixed(2);
+
+  let initialTarget;
+  if (desiredTarget != null && desiredTarget >= minTarget && desiredTarget <= maxTarget) {
+    initialTarget = Number(desiredTarget);
+  } else {
+    const higher = spreads.filter(s => s.target >= spot);
+    initialTarget = higher.length > 0 ? higher[Math.min(2, higher.length - 1)].target : spreads[Math.floor(spreads.length / 2)].target;
+  }
+
+  slider.value = initialTarget;
+  currentState.activeTarget = initialTarget;
+  onSliderChange(initialTarget);
 }
 
-const slider = document.getElementById('targetSlider');
-slider.min = spreads[0].target;
-slider.max = spreads[spreads.length - 1].target;
-slider.step = spot > 1000 ? 250 : 0.5;
-const found = spreads.find(s => s.target >= spot * 1.02);
-const defaultTarget = desiredTarget
-? Number(desiredTarget)
-: (found ? found.target : spreads[0].target);
-slider.value = defaultTarget;
+function onSliderChange(targetVal) {
+  const target = Number(targetVal);
+  currentState.activeTarget = target;
+  document.getElementById('targetLabel').textContent = fmtMoney(target);
 
-renderTable();
-onSliderChange(defaultTarget);
+  const { spreads, spot, forward, carryApr, dte, currency, venue, symbol } = currentState;
+  if (!spreads.length) return;
+
+  let nearest = spreads[0];
+  let minDiff = Math.abs(spreads[0].target - target);
+  for (const s of spreads) {
+    const d = Math.abs(s.target - target);
+    if (d < minDiff) {
+      minDiff = d;
+      nearest = s;
+    }
+  }
+
+  const distSpot = ((target / spot - 1) * 100);
+  const distFwd = ((target / forward - 1) * 100);
+
+  document.getElementById('kpiSpot').textContent = fmtMoney(spot);
+  document.getElementById('kpiDte').textContent = 'Λήξη: ' + dte + ' ημέρες';
+
+  const carrySign = carryApr >= 0 ? '+' : '';
+  document.getElementById('kpiForward').textContent = fmtMoney(forward);
+  document.getElementById('kpiCarry').textContent = 'Forward: ' + (distFwd >= 0 ? '+' : '') + distFwd.toFixed(1) + '% (Επιτόκιο: ' + carrySign + carryApr.toFixed(2) + '% ετησίως)';
+
+  document.getElementById('kpiTouch').textContent = (nearest.pTouch * 100).toFixed(1) + '%';
+  document.getElementById('kpiTouchSub').textContent = 'Στόχος: ' + fmtMoney(nearest.target) + ' (' + (distSpot >= 0 ? '+' : '') + distSpot.toFixed(1) + '%)';
+
+  document.getElementById('kpiNoTouch').textContent = (nearest.pNoTouch * 100).toFixed(1) + '%';
+  document.getElementById('kpiNoTouchSub').textContent = 'Πιθανότητα να μην αγγίξει μέχρι τη λήξη';
+
+  const bits = (-Math.log2(Math.max(1e-4, nearest.pTouch))).toFixed(1);
+  const isUp = target >= spot;
+  const spreadType = nearest.type === 'C' ? 'Call' : 'Put';
+  const multStr = nearest.touchMult > 0 ? nearest.touchMult.toFixed(2) + 'x' : '—';
+
+  const verdictEl = document.getElementById('verdictText');
+  verdictEl.innerHTML =
+    '<div>• <b>Ισχυρισμός Πρόβλεψης:</b> Κίνηση στα <b>' + fmtMoney(nearest.target) + '</b> (' + (distSpot >= 0 ? '+' : '') + distSpot.toFixed(1) + '%) εντός <b>' + dte + ' ημερών</b>.</div>' +
+    '<div>• <b>Αντικειμενική Πιθανότητα Αγοράς:</b> <b>' + (nearest.pTouch * 100).toFixed(1) + '%</b> για Touch (Επαφή) | <b>' + (nearest.pExpire * 100).toFixed(1) + '%</b> για Λήξη ITM.</div>' +
+    '<div>• <b>Πληροφοριακή Δυσκολία:</b> <b>' + bits + ' Bits</b> (ισοδύναμο με <b>' + Math.round(Number(bits)) + '</b> συνεχόμενες επιτυχίες σε κορώνα-γράμματα).</div>' +
+    '<div>• <b>Το Στοίχημα Skin in the Game:</b> Στενό Vertical Spread <b>' + nearest.k1 + ' / ' + nearest.k2 + ' ' + spreadType + '</b>. Κοστίζει <b>' + fmtMoney(nearest.spreadAsk) + '</b> σήμερα και αξίζει <b>' + fmtMoney(nearest.touchExit) + '</b> στο Touch.</div>' +
+    '<div>• <b>Πολλαπλασιαστής Απόδοσης (Multiple):</b> <span class="font-bold text-[#3ea87c] text-sm">' + multStr + '</span>. Αν ο αναλυτής πιστεύει την πρόβλεψή του, η αγορά τον πληρώνει <b>' + multStr + '</b> τα χρήματά του. Αν δεν αγοράζει αυτό το spread, πουλάει λόγια χωρίς κόστος!</div>';
+
+  const touchLink = document.getElementById('optionStratTouchLink');
+  const noTouchLink = document.getElementById('optionStratNoTouchLink');
+
+  if (venue === 'CRYPTO') {
+    const deribitUrl = 'https://www.deribit.com/options/' + symbol;
+    touchLink.href = deribitUrl;
+    noTouchLink.href = deribitUrl;
+    touchLink.textContent = 'Touch Bet στο Deribit ↗';
+    noTouchLink.textContent = 'No-Touch Bet στο Deribit ↗';
+  } else {
+    touchLink.href = buildCustomOptionStratUrl(symbol, nearest.type === 'C'
+      ? [{ symbol: nearest.sym1, qty: 1 }, { symbol: nearest.sym2, qty: -1 }]
+      : [{ symbol: nearest.sym2, qty: 1 }, { symbol: nearest.sym1, qty: -1 }]);
+    noTouchLink.href = buildCustomOptionStratUrl(symbol, nearest.type === 'C'
+      ? [{ symbol: nearest.sym1, qty: -1 }, { symbol: nearest.sym2, qty: 1 }]
+      : [{ symbol: nearest.sym2, qty: -1 }, { symbol: nearest.sym1, qty: 1 }]);
+    touchLink.textContent = 'Touch Bet στο OptionStrat ↗';
+    noTouchLink.textContent = 'No-Touch Bet στο OptionStrat ↗';
+  }
+
+  renderSpreadsTable(nearest);
 }
 
-function fmtMoney(v) {
-const c = currentState.currency;
-return currentState.spot < 1000 ? (c + Number(v).toFixed(2)) : (c + Math.round(v));
+function renderSpreadsTable(activeSpread) {
+  const { spreads, spot, forward, currency, venue, symbol } = currentState;
+  const tbody = document.getElementById('probTableBody');
+
+  tbody.innerHTML = spreads.map(s => {
+    const isSelected = activeSpread && s.target === activeSpread.target;
+    const moveSpot = ((s.target / spot - 1) * 100);
+    const moveFwd = ((s.target / forward - 1) * 100);
+    const bits = (-Math.log2(Math.max(1e-4, s.pTouch))).toFixed(1);
+    const multStr = s.touchMult > 0 ? (s.touchMult.toFixed(2) + 'x') : '—';
+    const isCall = s.type === 'C';
+
+    const pnlUrl = venue === 'CRYPTO'
+      ? ('https://www.deribit.com/options/' + symbol)
+      : buildCustomOptionStratUrl(symbol, isCall
+          ? [{ symbol: s.sym1, qty: 1 }, { symbol: s.sym2, qty: -1 }]
+          : [{ symbol: s.sym2, qty: 1 }, { symbol: s.sym1, qty: -1 }]);
+
+    const rowBg = isSelected
+      ? 'bg-[#1e2736] font-bold text-white'
+      : (s.target === spot ? 'bg-[#151921]' : '');
+
+    return '<tr class="cursor-pointer transition ' + rowBg + '" onclick="selectTargetFromTable(' + s.target + ')">' +
+      '<td class="p-3 font-bold text-[#e8eaed]">' + fmtMoney(s.target) + '</td>' +
+      '<td class="p-3 ' + (moveSpot >= 0 ? 'text-[#3ea87c]' : 'text-[#d95d4e]') + '">' + (moveSpot >= 0 ? '+' : '') + moveSpot.toFixed(1) + '%</td>' +
+      '<td class="p-3 text-[#d49a42]">' + (moveFwd >= 0 ? '+' : '') + moveFwd.toFixed(1) + '%</td>' +
+      '<td class="p-3 font-sans text-gray-300">' + s.k1 + ' / ' + s.k2 + ' ' + (isCall ? '<span class="text-[#3ea87c]">Call</span>' : '<span class="text-[#d95d4e]">Put</span>') + '</td>' +
+      '<td class="p-3 text-right font-bold text-[#3ea87c]">' + (s.pTouch * 100).toFixed(1) + '%</td>' +
+      '<td class="p-3 text-right text-[#d95d4e]">' + (s.pNoTouch * 100).toFixed(1) + '%</td>' +
+      '<td class="p-3 text-right text-[#9b7ad6]">' + (s.pExpire * 100).toFixed(1) + '%</td>' +
+      '<td class="p-3 text-right text-gray-400">' + bits + '</td>' +
+      '<td class="p-3 text-right">' + fmtMoney(s.spreadAsk) + '</td>' +
+      '<td class="p-3 text-right text-gray-300">' + fmtMoney(s.touchExit) + '</td>' +
+      '<td class="p-3 text-right font-bold ' + (s.touchMult >= 2.0 ? 'text-[#3ea87c]' : 'text-[#d49a42]') + '">' + multStr + '</td>' +
+      '<td class="p-3 text-center"><a href="' + pnlUrl + '" target="_blank" onclick="event.stopPropagation()" class="text-[#4a86c6] hover:underline font-sans">Payoff ↗</a></td>' +
+      '</tr>';
+  }).join('');
 }
 
-function onSliderChange(val) {
-const target = Number(val);
-const { spreads, spot, forward, carryApr, dte, symbol, venue } = currentState;
-document.getElementById('targetLabel').textContent = fmtMoney(target);
-if (!spreads.length) return;
-
-let nearest = spreads[0];
-for (const s of spreads) {
-if (Math.abs(s.target - target) < Math.abs(nearest.target - target)) {
-nearest = s;
-}
+function selectTargetFromTable(targetVal) {
+  document.getElementById('targetSlider').value = targetVal;
+  onSliderChange(targetVal);
 }
 
-document.getElementById('kpiSpot').textContent = fmtMoney(spot);
-document.getElementById('kpiDte').textContent = 'Ορίζοντας: ' + dte + ' ημέρες';
-
-const basisPct = ((forward / spot) - 1) * 100;
-document.getElementById('kpiForward').textContent = fmtMoney(forward);
-document.getElementById('kpiCarry').textContent =
-'Διαφορά από Spot: ' + (basisPct >= 0 ? '+' : '') + basisPct.toFixed(2) + '% (Επιτόκιο: ' + carryApr.toFixed(1) + '% ετησίως)';
-
-document.getElementById('kpiTouch').textContent = (nearest.pTouch * 100).toFixed(1) + '%';
-document.getElementById('kpiTouchSub').textContent =
-'Πληρώνει ' + nearest.touchMult.toFixed(2) + 'x τα λεφτά σου αν αγγίξει (Spread ' + nearest.k1 + '/' + nearest.k2 + ' ' + nearest.type + ')';
-
-const noTouchFairMult = nearest.pNoTouch > 0 ? (1 / nearest.pNoTouch) : 1;
-document.getElementById('kpiNoTouch').textContent = (nearest.pNoTouch * 100).toFixed(1) + '%';
-document.getElementById('kpiNoTouchSub').textContent =
-'Πιθανότητα Λήξης ITM: ' + (nearest.pExpire * 100).toFixed(1) + '% | Δίκαιη απόδοση No-Touch: ' + noTouchFairMult.toFixed(2) + 'x';
-
-const bits = (-Math.log2(Math.max(0.001, nearest.pTouch))).toFixed(2);
-const moveSpot = ((nearest.target / spot - 1) * 100).toFixed(1);
-const moveFwd = ((nearest.target / forward - 1) * 100).toFixed(1);
-
-const touchAction = nearest.type === 'C'
-? ('Αγορά ' + nearest.k1 + ' Call & Πώληση ' + nearest.k2 + ' Call')
-: ('Αγορά ' + nearest.k2 + ' Put & Πώληση ' + nearest.k1 + ' Put');
-const noTouchAction = nearest.type === 'C'
-? ('Πώληση ' + nearest.k1 + ' Call & Αγορά ' + nearest.k2 + ' Call')
-: ('Πώληση ' + nearest.k2 + ' Put & Αγορά ' + nearest.k1 + ' Put');
-
-document.getElementById('verdictText').innerHTML =
-'<div>• <b>Έλεγχος Πρόβλεψης:</b> Για να φτάσει το <b>' + symbol + '</b> στα <b>' + fmtMoney(nearest.target) + '</b> μέσα σε <b>' + dte + ' μέρες</b> χρειάζεται κίνηση <b>' + (moveSpot >= 0 ? '+' : '') + moveSpot + '%</b> από σήμερα (ή <b>' + (moveFwd >= 0 ? '+' : '') + moveFwd + '%</b> ως προς το Forward). Η αγορά (μετά τη διόρθωση επιτοκίου) δίνει <b>' + (nearest.pTouch * 100).toFixed(1) + '%</b> πιθανότητα επαφής (δυσκολία: <b>' + bits + ' bits</b>).</div>' +
-'<div>• <b>Touch Bet:</b> <code>' + touchAction + '</code>. Κοστίζει σήμερα <b>' + fmtMoney(nearest.spreadAsk) + '</b> και στο Touch αξίζει <b>' + fmtMoney(nearest.touchExit) + '</b> (Απόδοση: <b>' + nearest.touchMult.toFixed(2) + 'x</b>).</div>' +
-'<div>• <b>No-Touch Bet:</b> <code>' + noTouchAction + '</code>. Έχεις <b>' + (nearest.pNoTouch * 100).toFixed(1) + '%</b> πιθανότητα επιτυχίας.</div>';
-
-const touchLink = document.getElementById('optionStratTouchLink');
-const noTouchLink = document.getElementById('optionStratNoTouchLink');
-if (venue === 'STOCK') {
-const q1 = nearest.type === 'C' ? 1 : -1;
-const q2 = nearest.type === 'C' ? -1 : 1;
-touchLink.href = buildOptionStratUrl(symbol, nearest.sym1, q1, nearest.sym2, q2);
-noTouchLink.href = buildOptionStratUrl(symbol, nearest.sym1, -q1, nearest.sym2, -q2);
-} else {
-touchLink.href = 'https://www.deribit.com/options/' + symbol;
-noTouchLink.href = 'https://www.deribit.com/options/' + symbol;
-}
-
-highlightRow(nearest.target);
-}
-
-function renderTable() {
-const tbody = document.getElementById('probTableBody');
-const { spreads, spot, forward, symbol, venue } = currentState;
-
-tbody.innerHTML = spreads.map(s => {
-const mvSpot = ((s.target / spot) - 1) * 100;
-const mvFwd = ((s.target / forward) - 1) * 100;
-const bits = (-Math.log2(Math.max(0.001, s.pTouch))).toFixed(1);
-const badgeClass = s.touchMult >= 1.25
-? 'bg-emerald-900/50 text-emerald-300 border border-emerald-700'
-: 'bg-amber-900/40 text-amber-300';
-
-const q1 = s.type === 'C' ? 1 : -1;
-const q2 = s.type === 'C' ? -1 : 1;
-const stratUrl = venue === 'STOCK'
-? buildOptionStratUrl(symbol, s.sym1, q1, s.sym2, q2)
-: ('https://www.deribit.com/options/' + symbol);
-
-return '<tr data-target="' + s.target + '" class="cursor-pointer" onclick="document.getElementById(\'targetSlider\').value=' + s.target + '; onSliderChange(' + s.target + ')">' +
-'<td class="p-3 font-bold">' + fmtMoney(s.target) + '</td>' +
-'<td class="p-3 ' + (mvSpot >= 0 ? 'text-emerald-400' : 'text-red-400') + '">' + (mvSpot >= 0 ? '+' : '') + mvSpot.toFixed(1) + '%</td>' +
-'<td class="p-3 text-amber-300">' + (mvFwd >= 0 ? '+' : '') + mvFwd.toFixed(1) + '%</td>' +
-'<td class="p-3">' + s.k1 + '/' + s.k2 + ' ' + s.type + '</td>' +
-'<td class="p-3 text-right font-bold text-blue-400">' + (s.pTouch * 100).toFixed(1) + '%</td>' +
-'<td class="p-3 text-right text-emerald-400">' + (s.pNoTouch * 100).toFixed(1) + '%</td>' +
-'<td class="p-3 text-right text-purple-300">' + (s.pExpire * 100).toFixed(1) + '%</td>' +
-'<td class="p-3 text-right text-gray-400">' + bits + ' b</td>' +
-'<td class="p-3 text-right">' + fmtMoney(s.spreadAsk) + '</td>' +
-'<td class="p-3 text-right">' + fmtMoney(s.touchExit) + '</td>' +
-'<td class="p-3 text-right"><span class="px-2 py-0.5 rounded ' + badgeClass + ' font-bold">' + s.touchMult.toFixed(2) + 'x</span></td>' +
-'<td class="p-3 text-center"><a href="' + stratUrl + '" target="_blank" onclick="event.stopPropagation()" class="text-blue-400 hover:underline font-sans">Payoff ↗</a></td>' +
-'</tr>';
-}).join('');
-}
-
-function highlightRow(target) {
-document.querySelectorAll('#probTableBody tr').forEach(tr => {
-const isMatch = Number(tr.dataset.target) === Number(target);
-tr.className = isMatch ? 'bg-blue-950/60 cursor-pointer' : 'cursor-pointer';
-});
-}
-
-// =========================================================================
-// TAB 2: ΧΡΟΝΟΔΙΑΓΡΑΜΜΑ ΣΤΟΧΟΥ ("ΣΗΜΕΡΑ 1.20 -> ΠΟΤΕ 1.29;")
-// =========================================================================
 function syncTimelineWithLiveChain() {
-if (currentState.spot > 0) {
-document.getElementById('tlSpot').value = currentState.spot;
-document.getElementById('tlTarget').value = document.getElementById('targetSlider').value;
-document.getElementById('tlRate').value = currentState.carryApr.toFixed(1);
-runTimelineCalculator();
-}
+  const { spot, activeTarget, carryApr } = currentState;
+  if (spot > 0) {
+    document.getElementById('tlSpot').value = spot;
+    document.getElementById('tlTarget').value = activeTarget > 0 ? activeTarget : (spot * 1.10).toFixed(2);
+    document.getElementById('tlRate').value = carryApr !== 0 ? Math.abs(carryApr).toFixed(2) : '4.25';
+  }
+  runTimelineCalculator();
 }
 
 function runTimelineCalculator() {
-const spot = Number(document.getElementById('tlSpot').value);
-const target = Number(document.getElementById('tlTarget').value);
-const ivPct = Number(document.getElementById('tlIv').value);
-const ratePct = Number(document.getElementById('tlRate').value);
+  const spot = Number(document.getElementById('tlSpot').value);
+  const target = Number(document.getElementById('tlTarget').value);
+  const ivPct = Number(document.getElementById('tlIv').value);
+  const ratePct = Number(document.getElementById('tlRate').value);
 
-if (spot <= 0 || target <= 0 || ivPct <= 0) return;
+  if (spot <= 0 || target <= 0 || ivPct <= 0) return;
 
-const sigma = ivPct / 100.0;
-const r = ratePct / 100.0;
-const movePct = ((target / spot) - 1) * 100;
-const fmt = (v) => spot < 10 ? v.toFixed(4).replace(/0+$/, '').replace(/\.$/, '') : (spot < 1000 ? v.toFixed(2) : Math.round(v));
+  const sigma = ivPct / 100.0;
+  const r = ratePct / 100.0;
+  const movePct = ((target / spot) - 1) * 100;
+  const fmt = (v) => spot < 10 ? v.toFixed(4) : (spot < 1000 ? v.toFixed(2) : Math.round(v));
 
-document.getElementById('tlMovePct').textContent = (movePct >= 0 ? '+' : '') + movePct.toFixed(2) + '%';
-document.getElementById('tlMoveSub').textContent = 'Από ' + fmt(spot) + ' σε ' + fmt(target);
+  document.getElementById('tlMovePct').textContent = (movePct >= 0 ? '+' : '') + movePct.toFixed(2) + '%';
+  document.getElementById('tlMoveSub').textContent = 'Από ' + fmt(spot) + ' σε ' + fmt(target);
 
-// Βρίσκουμε σε πόσες μέρες το P(Touch) περνάει το 50% και το 75%
-let days50 = null;
-let days75 = null;
-for (let d = 1; d <= 1825; d++) {
-const p = analyticalTouchProbWithDrift(spot, target, d / 365.0, sigma, r);
-if (days50 === null && p >= 0.50) days50 = d;
-if (days75 === null && p >= 0.75) { days75 = d; break; }
+  let days50 = null;
+  let days75 = null;
+  for (let d = 1; d <= 1825; d++) {
+    const p = analyticalTouchProbWithDrift(spot, target, d / 365.0, sigma, r);
+    if (days50 === null && p >= 0.50) days50 = d;
+    if (days75 === null && p >= 0.75) { days75 = d; break; }
+  }
+
+  const now = Date.now();
+  if (days50 !== null) {
+    const dt50 = new Date(now + days50 * 86400000).toISOString().slice(0, 10);
+    document.getElementById('tlMedianDays').textContent = days50 + ' ημέρες';
+    document.getElementById('tlMedianDate').textContent = 'Περνάει το 50% στις ' + dt50;
+  } else {
+    document.getElementById('tlMedianDays').textContent = '> 5 έτη';
+    document.getElementById('tlMedianDate').textContent = 'Πολύ μακρινός στόχος για αυτή τη μεταβλητότητα';
+  }
+
+  if (days75 !== null) {
+    const dt75 = new Date(now + days75 * 86400000).toISOString().slice(0, 10);
+    document.getElementById('tlHighDays').textContent = days75 + ' ημέρες';
+    document.getElementById('tlHighDate').textContent = 'Περνάει το 75% στις ' + dt75;
+  } else {
+    document.getElementById('tlHighDays').textContent = '> 5 έτη';
+    document.getElementById('tlHighDate').textContent = 'Δεν φτάνει το 75% εντός 5ετίας';
+  }
+
+  const horizons = [3, 7, 14, 21, 30, 45, 60, 90, 120, 180, 270, 365];
+  const tbody = document.getElementById('tlTableBody');
+
+  tbody.innerHTML = horizons.map(days => {
+    const tYears = days / 365.0;
+    const dtStr = new Date(now + days * 86400000).toISOString().slice(0, 10);
+    const fwd = spot * Math.exp(r * tYears);
+    const pTouchDrift = analyticalTouchProbWithDrift(spot, target, tYears, sigma, r);
+    const pTouchNaive = analyticalTouchProbWithDrift(spot, target, tYears, sigma, 0.0);
+    const pExpireDrift = analyticalExpireProbWithDrift(spot, target, tYears, sigma, r);
+    const pNoTouch = 1.0 - pTouchDrift;
+    const fairMult = pTouchDrift > 0.001 ? (1.0 / pTouchDrift) : 999;
+
+    const highlight = (days50 && Math.abs(days - days50) <= 7) ? 'bg-[#192620]' : '';
+
+    return '<tr class="' + highlight + '">' +
+      '<td class="p-3 font-bold text-[#e8eaed]">' + days + ' ημέρες</td>' +
+      '<td class="p-3 text-[#9aa4b2]">' + dtStr + '</td>' +
+      '<td class="p-3 text-right text-[#d49a42]">' + fmt(fwd) + '</td>' +
+      '<td class="p-3 text-right font-bold text-[#3ea87c]">' + (pTouchDrift * 100).toFixed(1) + '%</td>' +
+      '<td class="p-3 text-right text-[#637083]">' + (pTouchNaive * 100).toFixed(1) + '%</td>' +
+      '<td class="p-3 text-right text-[#d95d4e]">' + (pNoTouch * 100).toFixed(1) + '%</td>' +
+      '<td class="p-3 text-right text-[#9b7ad6]">' + (pExpireDrift * 100).toFixed(1) + '%</td>' +
+      '<td class="p-3 text-right font-bold text-[#3ea87c]">' + (fairMult > 100 ? '>100x' : (fairMult.toFixed(2) + 'x')) + '</td>' +
+      '</tr>';
+  }).join('');
 }
 
-const now = Date.now();
-if (days50 !== null) {
-const dt50 = new Date(now + days50 * 86400000).toISOString().slice(0, 10);
-document.getElementById('tlMedianDays').textContent = days50 + ' ημέρες';
-document.getElementById('tlMedianDate').textContent = 'Περνάει το 50% στις ' + dt50;
-} else {
-document.getElementById('tlMedianDays').textContent = '> 5 έτη';
-document.getElementById('tlMedianDate').textContent = 'Πολύ μακρινός στόχος για αυτή τη μεταβλητότητα';
-}
-
-if (days75 !== null) {
-const dt75 = new Date(now + days75 * 86400000).toISOString().slice(0, 10);
-document.getElementById('tlHighDays').textContent = days75 + ' ημέρες';
-document.getElementById('tlHighDate').textContent = 'Περνάει το 75% στις ' + dt75;
-} else {
-document.getElementById('tlHighDays').textContent = '> 5 έτη';
-document.getElementById('tlHighDate').textContent = 'Δεν φτάνει το 75% εντός 5ετίας';
-}
-
-const horizons = [3, 7, 14, 21, 30, 45, 60, 90, 120, 180, 270, 365];
-const tbody = document.getElementById('tlTableBody');
-
-tbody.innerHTML = horizons.map(days => {
-const tYears = days / 365.0;
-const dtStr = new Date(now + days * 86400000).toISOString().slice(0, 10);
-const fwd = spot * Math.exp(r * tYears);
-const pTouchDrift = analyticalTouchProbWithDrift(spot, target, tYears, sigma, r);
-const pTouchNaive = analyticalTouchProbWithDrift(spot, target, tYears, sigma, 0.0);
-const pExpireDrift = analyticalExpireProbWithDrift(spot, target, tYears, sigma, r);
-const pNoTouch = 1.0 - pTouchDrift;
-const fairMult = pTouchDrift > 0.001 ? (1.0 / pTouchDrift) : 999;
-
-const highlight = (days50 && Math.abs(days - days50) <= 7) ? 'bg-emerald-950/40' : '';
-
-return '<tr class="' + highlight + '">' +
-'<td class="p-3 font-bold">' + days + ' ημέρες</td>' +
-'<td class="p-3 text-gray-400">' + dtStr + '</td>' +
-'<td class="p-3 text-right text-amber-300">' + fmt(fwd) + '</td>' +
-'<td class="p-3 text-right font-bold text-blue-400">' + (pTouchDrift * 100).toFixed(1) + '%</td>' +
-'<td class="p-3 text-right text-gray-500">' + (pTouchNaive * 100).toFixed(1) + '%</td>' +
-'<td class="p-3 text-right text-emerald-400">' + (pNoTouch * 100).toFixed(1) + '%</td>' +
-'<td class="p-3 text-right text-purple-300">' + (pExpireDrift * 100).toFixed(1) + '%</td>' +
-'<td class="p-3 text-right font-bold text-emerald-300">' + (fairMult > 100 ? '>100x' : (fairMult.toFixed(2) + 'x')) + '</td>' +
-'</tr>';
-}).join('');
-}
-
-// =========================================================================
-// TAB 3: ΕΞΕΡΕΥΝΗΤΗΣ ΣΤΡΑΤΗΓΙΚΩΝ
-// =========================================================================
 async function runStrategyScanner() {
-const thead = document.getElementById('stratTableHead');
-const tbody = document.getElementById('stratTableBody');
-const note = document.getElementById('stratTheoryNote');
-const badge = document.getElementById('stratSummaryBadge');
+  const thead = document.getElementById('stratTableHead');
+  const tbody = document.getElementById('stratTableBody');
+  const note = document.getElementById('stratTheoryNote');
+  const badge = document.getElementById('stratSummaryBadge');
 
-const venue = document.getElementById('venueSelect').value;
-const ticker = document.getElementById('tickerInput').value.trim().toUpperCase();
-const strat = document.getElementById('stratType').value;
-const slip = Number(document.getElementById('stratSlippage').value);
-const minDte = Number(document.getElementById('stratMinDte').value);
-const maxDte = Number(document.getElementById('stratMaxDte').value);
+  const venue = document.getElementById('venueSelect').value;
+  const ticker = document.getElementById('tickerInput').value.trim().toUpperCase();
+  const strat = document.getElementById('stratType').value;
+  const slip = Number(document.getElementById('stratSlippage').value);
+  const minDte = Number(document.getElementById('stratMinDte').value);
+  const maxDte = Number(document.getElementById('stratMaxDte').value);
 
-tbody.innerHTML = '<tr><td colspan="10" class="p-6 text-center text-gray-400 font-sans">Σκανάρισμα όλων των ημερομηνιών λήξης για ' + ticker + '...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="10" class="p-6 text-center text-gray-400 font-sans">Σάρωση στρατηγικών σε όλες τις λήξεις για ' + ticker + '...</td></tr>';
 
-try {
-let fn = null;
-if (venue === 'CRYPTO') {
-if (strat === 'CC') fn = window.deribitCoveredCallsDart;
-if (strat === 'VS') fn = window.deribitVerticalSpreadsDart;
-if (strat === 'STRADDLE') fn = window.deribitStraddlesDart;
-if (strat === 'LONG') fn = window.deribitLongOptionsDart;
-} else {
-if (strat === 'CC') fn = window.yfinanceCoveredCallsDart;
-if (strat === 'VS') fn = window.yfinanceVerticalSpreadsDart;
-if (strat === 'STRADDLE') fn = window.yfinanceStraddlesDart;
-if (strat === 'LONG') fn = window.yfinanceLongOptionsDart;
+  try {
+    let fn = null;
+    if (venue === 'CRYPTO') {
+      if (strat === 'CC') fn = window.deribitCoveredCallsDart;
+      if (strat === 'VS') fn = window.deribitVerticalSpreadsDart;
+      if (strat === 'STRADDLE') fn = window.deribitStraddlesDart;
+      if (strat === 'LONG') fn = window.deribitLongOptionsDart;
+    } else {
+      if (strat === 'CC') fn = window.yfinanceCoveredCallsDart;
+      if (strat === 'VS') fn = window.yfinanceVerticalSpreadsDart;
+      if (strat === 'STRADDLE') fn = window.yfinanceStraddlesDart;
+      if (strat === 'LONG') fn = window.yfinanceLongOptionsDart;
+    }
+
+    const jsonStr = await fn(ticker, slip, minDte, maxDte);
+    const items = JSON.parse(jsonStr);
+
+    if (strat === 'CC') {
+      const validCC = items.filter(x => x.strikeRelative >= 0.995 && x.moneyYield > 1.002);
+      badge.textContent = validCC.length + ' Covered Calls';
+
+      note.innerHTML =
+        '💡 <b>Geometric Covered Call (Οικονομικός Υπολογισμός):</b> Αγοράζεις το υποκείμενο και πουλάς ταυτόχρονα Call Option στο Strike. ' +
+        'Εδώ εξετάζουμε δύο μεγέθη: <b>Απόδοση σε Χρήμα ($)</b> (αν ασκηθείς) vs <b>Απόδοση σε Τεμάχια</b> (πόσες περισσότερες μετοχές/coins κρατάς λόγω του premium αν δεν ασκηθείς).';
+
+      thead.innerHTML = '<tr class="border-b border-[#26303e]">' +
+        '<th class="p-3">Λήξη (Μέρες)</th>' +
+        '<th class="p-3">Ταβάνι (Strike)</th>' +
+        '<th class="p-3 text-right">Προστασία Πτώσης (Breakeven)</th>' +
+        '<th class="p-3 text-right text-[#3ea87c]">Μέγιστη Απόδοση ($)</th>' +
+        '<th class="p-3 text-right text-[#d49a42]">Ετησιοποιημένη (APR)</th>' +
+        '<th class="p-3 text-right text-[#4a86c6]">Κέρδος σε Τεμάχια</th>' +
+        '<th class="p-3 text-right text-[#9b7ad6]">Πιθανότητα Ταβανιού</th>' +
+        '<th class="p-3 text-right">Κεφάλαιο</th>' +
+        '<th class="p-3 text-center">Payoff</th>' +
+        '</tr>';
+
+      validCC.sort((a, b) => ((b.moneyYield - 1) / b.DTE) - ((a.moneyYield - 1) / a.DTE));
+
+      tbody.innerHTML = validCC.slice(0, 60).map(x => {
+        const moveStrike = ((x.strikeRelative - 1) * 100).toFixed(1);
+        const beMove = ((x.breakEvenVsFullMoneyRelative - 1) * 100).toFixed(1);
+        const moneyYieldPct = ((x.moneyYield - 1) * 100).toFixed(2);
+        const aprPct = (((x.moneyYield - 1) * (365 / Math.max(1, x.DTE))) * 100).toFixed(1);
+        const undYieldPct = ((x.underlyingYield - 1) * 100).toFixed(2);
+        const pMax = x.moneyProbability != null ? ((x.moneyProbability * 100).toFixed(1) + '%') : '—';
+
+        return '<tr>' +
+          '<td class="p-3">' + x.formattedDate + ' <span class="text-gray-500">(' + x.DTE + 'd)</span></td>' +
+          '<td class="p-3 font-bold">' + fmtMoney(x.strikeAbsolute) + ' <span class="text-[#3ea87c]">(+' + moveStrike + '%)</span></td>' +
+          '<td class="p-3 text-right">' + fmtMoney(x.breakEvenVsFullMoneyAbsolute) + ' <span class="text-gray-400">(' + beMove + '%)</span></td>' +
+          '<td class="p-3 text-right font-bold text-[#3ea87c]">+' + moneyYieldPct + '%</td>' +
+          '<td class="p-3 text-right text-[#d49a42]">' + aprPct + '%</td>' +
+          '<td class="p-3 text-right text-[#4a86c6]">+' + undYieldPct + '%</td>' +
+          '<td class="p-3 text-right text-[#9b7ad6]">' + pMax + '</td>' +
+          '<td class="p-3 text-right">' + fmtMoney(x.moneySize) + '</td>' +
+          '<td class="p-3 text-center"><a href="' + x.strategyURL + '" target="_blank" class="text-[#4a86c6] hover:underline font-sans">Payoff ↗</a></td>' +
+          '</tr>';
+      }).join('');
+    } else if (strat === 'VS') {
+      const actionable = items.filter(x => x.touchReturnMultiple >= 1.25 && x.probTouchBeforeExpiry >= 0.02);
+      badge.textContent = actionable.length + ' Touch Spreads';
+
+      note.innerHTML =
+        '💡 <b>Touch Spreads σε Όλες τις Λήξεις:</b> Εντοπίζει στενά Vertical Spreads όπου η καθαρή απόδοση στο Touch υπερβαίνει το <b>1.25x</b> μετά το Slippage.';
+
+      thead.innerHTML = '<tr class="border-b border-[#26303e]">' +
+        '<th class="p-3">Λήξη (Μέρες)</th>' +
+        '<th class="p-3">Στόχος</th>' +
+        '<th class="p-3">Spread</th>' +
+        '<th class="p-3 text-right text-[#3ea87c]">P(Touch)</th>' +
+        '<th class="p-3 text-right text-[#9b7ad6]">P(Expire)</th>' +
+        '<th class="p-3 text-right">Κόστος (Ask)</th>' +
+        '<th class="p-3 text-right">Αξία στο Touch</th>' +
+        '<th class="p-3 text-right text-[#3ea87c]">Απόδοση (Multiple)</th>' +
+        '<th class="p-3 text-center">Payoff</th>' +
+        '</tr>';
+
+      actionable.sort((a, b) => b.touchReturnMultiple - a.touchReturnMultiple);
+
+      tbody.innerHTML = actionable.slice(0, 60).map(x => {
+        return '<tr>' +
+          '<td class="p-3">' + x.formattedDate + ' <span class="text-gray-500">(' + x.DTE + 'd)</span></td>' +
+          '<td class="p-3 font-bold">' + fmtMoney(x.target) + '</td>' +
+          '<td class="p-3 font-sans text-gray-300">' + x.spreadLabel + '</td>' +
+          '<td class="p-3 text-right font-bold text-[#3ea87c]">' + (x.probTouchBeforeExpiry * 100).toFixed(1) + '%</td>' +
+          '<td class="p-3 text-right text-[#9b7ad6]">' + (x.probExpireBeyondTarget * 100).toFixed(1) + '%</td>' +
+          '<td class="p-3 text-right">' + fmtMoney(x.spreadCostAsk) + '</td>' +
+          '<td class="p-3 text-right">' + fmtMoney(x.touchExitValue) + '</td>' +
+          '<td class="p-3 text-right font-bold text-[#3ea87c]">' + x.touchReturnMultiple.toFixed(2) + 'x</td>' +
+          '<td class="p-3 text-center"><a href="' + x.strategyURL + '" target="_blank" class="text-[#4a86c6] hover:underline font-sans">Payoff ↗</a></td>' +
+          '</tr>';
+      }).join('');
+    } else if (strat === 'STRADDLE') {
+      badge.textContent = items.length + ' Straddles';
+      note.innerHTML = '💡 <b>Straddles (Αναμενόμενο Εύρος Κίνησης):</b> Αγοράζοντας ταυτόχρονα το ATM Call και το ATM Put, βλέπεις ακριβώς πόσο % αναμένει η αγορά να κινηθεί το asset μέχρι τη λήξη.';
+
+      thead.innerHTML = '<tr class="border-b border-[#26303e]">' +
+        '<th class="p-3">Λήξη (Μέρες)</th>' +
+        '<th class="p-3">Κεντρικό Strike</th>' +
+        '<th class="p-3 text-right text-[#d95d4e]">Κάτω Breakeven</th>' +
+        '<th class="p-3 text-right text-[#3ea87c]">Πάνω Breakeven</th>' +
+        '<th class="p-3 text-right text-[#d49a42]">Εύρος Αγοράς (±%)</th>' +
+        '<th class="p-3 text-right">Συνολικό Κόστος</th>' +
+        '<th class="p-3 text-center">Payoff</th>' +
+        '</tr>';
+
+      tbody.innerHTML = items.slice(0, 60).map(x => {
+        const corridorPct = x.impliedCorridorPct.toFixed(1);
+        const downPct = (((x.breakEvenVsFullMoneyDownAbsolute / currentState.spot) - 1) * 100).toFixed(1);
+        const upPct = (((x.breakEvenVsFullMoneyUpAbsolute / currentState.spot) - 1) * 100).toFixed(1);
+
+        return '<tr>' +
+          '<td class="p-3 font-bold">' + x.formattedDate + ' <span class="text-gray-500">(' + x.DTE + 'd)</span></td>' +
+          '<td class="p-3">' + fmtMoney(x.strikeAbsolute) + '</td>' +
+          '<td class="p-3 text-right text-[#d95d4e]">' + fmtMoney(x.breakEvenVsFullMoneyDownAbsolute) + ' (' + downPct + '%)</td>' +
+          '<td class="p-3 text-right text-[#3ea87c]">' + fmtMoney(x.breakEvenVsFullMoneyUpAbsolute) + ' (+' + upPct + '%)</td>' +
+          '<td class="p-3 text-right font-bold text-[#d49a42]">±' + (corridorPct / 2).toFixed(1) + '% (Εύρος ' + corridorPct + '%)</td>' +
+          '<td class="p-3 text-right">' + fmtMoney(x.moneySize) + '</td>' +
+          '<td class="p-3 text-center"><a href="' + x.strategyURL + '" target="_blank" class="text-[#4a86c6] hover:underline font-sans">Payoff ↗</a></td>' +
+          '</tr>';
+      }).join('');
+    } else if (strat === 'LONG') {
+      badge.textContent = items.length + ' Συμβόλαια';
+      note.innerHTML = '💡 <b>Απλά Calls &amp; Puts (Κατάταξη Μόχλευσης):</b> Δείχνει πόση πραγματική μόχλευση (Spot / Κόστος Option) προσφέρει κάθε συμβόλαιο.';
+
+      thead.innerHTML = '<tr class="border-b border-[#26303e]">' +
+        '<th class="p-3">Λήξη (Μέρες)</th>' +
+        '<th class="p-3">Συμβόλαιο</th>' +
+        '<th class="p-3">Κατεύθυνση</th>' +
+        '<th class="p-3 text-right">Strike</th>' +
+        '<th class="p-3 text-right">Νεκρό Σημείο (Breakeven)</th>' +
+        '<th class="p-3 text-right text-[#d49a42]">Μόχλευση (Leverage)</th>' +
+        '<th class="p-3 text-right">Κόστος</th>' +
+        '<th class="p-3 text-center">Payoff</th>' +
+        '</tr>';
+
+      items.sort((a, b) => b.maxLeverage - a.maxLeverage);
+
+      tbody.innerHTML = items.slice(0, 60).map(x => {
+        const bePct = ((x.breakEvenVsFullMoneyRelative - 1) * 100).toFixed(1);
+        return '<tr>' +
+          '<td class="p-3">' + x.formattedDate + ' <span class="text-gray-500">(' + x.DTE + 'd)</span></td>' +
+          '<td class="p-3 font-mono text-gray-300">' + x.option + '</td>' +
+          '<td class="p-3 font-sans">' + (x.strategyType === 'longCall' ? '🟢 Άνοδος (Call)' : '🔴 Πτώση (Put)') + '</td>' +
+          '<td class="p-3 text-right font-bold">' + fmtMoney(x.strikeAbsolute) + '</td>' +
+          '<td class="p-3 text-right">' + fmtMoney(x.breakEvenVsFullMoneyAbsolute) + ' (' + (bePct >= 0 ? '+' : '') + bePct + '%)</td>' +
+          '<td class="p-3 text-right font-bold text-[#d49a42]">' + x.maxLeverage.toFixed(1) + 'x</td>' +
+          '<td class="p-3 text-right">' + fmtMoney(x.moneySize) + '</td>' +
+          '<td class="p-3 text-center"><a href="' + x.strategyURL + '" target="_blank" class="text-[#4a86c6] hover:underline font-sans">Payoff ↗</a></td>' +
+          '</tr>';
+      }).join('');
+    }
+  } catch (e) {
+    tbody.innerHTML = '<tr><td colspan="10" class="p-6 text-center text-[#d95d4e] font-sans">Σφάλμα: ' + e.message + '</td></tr>';
+  }
 }
 
-const jsonStr = await fn(ticker, slip, minDte, maxDte);
-const items = JSON.parse(jsonStr);
+function copyShareableUrl() {
+  const url = new URL(window.location.href);
+  url.searchParams.set('venue', currentState.venue);
+  url.searchParams.set('symbol', currentState.symbol);
+  if (currentState.selectedExp) url.searchParams.set('exp', currentState.selectedExp);
+  if (currentState.activeTarget) url.searchParams.set('target', currentState.activeTarget);
 
-if (strat === 'CC') {
-const validCC = items.filter(x => x.strikeRelative >= 0.995 && x.moneyYield > 1.002);
-badge.textContent = validCC.length + ' Covered Calls';
-
-note.innerHTML =
-'💡 <b>Geometric Covered Call (με απλά λόγια):</b> Αγοράζεις το υποκείμενο και πουλάς ταυτόχρονα ένα Call Option σε υψηλότερη τιμή (Strike), χρησιμοποιώντας την είσπραξη (Premium) για να μειώσεις το κεφάλαιο που βάζεις από την τσέπη σου.';
-
-thead.innerHTML = '<tr class="border-b border-gray-800">' +
-'<th class="p-3">Λήξη (Μέρες)</th>' +
-'<th class="p-3">Τιμή Ταβανιού (Strike)</th>' +
-'<th class="p-3 text-right">Προστασία Πτώσης (Breakeven)</th>' +
-'<th class="p-3 text-right">Μέγιστη Απόδοση ($)</th>' +
-'<th class="p-3 text-right">Ετησιοποιημένη (APR)</th>' +
-'<th class="p-3 text-right">Κέρδος σε Τεμάχια</th>' +
-'<th class="p-3 text-right">Πιθανότητα Ταβανιού</th>' +
-'<th class="p-3 text-right">Κεφάλαιο</th>' +
-'<th class="p-3 text-center">Γράφημα</th>' +
-'</tr>';
-
-validCC.sort((a, b) => ((b.moneyYield - 1) / b.DTE) - ((a.moneyYield - 1) / a.DTE));
-
-tbody.innerHTML = validCC.slice(0, 60).map(x => {
-const moveStrike = ((x.strikeRelative - 1) * 100).toFixed(1);
-const beMove = ((x.breakEvenVsFullMoneyRelative - 1) * 100).toFixed(1);
-const moneyYieldPct = ((x.moneyYield - 1) * 100).toFixed(2);
-const aprPct = (((x.moneyYield - 1) * (365 / Math.max(1, x.DTE))) * 100).toFixed(1);
-const undYieldPct = ((x.underlyingYield - 1) * 100).toFixed(2);
-const pMax = x.moneyProbability != null ? ((x.moneyProbability * 100).toFixed(1) + '%') : '—';
-
-return '<tr>' +
-'<td class="p-3">' + x.formattedDate + ' <span class="text-gray-500">(' + x.DTE + 'd)</span></td>' +
-'<td class="p-3 font-bold">' + fmtMoney(x.strikeAbsolute) + ' <span class="text-emerald-400">(+' + moveStrike + '%)</span></td>' +
-'<td class="p-3 text-right">' + fmtMoney(x.breakEvenVsFullMoneyAbsolute) + ' <span class="text-gray-400">(' + beMove + '%)</span></td>' +
-'<td class="p-3 text-right font-bold text-emerald-400">+' + moneyYieldPct + '%</td>' +
-'<td class="p-3 text-right text-amber-300">' + aprPct + '%</td>' +
-'<td class="p-3 text-right text-blue-300">+' + undYieldPct + '%</td>' +
-'<td class="p-3 text-right text-purple-300">' + pMax + '</td>' +
-'<td class="p-3 text-right">' + fmtMoney(x.moneySize) + '</td>' +
-'<td class="p-3 text-center"><a href="' + x.strategyURL + '" target="_blank" class="text-blue-400 hover:underline font-sans">Payoff ↗</a></td>' +
-'</tr>';
-}).join('');
-} else if (strat === 'VS') {
-const actionable = items.filter(x => x.touchReturnMultiple >= 1.25 && x.probTouchBeforeExpiry >= 0.02);
-badge.textContent = actionable.length + ' Touch Spreads';
-
-note.innerHTML =
-'💡 <b>Touch Spreads σε Όλες τις Λήξεις:</b> Βρίσκει τα στενά Vertical Spreads όπου η καθαρή απόδοση στο Touch υπερβαίνει το <b>1.25x</b> μετά το Slippage.';
-
-thead.innerHTML = '<tr class="border-b border-gray-800">' +
-'<th class="p-3">Λήξη (Μέρες)</th>' +
-'<th class="p-3">Τιμή-Στόχος</th>' +
-'<th class="p-3">Κατεύθυνση</th>' +
-'<th class="p-3 text-right">P(Touch) (Adj)</th>' +
-'<th class="p-3 text-right">P(No-Touch)</th>' +
-'<th class="p-3 text-right">Απόδοση στο Touch</th>' +
-'<th class="p-3 text-right">Απόδοση στη Λήξη</th>' +
-'<th class="p-3 text-right">Κόστος</th>' +
-'<th class="p-3 text-center">Γράφημα</th>' +
-'</tr>';
-
-actionable.sort((a, b) => b.touchReturnMultiple - a.touchReturnMultiple);
-
-tbody.innerHTML = actionable.slice(0, 60).map(x => {
-const mv = (((x.targetMidpoint / x.spotPrice) - 1) * 100).toFixed(1);
-return '<tr>' +
-'<td class="p-3">' + x.formattedDate + ' <span class="text-gray-500">(' + x.DTE + 'd)</span></td>' +
-'<td class="p-3 font-bold">' + fmtMoney(x.targetMidpoint) + ' <span class="' + (mv >= 0 ? 'text-emerald-400' : 'text-red-400') + '">(' + (mv >= 0 ? '+' : '') + mv + '%)</span></td>' +
-'<td class="p-3 font-sans">' + (x.type === 'over' ? '📈 Άνοδος (Call Spread)' : '📉 Πτώση (Put Spread)') + '</td>' +
-'<td class="p-3 text-right font-bold text-blue-400">' + (x.probTouchBeforeExpiry * 100).toFixed(1) + '%</td>' +
-'<td class="p-3 text-right text-emerald-400">' + (x.probNoTouchBeforeExpiry * 100).toFixed(1) + '%</td>' +
-'<td class="p-3 text-right font-bold text-emerald-300">' + x.touchReturnMultiple.toFixed(2) + 'x</td>' +
-'<td class="p-3 text-right text-purple-300">' + x.maxYield.toFixed(2) + 'x</td>' +
-'<td class="p-3 text-right">' + fmtMoney(x.maxRisk) + '</td>' +
-'<td class="p-3 text-center"><a href="' + x.strategyURL + '" target="_blank" class="text-blue-400 hover:underline font-sans">Payoff ↗</a></td>' +
-'</tr>';
-}).join('');
-} else if (strat === 'STRADDLE') {
-badge.textContent = items.length + ' Ημερομηνίες Λήξης';
-
-note.innerHTML =
-'💡 <b>Straddle (Αναμενόμενο Εύρος Κίνησης):</b> Δείχνει πόσο «περιμένει» η αγορά να κουνηθεί η τιμή προς τα πάνω ή προς τα κάτω μέχρι κάθε ημερομηνία λήξης.';
-
-thead.innerHTML = '<tr class="border-b border-gray-800">' +
-'<th class="p-3">Λήξη (Μέρες)</th>' +
-'<th class="p-3">Κεντρικό Strike</th>' +
-'<th class="p-3 text-right">Κάτω Όριο (Breakeven)</th>' +
-'<th class="p-3 text-right">Άνω Όριο (Breakeven)</th>' +
-'<th class="p-3 text-right">Αναμενόμενη Κίνηση (±%)</th>' +
-'<th class="p-3 text-right">Κόστος Πακέτου</th>' +
-'<th class="p-3 text-center">Γράφημα</th>' +
-'</tr>';
-
-items.sort((a, b) => a.DTE - b.DTE);
-
-tbody.innerHTML = items.map(x => {
-const downPct = ((x.breakEvenVsFullMoneyDownRelative - 1) * 100).toFixed(1);
-const upPct = ((x.breakEvenVsFullMoneyUpRelative - 1) * 100).toFixed(1);
-const corridorPct = (x.distanceBetweenBreakEvensRelative * 100).toFixed(1);
-
-return '<tr>' +
-'<td class="p-3 font-bold">' + x.formattedDate + ' <span class="text-gray-500">(' + x.DTE + 'd)</span></td>' +
-'<td class="p-3">' + fmtMoney(x.strikeAbsolute) + '</td>' +
-'<td class="p-3 text-right text-red-400">' + fmtMoney(x.breakEvenVsFullMoneyDownAbsolute) + ' (' + downPct + '%)</td>' +
-'<td class="p-3 text-right text-emerald-400">' + fmtMoney(x.breakEvenVsFullMoneyUpAbsolute) + ' (+' + upPct + '%)</td>' +
-'<td class="p-3 text-right font-bold text-amber-300">±' + (corridorPct / 2).toFixed(1) + '% (Εύρος ' + corridorPct + '%)</td>' +
-'<td class="p-3 text-right">' + fmtMoney(x.moneySize) + '</td>' +
-'<td class="p-3 text-center"><a href="' + x.strategyURL + '" target="_blank" class="text-blue-400 hover:underline font-sans">Payoff ↗</a></td>' +
-'</tr>';
-}).join('');
-} else if (strat === 'LONG') {
-badge.textContent = items.length + ' Συμβόλαια';
-
-note.innerHTML =
-'💡 <b>Απλή Αγορά Call ή Put (Κατάταξη Μόχλευσης):</b> Δείχνει πόση μόχλευση (<b>Spot / Κόστος Option</b>) δίνει κάθε συμβόλαιο.';
-
-thead.innerHTML = '<tr class="border-b border-gray-800">' +
-'<th class="p-3">Λήξη (Μέρες)</th>' +
-'<th class="p-3">Συμβόλαιο</th>' +
-'<th class="p-3">Κατεύθυνση</th>' +
-'<th class="p-3 text-right">Strike</th>' +
-'<th class="p-3 text-right">Νεκρό Σημείο (Breakeven)</th>' +
-'<th class="p-3 text-right">Μόχλευση (Leverage)</th>' +
-'<th class="p-3 text-right">Κόστος</th>' +
-'<th class="p-3 text-center">Γράφημα</th>' +
-'</tr>';
-
-items.sort((a, b) => b.maxLeverage - a.maxLeverage);
-
-tbody.innerHTML = items.slice(0, 60).map(x => {
-const bePct = ((x.breakEvenVsFullMoneyRelative - 1) * 100).toFixed(1);
-return '<tr>' +
-'<td class="p-3">' + x.formattedDate + ' <span class="text-gray-500">(' + x.DTE + 'd)</span></td>' +
-'<td class="p-3">' + x.option + '</td>' +
-'<td class="p-3 font-sans">' + (x.strategyType === 'longCall' ? '🟢 Άνοδος (Call)' : '🔴 Πτώση (Put)') + '</td>' +
-'<td class="p-3 text-right font-bold">' + fmtMoney(x.strikeAbsolute) + '</td>' +
-'<td class="p-3 text-right">' + fmtMoney(x.breakEvenVsFullMoneyAbsolute) + ' (' + (bePct >= 0 ? '+' : '') + bePct + '%)</td>' +
-'<td class="p-3 text-right font-bold text-amber-300">' + x.maxLeverage.toFixed(1) + 'x</td>' +
-'<td class="p-3 text-right">' + fmtMoney(x.moneySize) + '</td>' +
-'<td class="p-3 text-center"><a href="' + x.strategyURL + '" target="_blank" class="text-blue-400 hover:underline font-sans">Payoff ↗</a></td>' +
-'</tr>';
-}).join('');
-}
-} catch (e) {
-tbody.innerHTML = '<tr><td colspan="10" class="p-6 text-center text-red-400 font-sans">Σφάλμα: ' + e.message + '</td></tr>';
-}
+  navigator.clipboard.writeText(url.toString()).then(() => {
+    const btn = document.getElementById('shareBtn');
+    const old = btn.textContent;
+    btn.textContent = '✅ Αντιγράφηκε!';
+    setTimeout(() => { btn.textContent = old; }, 2000);
+  }).catch(() => {
+    prompt('Αντέγραψε το URL:', url.toString());
+  });
 }
 
 (function initFromUrl() {
-const params = new URLSearchParams(window.location.search);
-const venue = params.get('venue') || 'CRYPTO';
-const symbol = params.get('symbol') || 'BTC';
-const exp = params.get('exp');
-const target = params.get('target');
+  const params = new URLSearchParams(window.location.search);
+  const venue = params.get('venue') || 'CRYPTO';
+  const symbol = params.get('symbol') || 'BTC';
+  const exp = params.get('exp');
+  const target = params.get('target');
 
-document.getElementById('venueSelect').value = venue;
-document.getElementById('tickerInput').value = symbol;
-if (exp) currentState.selectedExp = exp;
+  document.getElementById('venueSelect').value = venue;
+  document.getElementById('tickerInput').value = symbol;
+  if (exp) currentState.selectedExp = exp;
 
-runTimelineCalculator();
-loadChain(target);
+  runTimelineCalculator();
+  loadChain(target);
 })();
 </script>
 </body>
