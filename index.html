@@ -4040,24 +4040,24 @@ function runTailShockSimulator() {
       <button onclick="closeShannonModal()" class="text-2xl text-[#8e99a8] hover:text-white px-2 py-0.5 rounded hover:bg-[#1f2633] transition leading-none">&times;</button>
     </div>
 
-    <!-- Section 1: The 0.5 Bits Mystery Unraveled -->
+    <!-- Section 1: Shannon Surprisal and Statistical Precision -->
     <div class="card-elevated p-4 border border-[#2b384c] space-y-2">
       <div class="flex items-center gap-2 text-[#c8963e] font-bold text-xs">
         <span>💡</span>
-        <span>1. ΤΟ ΜΥΣΤΗΡΙΟ ΤΩΝ 0.5 BITS: ΓΙΑΤΙ ΑΠΟΡΗΣΕ Ο «ΟΨΙΟΝΑΚΙΑΣ»;</span>
+        <span>1. ΤΙ ΣΗΜΑΙΝΟΥΝ ΤΑ 0.5 BITS: ΑΥΤΟΠΛΗΡΟΦΟΡΙΑ &amp; ΣΤΑΤΙΣΤΙΚΗ ΑΚΡΙΒΕΙΑ</span>
       </div>
       <p class="text-[#8e99a8] leading-relaxed">
-        Στη Θεωρία Πληροφοριών του Claude Shannon (1948), η <b>Αυτοπληροφορία (Shannon Surprisal)</b> ενός γεγονότος με πιθανότητα $P$ ορίζεται ως:
+        Στη Θεωρία Πληροφοριών του Claude Shannon (1948), η <b>Αυτοπληροφορία (Shannon Surprisal / Self-Information)</b> ενός γεγονότος με πιθανότητα $P$ ορίζεται αυστηρά ως:
       </p>
       <div class="p-2.5 rounded bg-[#0b0e13] border border-[#232d3b] text-center mono text-sm text-[#9b88bf]">
         $$I(P) = -\log_2(P) = \log_2\left(\frac{1}{P}\right) \quad \text{(σε Bits)}$$
       </div>
       <div class="space-y-1.5 text-[#ebe8e1]">
         <div>• <b>Ένα δίκαιο στρίψιμο νομίσματος ($P = 50\%$):</b> $I(0.50) = -\log_2(0.50) = \mathbf{1.0 \text{ Bit}}$.</div>
-        <div>• <b>Όταν $P = 70.7\%$ ($1/\sqrt{2}$):</b> $I(0.7071) = -\log_2(0.7071) = \mathbf{0.50 \text{ Bits}}$.</div>
+        <div>• <b>Όταν $P = 70.71\%$ ($1/\sqrt{2}$):</b> $I(0.7071) = -\log_2(0.7071) = \mathbf{0.50 \text{ Bits}}$.</div>
       </div>
-      <div class="p-2.5 rounded bg-[#241315] border border-[#c85648]/40 text-[#f08a7d] leading-relaxed">
-        <b>Το Σφάλμα της Στρογγυλοποίησης:</b> Ο παλιός κώδικας στρογγυλοποιούσε τα $0.5$ Bits σε $1$ και έγραφε <i>«1 συνεχόμενες επιτυχίες σε κορώνα-γράμματα»</i>! Αυτό ήταν στατιστικά ψευδές, διότι ένα γεγονός με $71\%$ πιθανότητα είναι <b>πολύ πιο εύκολο</b> από ένα στρίψιμο νομίσματος (50%)!
+      <div class="p-2.5 rounded bg-[#161d27] border border-[#2b384c] text-[#8e99a8] leading-relaxed">
+        <b class="text-[#ebe8e1]">Μαθηματική Ακρίβεια:</b> Μια πιθανότητα $71\%$ ($0.5$ Bits) είναι <b>στατιστικά ευκολότερη</b> από ένα στρίψιμο νομίσματος ($50\% = 1.0\text{ Bit}$). Επομένως, όταν $P > 50\%$, το αποτέλεσμα δεν αντιστοιχεί σε διαδοχικές επιτυχίες νομίσματος, αλλά αποτελεί <b>φυσιολογική διακύμανση και αναμενόμενο θόρυβο της αγοράς</b>!
       </div>
     </div>
 
