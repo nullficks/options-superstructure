@@ -8,7 +8,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- KaTeX for pristine mathematical typography ($P_{\text{Touch}}$, formulas, and derivations) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <style>
+  .katex { font-size: 1.05em !important; color: inherit; }
+  .katex-display { margin: 0.6em 0 !important; }
   :root {
     /* Παλέτα Wada Sanzo (和田三造) - Φυσικοί ιαπωνικοί τόνοι */
     --bg-kuro: #0e1115;        /* Kuro-tsurubami: Βαθύ οργανικό μελάνι Sumi */
@@ -226,6 +232,9 @@
   <button onclick="switchTab('THEORY')" id="tabBtnTheory" class="px-4 py-2 rounded bg-[#171c24] text-[#9aa4b2] hover:bg-[#1e2430] transition">
     4. Πραξεολογία &amp; Θεμέλια Αγοράς (Mises &amp; Carry)
   </button>
+  <button onclick="switchTab('MYTHS')" id="tabBtnMyths" class="px-4 py-2 rounded bg-[#171c24] text-[#9aa4b2] hover:bg-[#1e2430] transition flex items-center gap-1.5 font-bold">
+    <span>🥊</span> 5. Finfluencer Mythbusters Hub (6 Μύθοι)
+  </button>
 </div>
 
 <!-- ==================== TAB 1: FINFLUENCER REALITY CHECK & LIVE ORDERBOOK ==================== -->
@@ -297,11 +306,17 @@
   <section class="card p-4 md:p-5 mb-5 border-l-4 border-[#9b7ad6] bg-[#141922]">
     <div class="flex flex-wrap justify-between items-center gap-4">
       <div class="max-w-4xl">
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2">
           <span class="text-sm font-bold text-[#9b7ad6]">🎯 FINFLUENCER REALITY CHECK (SKIN IN THE GAME)</span>
-          <span class="text-[10px] px-2 py-0.2 rounded bg-[#201d2d] text-[#9b7ad6] border border-[#352c4e]">Objective Market Odds</span>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-[#201d2d] text-[#9b7ad6] border border-[#352c4e]">Objective Market Odds</span>
+          <button onclick="openShannonModal()" class="text-[11px] px-2.5 py-0.5 rounded bg-[#2a1e38] text-[#9b88bf] hover:bg-[#38284d] border border-[#483664] font-bold transition flex items-center gap-1 shadow-sm">
+            <span>🔬 Τι είναι τα Bits;</span>
+          </button>
+          <button onclick="switchTab('MYTHS')" class="text-[11px] px-2.5 py-0.5 rounded bg-[#1e2837] text-[#4a86c6] hover:bg-[#273447] border border-[#2b3a50] font-bold transition flex items-center gap-1 shadow-sm">
+            <span>🥊 6 Μύθοι Finfluencers ↗</span>
+          </button>
         </div>
-        <div id="verdictText" class="text-xs text-[#e8eaed] mt-2 leading-relaxed space-y-1.5">
+        <div id="verdictText" class="text-xs text-[#e8eaed] mt-2.5 leading-relaxed space-y-1.5">
           Φόρτωση δεδομένων αγοράς...
         </div>
       </div>
@@ -343,9 +358,10 @@
     <div class="mt-4 p-3 rounded bg-[#161d27] border border-[#232d3b]">
       <div class="flex flex-wrap justify-between items-center gap-2 text-xs mb-2">
         <span class="font-bold text-[#8e99a8]">ΟΠΤΙΚΟΠΟΙΗΣΗ ΑΣΥΜΜΕΤΡΙΑΣ (SKIN IN THE GAME PAYOFF)</span>
-        <span id="asymBitsBadge" class="text-[11px] mono text-[#9b88bf] bg-[#221c2e] px-2 py-0.5 rounded border border-[#3c2f52]">
-          Πληροφοριακή Δυσκολία: — Bits
-        </span>
+        <button id="asymBitsBadge" onclick="openShannonModal()" class="text-[11px] mono text-[#9b88bf] hover:text-[#d6c7ee] bg-[#221c2e] hover:bg-[#2e253e] px-2.5 py-1 rounded border border-[#3c2f52] hover:border-[#67518a] transition cursor-pointer flex items-center gap-1.5 shadow-sm" title="Κάνε κλικ για ανάλυση Claude Shannon & Kelly Criterion">
+          <span>🔬 Πληροφοριακή Δυσκολία: — Bits</span>
+          <span class="text-[10px] bg-[#3c2f52] text-[#e8eaed] px-1.5 py-0.2 rounded font-sans">Εξήγηση ↗</span>
+        </button>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center text-xs">
         <div class="md:col-span-3 p-2.5 rounded bg-[#241315] border border-[#c85648]/40">
@@ -1026,6 +1042,242 @@
   </div>
 </section>
 
+<!-- ==================== TAB 5: FINFLUENCER MYTHBUSTERS & PRAXEOLOGY HUB ==================== -->
+<section id="tabMyths" class="card p-5 hidden leading-relaxed text-xs space-y-6">
+  <div class="border-b border-[#26303e] pb-3 flex flex-wrap justify-between items-center gap-2">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="text-xl">🥊</span>
+        <h2 class="text-base font-bold text-[#c85648] uppercase tracking-wide">
+          FINFLUENCER MYTHBUSTERS &amp; PRAXEOLOGICAL FALLACY DEBUNKER
+        </h2>
+      </div>
+      <p class="text-xs text-[#9aa4b2] mt-0.5">
+        Μαθηματική και πραξεολογική αποδόμηση των 6 μεγαλύτερων μύθων των options που εξαπατούν και καταστρέφουν τους retail επενδυτές.
+      </p>
+    </div>
+    <div class="flex items-center gap-2 text-xs">
+      <button onclick="openShannonModal()" class="px-3 py-1.5 rounded bg-[#221c2e] hover:bg-[#2e253e] text-[#9b88bf] font-bold border border-[#3c2f52] transition flex items-center gap-1.5 shadow-sm">
+        <span>🔬 Ανάλυση Claude Shannon (Bits) ↗</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- TAB 5: 3-STEP PEDAGOGICAL ACTION GUIDE -->
+  <div class="card p-4 bg-[#12161f] border-l-4 border-[#c85648]">
+    <div class="text-[11px] font-bold text-[#c85648] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+      <span>🧭 ΟΔΗΓΟΣ ΧΡΗΣΤΗ: ΠΩΣ ΑΠΟΔΟΜΟΥΝΤΑΙ ΟΙ ΜΥΘΟΙ ΤΩΝ OPTIONS ΣΕ 3 ΒΗΜΑΤΑ</span>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+      <div class="flex items-start gap-2.5">
+        <span class="text-base leading-none">1️⃣</span>
+        <div>
+          <div class="font-bold text-[#ebe8e1]">Τι βλέπεις εδώ;</div>
+          <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
+            Τη <b>σκληρή πραγματικότητα των αριθμών</b> πίσω από τις πιο διαδεδομένες θεωρίες: Max Pain, 0DTE Lottery Tickets, 90% Win-Rate Put Selling, IV ως πρόγνωση, γραμμές στήριξης και δωρεάν μερίσματα.
+          </div>
+        </div>
+      </div>
+      <div class="flex items-start gap-2.5">
+        <span class="text-base leading-none">2️⃣</span>
+        <div>
+          <div class="font-bold text-[#c8963e]">Τι να κάνεις;</div>
+          <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
+            Δοκίμασε τους <b>2 ζωντανούς προσομοιωτές</b>: τον <i>0DTE Risk of Ruin Simulator</i> και τον <i>Taleb Turkey Shock Calculator</i> για να δεις με τα μάτια σου πότε εξαϋλώνεται το κεφάλαιο.
+          </div>
+        </div>
+      </div>
+      <div class="flex items-start gap-2.5">
+        <span class="text-base leading-none">3️⃣</span>
+        <div>
+          <div class="font-bold text-[#3da678]">Τι σημαίνει για την τσέπη σου;</div>
+          <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
+            Σταματάς να πληρώνεις αθέατους «φόρους μεταβλητότητας» (Volatility Tax) στους market makers και αντιμετωπίζεις την αγορά με <b>αυστηρό πραξεολογικό Skin in the Game</b>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE 6 MYTHBUSTER CARDS GRID -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <!-- MYTH 1: MAX PAIN -->
+    <div class="card-elevated p-4 border border-[#232d3b] hover:border-[#4a86c6] transition">
+      <div class="flex justify-between items-start mb-2 border-b border-[#232d3b] pb-2">
+        <div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-[#1e2837] text-[#4a86c6] font-bold border border-[#263548]">ΜΥΘΟΣ #1</span>
+          <h3 class="font-bold text-[#ebe8e1] text-sm mt-1">«Η Θεωρία του Max Pain &amp; η Συνωμοσία των Market Makers»</h3>
+        </div>
+        <span class="text-xl">🎯</span>
+      </div>
+      <div class="text-xs space-y-2">
+        <div class="p-2.5 rounded bg-[#241315] border border-[#c85648]/40 text-[#f08a7d]">
+          <b>Ο Ισχυρισμός Finfluencer:</b> <i>«Την Παρασκευή η Wall Street και η Citadel θα σπρώξουν την τιμή στο strike του Max Pain για να λήξουν όλα τα συμβόλαια άχρηστα και να μας κλέψουν τα premiums!»</i>
+        </div>
+        <div class="p-2.5 rounded bg-[#13221b] border border-[#1e4433] text-[#a3e6be]">
+          <b>Η Πραξεολογική Αλήθεια (Delta-Neutral Hedging):</b> Οι Market Makers <b>δεν παίρνουν κατεύθυνση τιμής</b>. Είναι υποχρεωμένοι από τη διαχείριση κινδύνου τους να είναι αυστηρά <b>Delta &amp; Gamma Neutral</b> ($\Delta_{\text{portfolio}} \approx 0$). Αντισταθμίζουν διαρκώς αγοράζοντας ή πουλώντας το υποκείμενο asset ($S$). Το Max Pain είναι απλώς το ιστορικό σημείο συσσώρευσης παλιών θέσεων (Open Interest).
+        </div>
+        <p class="text-[#8e99a8] leading-relaxed">
+          Αντίθετα, το λεγόμενο <b>Pin Risk</b> (όταν η τιμή μένει ακριβώς πάνω στο strike στη λήξη) αποτελεί <b>εφιάλτη για τους Market Makers</b> λόγω της ακραίας αβεβαιότητας αν οι πελάτες θα ασκήσουν τα συμβόλαια (Exercise Uncertainty), αναγκάζοντάς τους σε επικίνδυνα over-hedging trades μετά το κλείσιμο!
+        </p>
+      </div>
+    </div>
+
+    <!-- MYTH 2: 0DTE & OTM LOTTERY TICKETS + LIVE SIMULATOR -->
+    <div class="card-elevated p-4 border border-[#232d3b] hover:border-[#c85648] transition">
+      <div class="flex justify-between items-start mb-2 border-b border-[#232d3b] pb-2">
+        <div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-[#2e1518] text-[#c85648] font-bold border border-[#482025]">ΜΥΘΟΣ #2</span>
+          <h3 class="font-bold text-[#ebe8e1] text-sm mt-1">«Τα 0DTE &amp; Out-of-the-Money Calls είναι Φθηνά Λαχεία Χαμηλού Ρίσκου»</h3>
+        </div>
+        <span class="text-xl">🎰</span>
+      </div>
+      <div class="text-xs space-y-2">
+        <div class="p-2.5 rounded bg-[#241315] border border-[#c85648]/40 text-[#f08a7d]">
+          <b>Ο Ισχυρισμός Finfluencer:</b> <i>«Αγοράζω Calls με $0.05. Χάνω μόνο 5 δολάρια, αλλά αν γίνει ένα ξέσπασμα κερδίζω 1000%! Χαμηλό ρίσκο, άπειρο κέρδος!»</i>
+        </div>
+        <div class="p-2.5 rounded bg-[#13221b] border border-[#1e4433] text-[#a3e6be]">
+          <b>Η Πραξεολογική Αλήθεια (The Lottery Ticket &amp; Ruin Fallacy):</b> Τα μακρινά OTM options υποφέρουν από το <b>Volatility Smile</b> (είναι εξωφρενικά υπερτιμημένα) και το <b>Bid-Ask Spread</b>. Το μαθηματικό Expected Value είναι συντριπτικά αρνητικό ($-EV$).
+        </div>
+
+        <!-- Interactive 0DTE Ruin Simulator -->
+        <div class="mt-3 p-3 rounded bg-[#0f141c] border border-[#232d3b] space-y-2">
+          <div class="flex justify-between items-center text-[11px] font-bold text-[#c8963e]">
+            <span>🕹️ LIVE RUIN CALCULATOR: Τι παθαίνει το κεφάλαιο;</span>
+            <span id="ruinOddsBadge" class="mono text-[#c85648]">Ruin: 92.3%</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[10px] text-[#8e99a8]">Πιθανότητα Επιτυχίας ($P$): <span id="ruinProbLabel" class="text-[#ebe8e1] font-bold">10%</span></label>
+              <input id="ruinProbSlider" type="range" min="1" max="25" step="1" value="10" class="w-full accent-[#c8963e]" oninput="runRuinSimulator()" />
+            </div>
+            <div>
+              <label class="text-[10px] text-[#8e99a8]">Διαδοχικά Trades ($N$): <span id="ruinTradesLabel" class="text-[#ebe8e1] font-bold">25</span></label>
+              <input id="ruinTradesSlider" type="range" min="5" max="50" step="5" value="25" class="w-full accent-[#3d76b8]" oninput="runRuinSimulator()" />
+            </div>
+          </div>
+          <div id="ruinVerdictBox" class="p-2 rounded bg-[#151b23] border border-[#232d3b] text-[11px] leading-relaxed text-[#8e99a8]">
+            Υπολογισμός...
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MYTH 3: THE TURKEY PROBLEM (PUT SELLING) + LIVE SHOCK SIMULATOR -->
+    <div class="card-elevated p-4 border border-[#232d3b] hover:border-[#d49a42] transition">
+      <div class="flex justify-between items-start mb-2 border-b border-[#232d3b] pb-2">
+        <div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-[#2b2214] text-[#d49a42] font-bold border border-[#44351d]">ΜΥΘΟΣ #3</span>
+          <h3 class="font-bold text-[#ebe8e1] text-sm mt-1">«Πούλα 10-Delta Puts — 90% Win Rate = Σίγουρο Παθητικό Εισόδημα!»</h3>
+        </div>
+        <span class="text-xl">🦃</span>
+      </div>
+      <div class="text-xs space-y-2">
+        <div class="p-2.5 rounded bg-[#241315] border border-[#c85648]/40 text-[#f08a7d]">
+          <b>Ο Ισχυρισμός Finfluencer:</b> <i>«Το 90% των options λήγει άχρηστο. Πούλα out-of-the-money puts κάθε εβδομάδα, μάζευε μετρητά σαν τράπεζα και κοιμήσου ήσυχος!»</i>
+        </div>
+        <div class="p-2.5 rounded bg-[#13221b] border border-[#1e4433] text-[#a3e6be]">
+          <b>Η Πραξεολογική Αλήθεια (The Taleb Turkey Fallacy &amp; Fat Tails):</b> Όπως έγραψε ο Nassim Nicholas Taleb: <i>«Η γαλοπούλα ταΐζεται για 1.000 μέρες νομίζοντας ότι ο χασάπης την αγαπάει, μέχρι την παραμονή των Ευχαριστιών»</i>. Η πώληση naked options χαρακτηρίζεται από <b>ακραία αρνητική λοξότητα (Negative Skewness &amp; Leptokurtosis)</b>.
+        </div>
+
+        <!-- Interactive Turkey Shock Calculator -->
+        <div class="mt-3 p-3 rounded bg-[#0f141c] border border-[#232d3b] space-y-2">
+          <div class="flex justify-between items-center text-[11px] font-bold text-[#d49a42]">
+            <span>🦃 TALEB TURKEY CALCULATOR: Το σοκ του 4-Sigma</span>
+            <span id="turkeyNetBadge" class="mono text-[#c85648]">Καθαρό PnL: -$18,400</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[10px] text-[#8e99a8]">Εβδομαδιαίο Premium ($): <span id="turkeyPremLabel" class="text-[#ebe8e1] font-bold">$150</span></label>
+              <input id="turkeyPremSlider" type="range" min="50" max="500" step="25" value="150" class="w-full accent-[#d49a42]" oninput="runTailShockSimulator()" />
+            </div>
+            <div>
+              <label class="text-[10px] text-[#8e99a8]">Γεγονός-Σοκ (Tail Event):</label>
+              <select id="turkeyShockSelect" class="w-full px-2 py-1 text-xs rounded bg-[#161d27] border border-[#232d3b]" onchange="runTailShockSimulator()">
+                <option value="12">-12% Flash Crash (Covid/War)</option>
+                <option value="20">-20% Black Monday Shock</option>
+                <option value="35">-35% Systemic Meltdown</option>
+              </select>
+            </div>
+          </div>
+          <div id="turkeyVerdictBox" class="p-2 rounded bg-[#151b23] border border-[#232d3b] text-[11px] leading-relaxed text-[#8e99a8]">
+            Υπολογισμός...
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MYTH 4: IV IS A FORECAST -->
+    <div class="card-elevated p-4 border border-[#232d3b] hover:border-[#9b88bf] transition">
+      <div class="flex justify-between items-start mb-2 border-b border-[#232d3b] pb-2">
+        <div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-[#201d2d] text-[#9b88bf] font-bold border border-[#352c4e]">ΜΥΘΟΣ #4</span>
+          <h3 class="font-bold text-[#ebe8e1] text-sm mt-1">«Το Implied Volatility (IV) είναι Πρόβλεψη της Μελλοντικής Κίνησης»</h3>
+        </div>
+        <span class="text-xl">🔮</span>
+      </div>
+      <div class="text-xs space-y-2">
+        <div class="p-2.5 rounded bg-[#241315] border border-[#c85648]/40 text-[#f08a7d]">
+          <b>Ο Ισχυρισμός Finfluencer:</b> <i>«Το IV ανέβηκε στο 55%, άρα η αγορά προβλέπει τεράστιο ράλι ή μεγάλη πτώση! Το IV είναι η πρόγνωση καιρού της Wall Street.»</i>
+        </div>
+        <div class="p-2.5 rounded bg-[#13221b] border border-[#1e4433] text-[#a3e6be]">
+          <b>Η Πραξεολογική Αλήθεια (Volatility Risk Premium - VRP):</b> Το IV <b>δεν είναι πρόβλεψη</b>. Είναι η <b>τιμή ισορροπίας του ασφαλίστρου κινδύνου</b> στην αγορά. Επειδή οι άνθρωποι διακατέχονται από αποστροφή κινδύνου και προτίμηση βεβαιότητας, πληρώνουν συστηματικά υπεραξία (overpay) για προστασία.
+        </div>
+        <p class="text-[#8e99a8] leading-relaxed">
+          Ιστορικά σε πάνω από 40 χρόνια δεδομένων στον S&amp;P 500, το <b>Implied Volatility είναι συστηματικά υψηλότερο από το Realized Volatility</b> ($IV &gt; RV$) κατά μέσο όρο κατά 2 έως 4 μονάδες. Αυτό το άνοιγμα ονομάζεται <b>Volatility Risk Premium ($\text{VRP} = \mathbb{E}[IV] - \mathbb{E}[RV] &gt; 0$)</b>. Το IV δεν προβλέπει το μέλλον· τιμολογεί τον ανθρώπινο φόβο!
+        </p>
+      </div>
+    </div>
+
+    <!-- MYTH 5: SUPPORT & RESISTANCE VS DEALER GAMMA -->
+    <div class="card-elevated p-4 border border-[#232d3b] hover:border-[#3d76b8] transition">
+      <div class="flex justify-between items-start mb-2 border-b border-[#232d3b] pb-2">
+        <div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-[#171f2d] text-[#3d76b8] font-bold border border-[#23334c]">ΜΥΘΟΣ #5</span>
+          <h3 class="font-bold text-[#ebe8e1] text-sm mt-1">«Οι Γραμμές Στήριξης &amp; Αντίστασης (S&amp;R) Σταματούν την Τιμή»</h3>
+        </div>
+        <span class="text-xl">📐</span>
+      </div>
+      <div class="text-xs space-y-2">
+        <div class="p-2.5 rounded bg-[#241315] border border-[#c85648]/40 text-[#f08a7d]">
+          <b>Ο Ισχυρισμός Finfluencer:</b> <i>«Σχεδίασα μια διαγώνια γραμμή τάσης και ένα επίπεδο Fibonacci. Η τιμή θα ακουμπήσει εκεί και θα αντιστραφεί με μαθηματική ακρίβεια!»</i>
+        </div>
+        <div class="p-2.5 rounded bg-[#13221b] border border-[#1e4433] text-[#a3e6be]">
+          <b>Η Πραξεολογική Αλήθεια (Dealer Gamma Regimes - GEX):</b> Η αγορά δεν «βλέπει» γραμμές στο διάγραμμα. Βλέπει τις <b>ροές υποχρεωτικής αντιστάθμισης των Dealers (Hedging Flows)</b>:
+        </div>
+        <ul class="text-[#8e99a8] space-y-1.5 list-disc list-inside">
+          <li><b>Positive Gamma ($GEX &gt; 0$):</b> Οι Market Makers είναι Long Gamma. Αγοράζουν στις πτώσεις και πουλάνε στις ανόδους $\implies$ <b>Συμπίεση μεταβλητότητας &amp; Mean Reversion</b> (η αγορά μοιάζει κολλημένη).</li>
+          <li><b>Negative Gamma ($GEX &lt; 0$):</b> Οι Market Makers είναι Short Gamma. Πουλάνε στις πτώσεις και αγοράζουν στις ανόδους $\implies$ <b>Επιτάχυνση του κραχ (Flash Crash / Cascading Liquidity)</b>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- MYTH 6: DIVIDENDS & COVERED CALLS AS FREE LUNCH -->
+    <div class="card-elevated p-4 border border-[#232d3b] hover:border-[#3da678] transition">
+      <div class="flex justify-between items-start mb-2 border-b border-[#232d3b] pb-2">
+        <div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-[#14231b] text-[#3da678] font-bold border border-[#1d3d2e]">ΜΥΘΟΣ #6</span>
+          <h3 class="font-bold text-[#ebe8e1] text-sm mt-1">«Τα Μερίσματα και τα Covered Calls είναι Δωρεάν Χρήμα (Free Money)»</h3>
+        </div>
+        <span class="text-xl">🎁</span>
+      </div>
+      <div class="text-xs space-y-2">
+        <div class="p-2.5 rounded bg-[#241315] border border-[#c85648]/40 text-[#f08a7d]">
+          <b>Ο Ισχυρισμός Finfluencer:</b> <i>«Αγόρασε τη μετοχή Χ με 10% μέρισμα ή πούλα Covered Calls και βγάλε 25% ετήσια απόδοση χωρίς κανένα ρίσκο!»</i>
+        </div>
+        <div class="p-2.5 rounded bg-[#13221b] border border-[#1e4433] text-[#a3e6be]">
+          <b>Η Πραξεολογική Αλήθεια (Zero Arbitrage &amp; Upside Capping):</b> Στην ημερομηνία αποκοπής (Ex-Dividend date), η τιμή της μετοχής <b>μειώνεται αυτόματα ακριβώς κατά το ποσό του μερίσματος ($S_{\text{ex}} = S - D$)</b>. Δεν υπάρχει δημιουργία αξίας εκ του μηδενός.
+        </div>
+        <p class="text-[#8e99a8] leading-relaxed">
+          Στο Covered Call, εισπράττεις μεν premium, αλλά <b>ακρωτηριάζεις πλήρως το δεξί σου tail (όλα τα κέρδη πάνω από το Strike)</b> ενώ διακρατείς σχεδόν <b>το 100% του αριστερού tail (κατάρρευση τιμής)</b>. Αν δεν επιλέξεις το Sweet Spot με γεωμετρική βελτιστοποίηση (όπως δείχνει το Tab 3), απλώς πουλάς φθηνή ασφάλιση στην αγορά!
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer class="mt-10 pt-4 border-t border-[#26303e] text-[11px] text-[#637083] flex flex-wrap justify-between gap-2">
   <div>
@@ -1538,21 +1790,25 @@ function switchTab(tab) {
   document.getElementById('tabTimeline').classList.toggle('hidden', tab !== 'TIMELINE');
   document.getElementById('tabStrat').classList.toggle('hidden', tab !== 'STRAT');
   document.getElementById('tabTheory').classList.toggle('hidden', tab !== 'THEORY');
+  const tabMythsEl = document.getElementById('tabMyths');
+  if (tabMythsEl) tabMythsEl.classList.toggle('hidden', tab !== 'MYTHS');
 
-  document.getElementById('marketControlBar').classList.toggle('hidden', tab === 'THEORY');
+  document.getElementById('marketControlBar').classList.toggle('hidden', tab === 'THEORY' || tab === 'MYTHS');
 
   const btnProb = document.getElementById('tabBtnProb');
   const btnTl = document.getElementById('tabBtnTimeline');
   const btnSt = document.getElementById('tabBtnStrat');
   const btnTh = document.getElementById('tabBtnTheory');
+  const btnMyths = document.getElementById('tabBtnMyths');
 
-  const activeCls = 'px-4 py-2 rounded bg-[#4a86c6] text-white transition font-bold';
+  const activeCls = 'px-4 py-2 rounded bg-[#4a86c6] text-white transition font-bold shadow-sm';
   const inactiveCls = 'px-4 py-2 rounded bg-[#171c24] text-[#9aa4b2] hover:bg-[#1e2430] transition font-bold';
 
-  btnProb.className = tab === 'PROB' ? activeCls : inactiveCls;
-  btnTl.className = tab === 'TIMELINE' ? activeCls : inactiveCls;
-  btnSt.className = tab === 'STRAT' ? activeCls : inactiveCls;
-  btnTh.className = tab === 'THEORY' ? activeCls : inactiveCls;
+  if (btnProb) btnProb.className = tab === 'PROB' ? activeCls : inactiveCls;
+  if (btnTl) btnTl.className = tab === 'TIMELINE' ? activeCls : inactiveCls;
+  if (btnSt) btnSt.className = tab === 'STRAT' ? activeCls : inactiveCls;
+  if (btnTh) btnTh.className = tab === 'THEORY' ? activeCls : inactiveCls;
+  if (btnMyths) btnMyths.className = tab === 'MYTHS' ? activeCls : inactiveCls;
 
   if (tab === 'TIMELINE') {
     syncTimelineWithLiveChain();
@@ -1560,6 +1816,11 @@ function switchTab(tab) {
     runStrategyScanner();
   } else if (tab === 'THEORY') {
     updateParityDiagram();
+    safeRenderMath(document.getElementById('tabTheory'));
+  } else if (tab === 'MYTHS') {
+    runRuinSimulator();
+    runTailShockSimulator();
+    safeRenderMath(document.getElementById('tabMyths'));
   }
 }
 
@@ -1924,18 +2185,69 @@ function onSliderChange(targetVal) {
   document.getElementById('kpiNoTouch').textContent = (nearest.pNoTouch * 100).toFixed(1) + '%';
   document.getElementById('kpiNoTouchSub').textContent = 'Πιθανότητα να μην αγγίξει μέχρι τη λήξη';
 
-  const bits = (-Math.log2(Math.max(1e-4, nearest.pTouch))).toFixed(1);
+  const pTouchVal = Math.max(1e-4, nearest.pTouch);
+  const pExpireVal = Math.max(1e-4, nearest.pExpire);
+  const bitsVal = -Math.log2(pTouchVal);
+  const bits = bitsVal.toFixed(1);
+  const rarityOdds = (1 / pTouchVal).toFixed(1);
   const isUp = target >= spot;
   const spreadType = nearest.type === 'C' ? 'Call' : 'Put';
   const multStr = nearest.touchMult > 0 ? nearest.touchMult.toFixed(2) + 'x' : '—';
 
+  // Kelly Criterion Calculation:
+  // p = pTouchVal, b = net multiple = touchMult - 1
+  let kellyHtml = '';
+  if (nearest.touchMult > 1) {
+    const b = nearest.touchMult - 1;
+    const kellyFraction = pTouchVal - ((1 - pTouchVal) / b);
+    if (kellyFraction > 0) {
+      const fullKelly = (kellyFraction * 100).toFixed(1);
+      const halfKelly = (kellyFraction * 50).toFixed(1);
+      kellyHtml = '<span class="text-[#3ea87c] font-bold">+' + fullKelly + '% του Bankroll (Half-Kelly: ' + halfKelly + '%)</span> — Θετικό Edge (+EV) έναντι της αγοράς!';
+    } else {
+      kellyHtml = '<span class="text-[#c85648] font-bold">0.0% (-EV)</span> — Η αγορά τιμολογεί το spread ακριβά σε σχέση με το P(Touch).';
+    }
+  } else {
+    kellyHtml = '<span class="text-[#8e99a8]">Μηδενικό ή ανεπαρκές Multiple</span>';
+  }
+
+  // Dual-Regime Shannon Surprisal Narrative
+  let shannonNarrative = '';
+  if (pTouchVal >= 0.50) {
+    shannonNarrative =
+      '<div>• <b>Πληροφοριακή Δυσκολία ($I = -\\log_2 P_{\\text{Touch}}$):</b> ' +
+      '<span class="mono font-bold text-[#c8963e]">' + bits + ' Bits</span> ' +
+      '<span class="text-[11px] text-[#8e99a8]">(Σπανιότητα: <b>1 στις ' + rarityOdds + ' φορές</b> • Πιθανότητα: <b>' + (pTouchVal * 100).toFixed(1) + '%</b>)</span>. ' +
+      '<span class="px-1.5 py-0.5 rounded bg-[#2e2617] text-[#c8963e] text-[10px] font-bold border border-[#524122]">Αναμενόμενος Θόρυβος Αγοράς (Noise / Baseline)</span>' +
+      '<div class="text-[11px] text-[#8e99a8] mt-0.5 pl-3 border-l-2 border-[#c8963e]/40">' +
+      'Η αγορά θεωρεί ήδη την επαφή ως το πιθανότερο σενάριο ($P_{\\text{Touch}} \\ge 50\\%$). Η πρόβλεψη περιέχει <b>λιγότερο από 1 Bit πληροφορίας</b> (ευκολότερο ακόμη κι από ένα απλό στρίψιμο νομίσματος!). ' +
+      'Ο finfluencer πουλάει ως «επίτευγμα» αυτό που αποτελεί τη φυσιολογική, αναμενόμενη διακύμανση της αγοράς. ' +
+      '<button onclick="openShannonModal()" class="text-[#9b88bf] hover:underline font-bold ml-1">🔬 Ανάλυση Claude Shannon ↗</button>' +
+      '</div></div>';
+  } else {
+    const coinEquivalent = bitsVal.toFixed(1);
+    shannonNarrative =
+      '<div>• <b>Πληροφοριακή Δυσκολία ($I = -\\log_2 P_{\\text{Touch}}$):</b> ' +
+      '<span class="mono font-bold text-[#9b88bf]">' + bits + ' Bits</span> ' +
+      '<span class="text-[11px] text-[#8e99a8]">(Σπανιότητα: <b>1 στις ' + rarityOdds + ' φορές</b> • Πιθανότητα: <b>' + (pTouchVal * 100).toFixed(1) + '%</b>)</span>. ' +
+      '<span class="px-1.5 py-0.5 rounded bg-[#221c2e] text-[#9b88bf] text-[10px] font-bold border border-[#3c2f52]">Πληροφοριακή Έκπληξη (Alpha / Rarity)</span>' +
+      '<div class="text-[11px] text-[#8e99a8] mt-0.5 pl-3 border-l-2 border-[#9b88bf]/40">' +
+      'Ισοδύναμο με <b>' + coinEquivalent + ' διαδοχικές σωστές προβλέψεις σε κορώνα-γράμματα</b> ($2^{-' + coinEquivalent + '} \\approx ' + (pTouchVal * 100).toFixed(1) + '\\%$). ' +
+      'Εδώ ο αναλυτής ισχυρίζεται ότι κατέχει σπάνιο προγνωστικό πλεονέκτημα (Alpha) που η αγορά τιμολογεί ως απίθανο γεγονός. ' +
+      '<button onclick="openShannonModal()" class="text-[#9b88bf] hover:underline font-bold ml-1">🔬 Ανάλυση Claude Shannon ↗</button>' +
+      '</div></div>';
+  }
+
   const verdictEl = document.getElementById('verdictText');
   verdictEl.innerHTML =
     '<div>• <b>Ισχυρισμός Πρόβλεψης:</b> Κίνηση στα <b>' + fmtMoney(nearest.target) + '</b> (' + (distSpot >= 0 ? '+' : '') + distSpot.toFixed(1) + '%) εντός <b>' + dte + ' ημερών</b>.</div>' +
-    '<div>• <b>Αντικειμενική Πιθανότητα Αγοράς:</b> <b>' + (nearest.pTouch * 100).toFixed(1) + '%</b> για Touch (Επαφή) | <b>' + (nearest.pExpire * 100).toFixed(1) + '%</b> για Λήξη ITM.</div>' +
-    '<div>• <b>Πληροφοριακή Δυσκολία:</b> <b>' + bits + ' Bits</b> (ισοδύναμο με <b>' + Math.round(Number(bits)) + '</b> συνεχόμενες επιτυχίες σε κορώνα-γράμματα).</div>' +
+    '<div>• <b>Αντικειμενικές Πιθανότητες Αγοράς:</b> <b>$P_{\\text{Touch}} = ' + (nearest.pTouch * 100).toFixed(1) + '\\%$</b> (Επαφή οποτεδήποτε) | <b>$P_{\\text{Expire}} = ' + (nearest.pExpire * 100).toFixed(1) + '\\%$</b> (Λήξη ITM).</div>' +
+    shannonNarrative +
     '<div>• <b>Το Στοίχημα Skin in the Game:</b> Στενό Vertical Spread <b>' + nearest.k1 + ' / ' + nearest.k2 + ' ' + spreadType + '</b>. Κοστίζει <b>' + fmtMoney(nearest.spreadAsk) + '</b> σήμερα και αξίζει <b>' + fmtMoney(nearest.touchExit) + '</b> στο Touch.</div>' +
-    '<div>• <b>Πολλαπλασιαστής Απόδοσης (Multiple):</b> <span class="font-bold text-[#3ea87c] text-sm">' + multStr + '</span>. Αν ο αναλυτής πιστεύει την πρόβλεψή του, η αγορά τον πληρώνει <b>' + multStr + '</b> τα χρήματά του. Αν δεν αγοράζει αυτό το spread, πουλάει λόγια χωρίς κόστος!</div>';
+    '<div>• <b>Πολλαπλασιαστής Απόδοσης (Multiple):</b> <span class="font-bold text-[#3ea87c] text-sm">' + multStr + '</span>. Αν ο αναλυτής πιστεύει την πρόβλεψή του, η αγορά τον πληρώνει <b>' + multStr + '</b> τα χρήματά του. Αν δεν αγοράζει αυτό το spread, πουλάει λόγια χωρίς κόστος!</div>' +
+    '<div>• <b>Kelly Criterion Sizing ($f^* = p - \\frac{1-p}{b}$):</b> ' + kellyHtml + '</div>';
+
+  safeRenderMath(verdictEl);
 
   const touchLink = document.getElementById('optionStratTouchLink');
   const noTouchLink = document.getElementById('optionStratNoTouchLink');
@@ -1974,7 +2286,13 @@ function onSliderChange(targetVal) {
   if (asymRiskValEl) asymRiskValEl.textContent = fmtMoney(riskCost);
   if (asymPayoutValEl) asymPayoutValEl.textContent = fmtMoney(payoutVal);
   if (asymMultLabelEl) asymMultLabelEl.textContent = '⚡ ' + multStr + ' Multiple';
-  if (asymBitsBadgeEl) asymBitsBadgeEl.textContent = 'Πληροφοριακή Δυσκολία: ' + bits + ' Bits (' + Math.round(Number(bits)) + ' κορώνα-γράμματα)';
+  if (asymBitsBadgeEl) {
+    if (pTouchVal >= 0.50) {
+      asymBitsBadgeEl.innerHTML = '<span>🔬 ' + bits + ' Bits (1 στις ' + rarityOdds + ' • Θόρυβος Αγοράς)</span> <span class="text-[9px] bg-[#3c2f52] px-1 rounded font-sans">Εξήγηση ↗</span>';
+    } else {
+      asymBitsBadgeEl.innerHTML = '<span>🔬 ' + bits + ' Bits (1 στις ' + rarityOdds + ' • Σπάνιο Alpha)</span> <span class="text-[9px] bg-[#3c2f52] px-1 rounded font-sans">Εξήγηση ↗</span>';
+    }
+  }
   if (asymSpotLabelEl) asymSpotLabelEl.textContent = 'Spot: ' + fmtMoney(spot);
   if (asymTargetLabelEl) asymTargetLabelEl.textContent = 'Target: ' + fmtMoney(nearest.target);
 
@@ -1997,9 +2315,12 @@ function renderSpreadsTable(activeSpread) {
     const isSelected = activeSpread && s.target === activeSpread.target;
     const moveSpot = ((s.target / spot - 1) * 100);
     const moveFwd = ((s.target / forward - 1) * 100);
-    const bits = (-Math.log2(Math.max(1e-4, s.pTouch))).toFixed(1);
+    const pTouchClamped = Math.max(1e-4, s.pTouch);
+    const bits = (-Math.log2(pTouchClamped)).toFixed(1);
+    const rarity = (1 / pTouchClamped).toFixed(1);
     const multStr = s.touchMult > 0 ? (s.touchMult.toFixed(2) + 'x') : '—';
     const isCall = s.type === 'C';
+    const bitsColor = s.pTouch >= 0.5 ? 'text-[#c8963e]' : 'text-[#9b88bf] font-bold';
 
     const pnlUrl = venue === 'CRYPTO'
       ? ('https://www.deribit.com/options/' + symbol)
@@ -2019,7 +2340,7 @@ function renderSpreadsTable(activeSpread) {
       '<td class="p-3 text-right font-bold text-[#3ea87c]">' + (s.pTouch * 100).toFixed(1) + '%</td>' +
       '<td class="p-3 text-right text-[#d95d4e]">' + (s.pNoTouch * 100).toFixed(1) + '%</td>' +
       '<td class="p-3 text-right text-[#9b7ad6]">' + (s.pExpire * 100).toFixed(1) + '%</td>' +
-      '<td class="p-3 text-right text-gray-400">' + bits + '</td>' +
+      '<td class="p-3 text-right mono ' + bitsColor + '" title="Σπανιότητα: 1 στις ' + rarity + ' φορές (' + (s.pTouch >= 0.5 ? 'Θόρυβος Αγοράς' : 'Σπάνιο Alpha') + ')">' + bits + ' <span class="text-[10px] text-[#8e99a8]">b</span></td>' +
       '<td class="p-3 text-right">' + fmtMoney(s.spreadAsk) + '</td>' +
       '<td class="p-3 text-right text-gray-300">' + fmtMoney(s.touchExit) + '</td>' +
       '<td class="p-3 text-right font-bold ' + (s.touchMult >= 2.0 ? 'text-[#3ea87c]' : 'text-[#d49a42]') + '">' + multStr + '</td>' +
@@ -2566,6 +2887,10 @@ function renderSuperstructureBellChart(spot, forward, target, pTouch, pExpire, s
     const curPt = analyticalTouchProbWithDrift(spot, curP, tYears, iv, r);
     const curPe = analyticalExpireProbWithDrift(spot, curP, tYears, iv, r);
     const bits = curPt > 0 ? (-Math.log2(curPt)).toFixed(1) : '—';
+    const rarity = curPt > 0 ? (1 / curPt).toFixed(1) : '—';
+    const regimeBadge = curPt >= 0.5
+      ? '<span class="text-[#c8963e] font-bold">Αναμενόμενος Θόρυβος</span>'
+      : '<span class="text-[#9b88bf] font-bold">Σπάνιο Alpha</span>';
 
     visxShowTooltip(e, `
       <div class="font-bold text-[#3d76b8] border-b border-[#232d3b] pb-1 mb-1.5 flex justify-between">
@@ -2576,9 +2901,10 @@ function renderSuperstructureBellChart(spot, forward, target, pTouch, pExpire, s
         <div class="flex justify-between text-[#8e99a8]"><span>Απόσταση vs Forward:</span> <span class="text-[#c8963e] mono font-bold">${distFwd}%</span></div>
         <div class="flex justify-between text-[#8e99a8]"><span>Πιθανότητα P(Touch):</span> <span class="text-[#3da678] mono font-bold">${(curPt * 100).toFixed(1)}%</span></div>
         <div class="flex justify-between text-[#8e99a8]"><span>Πιθανότητα P(Expire):</span> <span class="text-[#9b88bf] mono font-bold">${(curPe * 100).toFixed(1)}%</span></div>
-        <div class="flex justify-between text-[#8e99a8]"><span>Δυσκολία Πληροφορίας:</span> <span class="text-[#ebe8e1] mono">${bits} Bits</span></div>
+        <div class="flex justify-between text-[#8e99a8]"><span>Shannon Bits:</span> <span class="text-[#ebe8e1] mono font-bold">${bits} Bits (1 στις ${rarity})</span></div>
+        <div class="flex justify-between text-[#8e99a8]"><span>Καθεστώς Πληροφορίας:</span> <span>${regimeBadge}</span></div>
       </div>
-      <div class="text-[10px] text-[#596575] mt-1.5 pt-1 border-t border-[#232d3b]">💡 Κάνε κλικ για να ορίσεις ως στόχο</div>
+      <div class="text-[10px] text-[#596575] mt-1.5 pt-1 border-t border-[#232d3b]">💡 Κλικ για ορισμό στόχου • Πάτα τα Bits για ανάλυση Shannon</div>
     `);
   };
 
@@ -3524,6 +3850,154 @@ function copyShareableUrl() {
   });
 }
 
+// --- SHANNON INFORMATION & KELLY MODAL LOGIC ---
+function safeRenderMath(container) {
+  if (!container) return;
+  if (window.renderMathInElement) {
+    try {
+      window.renderMathInElement(container, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false }
+        ],
+        throwOnError: false
+      });
+    } catch (e) {
+      console.warn('KaTeX render note:', e);
+    }
+  }
+}
+
+function openShannonModal() {
+  const modal = document.getElementById('shannonModal');
+  if (!modal) return;
+  modal.classList.remove('hidden');
+  const activePt = currentState && currentState.spreads && currentState.spreads.length > 0 && currentState.activeTarget > 0
+    ? (currentState.spreads.find(s => s.target === currentState.activeTarget)?.pTouch || 0.707)
+    : 0.707;
+  const pPct = Math.max(1, Math.min(99, activePt * 100));
+  const slider = document.getElementById('modalProbSlider');
+  if (slider) slider.value = pPct.toFixed(1);
+  onShannonSlider(pPct);
+  safeRenderMath(modal);
+}
+
+function closeShannonModal() {
+  const modal = document.getElementById('shannonModal');
+  if (modal) modal.classList.add('hidden');
+}
+
+function onShannonSlider(val) {
+  const p = Number(val) / 100.0;
+  if (p <= 0 || p >= 1) return;
+
+  const bits = (-Math.log2(p)).toFixed(2);
+  const odds = (1 / p).toFixed(1);
+  const fairMult = (1 / p).toFixed(2) + 'x';
+
+  const badge = document.getElementById('modalProbBadge');
+  const outProb = document.getElementById('modalOutProb');
+  const outBits = document.getElementById('modalOutBits');
+  const outOdds = document.getElementById('modalOutOdds');
+  const outMult = document.getElementById('modalOutMult');
+  const outInterp = document.getElementById('modalOutInterpretation');
+
+  if (badge) badge.textContent = 'P = ' + (p * 100).toFixed(1) + '%';
+  if (outProb) outProb.textContent = (p * 100).toFixed(1) + '%';
+  if (outBits) outBits.textContent = bits + ' Bits';
+  if (outOdds) outOdds.textContent = '1 στις ' + odds;
+  if (outMult) outMult.textContent = fairMult;
+
+  if (outInterp) {
+    if (p >= 0.50) {
+      outInterp.className = 'p-2.5 rounded bg-[#241c12] border border-[#4d3a1f] text-[11px] leading-relaxed text-[#e0b96b]';
+      outInterp.innerHTML =
+        '<b>📻 Καθεστώς 1 — Αναμενόμενος Θόρυβος Αγοράς (Noise / Baseline):</b><br/>' +
+        'Επειδή η πιθανότητα είναι $\\ge 50\\%$, η αυτοπληροφορία είναι <b>λιγότερο από 1 Bit</b> ($I < 1.0$). ' +
+        'Είναι ευκολότερο ακόμη κι από ένα στρίψιμο νομίσματος! Αν ένας finfluencer προβλέψει αυτή την κίνηση, ' +
+        'δεν παρέχει σχεδόν καμία πληροφορία (μηδενικός Alpha). Προβλέπει κάτι που η αγορά θεωρεί αυτονόητο.';
+    } else {
+      const flips = Number(bits).toFixed(1);
+      outInterp.className = 'p-2.5 rounded bg-[#1c1628] border border-[#3e2e58] text-[11px] leading-relaxed text-[#c3b6dd]';
+      outInterp.innerHTML =
+        '<b>⚡ Καθεστώς 2 — Πληροφοριακή Έκπληξη (Forecasting Alpha):</b><br/>' +
+        'Επειδή η πιθανότητα είναι $< 50\\%$, η πρόβλεψη απαιτεί <b>' + bits + ' Bits καθαρής έκπληξης</b>. ' +
+        'Ισοδυναμεί με <b>' + flips + ' διαδοχικές σωστές προβλέψεις σε κορώνα-γράμματα</b> ($2^{-' + flips + '} \\approx ' + (p * 100).toFixed(1) + '\\%$). ' +
+        'Αν ο αναλυτής έχει όντως edge, η αγορά τον πληρώνει δίκαιο πολλαπλασιαστή <b>' + fairMult + '</b> στο Touch. ' +
+        'Απαιτείται αυστηρό Skin in the Game!';
+    }
+    safeRenderMath(outInterp);
+  }
+}
+
+// --- TAB 5: MYTHBUSTERS LIVE SIMULATORS ---
+function runRuinSimulator() {
+  const probSlider = document.getElementById('ruinProbSlider');
+  const tradesSlider = document.getElementById('ruinTradesSlider');
+  if (!probSlider || !tradesSlider) return;
+
+  const p = Number(probSlider.value) / 100.0;
+  const n = Number(tradesSlider.value);
+
+  const probLabel = document.getElementById('ruinProbLabel');
+  const tradesLabel = document.getElementById('ruinTradesLabel');
+  const oddsBadge = document.getElementById('ruinOddsBadge');
+  const verdictBox = document.getElementById('ruinVerdictBox');
+
+  if (probLabel) probLabel.textContent = (p * 100).toFixed(0) + '%';
+  if (tradesLabel) tradesLabel.textContent = n;
+
+  // Probability of zero wins in N trials: (1 - p)^n
+  const pZeroWins = Math.pow(1 - p, n);
+  const ruinOddsPct = (pZeroWins * 100).toFixed(1);
+  const bitsPerTrade = (-Math.log2(p)).toFixed(1);
+
+  if (oddsBadge) oddsBadge.textContent = 'Μηδενικές Επιτυχίες: ' + ruinOddsPct + '%';
+
+  if (verdictBox) {
+    verdictBox.innerHTML =
+      'Σε <b>' + n + '</b> διαδοχικά trades OTM λαχείων με $P = ' + (p * 100).toFixed(0) + '\\%$, ' +
+      'η πιθανότητα να μην κερδίσεις <b>ΟΥΤΕ ΜΙΑ ΦΟΡΑ</b> (100% loss) είναι <span class="text-[#c85648] font-bold text-xs">' + ruinOddsPct + '%</span>! ' +
+      'Απαιτείς <b>' + bitsPerTrade + ' Bits</b> πληροφορίας σε κάθε trade ενώ πληρώνεις bid-ask spread & volatility smile. ' +
+      'Μαθηματικά, το drawdown $>80\\%$ επέρχεται σχεδόν νομοτελειακά.';
+    safeRenderMath(verdictBox);
+  }
+}
+
+function runTailShockSimulator() {
+  const premSlider = document.getElementById('turkeyPremSlider');
+  const shockSelect = document.getElementById('turkeyShockSelect');
+  if (!premSlider || !shockSelect) return;
+
+  const prem = Number(premSlider.value);
+  const shockPct = Number(shockSelect.value);
+
+  const premLabel = document.getElementById('turkeyPremLabel');
+  const netBadge = document.getElementById('turkeyNetBadge');
+  const verdictBox = document.getElementById('turkeyVerdictBox');
+
+  if (premLabel) premLabel.textContent = '$' + prem;
+
+  const yearlyGains = prem * 52;
+  const notional = 60000;
+  const grossLoss = notional * (shockPct / 100.0);
+  const netPnL = yearlyGains - grossLoss;
+
+  if (netBadge) {
+    netBadge.textContent = 'Καθαρό PnL: ' + (netPnL >= 0 ? '+$' : '-$') + Math.abs(Math.round(netPnL)).toLocaleString('en-US');
+    netBadge.className = netPnL >= 0 ? 'mono text-[#3ea87c] font-bold' : 'mono text-[#c85648] font-bold';
+  }
+
+  if (verdictBox) {
+    verdictBox.innerHTML =
+      'Μαζεύεις <b>$' + prem + '/εβδομάδα</b> επί 52 εβδομάδες $\\implies$ Ετήσιο κέρδος: <span class="text-[#3ea87c] font-bold">+$' + yearlyGains.toLocaleString('en-US') + '</span>.<br/>' +
+      'Ξαφνικό σοκ <b>-' + shockPct + '%</b> σε 1 ημέρα $\\implies$ Ζημιά θέσης: <span class="text-[#c85648] font-bold">-$' + Math.round(grossLoss).toLocaleString('en-US') + '</span>.<br/>' +
+      '<b>Τελικό Αποτέλεσμα:</b> <span class="' + (netPnL >= 0 ? 'text-[#3ea87c]' : 'text-[#c85648]') + ' font-bold">' + (netPnL >= 0 ? '+$' : '-$') + Math.abs(Math.round(netPnL)).toLocaleString('en-US') + '</span>. ' +
+      'Ένα και μόνο 4-sigma tail event εξαφάνισε έως και <b>' + (grossLoss / (yearlyGains || 1)).toFixed(1) + ' χρόνια</b> κερδών!';
+    safeRenderMath(verdictBox);
+  }
+}
+
 (function initFromUrl() {
   const params = new URLSearchParams(window.location.search);
   const venue = params.get('venue') || 'CRYPTO';
@@ -3537,7 +4011,137 @@ function copyShareableUrl() {
 
   runTimelineCalculator();
   loadChain(target);
+
+  // Initialize Math & Simulators
+  setTimeout(() => {
+    safeRenderMath(document.body);
+    runRuinSimulator();
+    runTailShockSimulator();
+  }, 300);
 })();
 </script>
+
+<!-- SHANNON & KELLY EXPLAINER MODAL -->
+<div id="shannonModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 md:p-6 bg-black/80 backdrop-blur-md transition-opacity">
+  <div class="relative w-full max-w-3xl max-h-[92vh] overflow-y-auto bg-[#131821] border border-[#2e3a4c] rounded-xl shadow-2xl p-5 md:p-6 text-xs text-[#ebe8e1] space-y-4">
+    <!-- Header -->
+    <div class="flex justify-between items-start border-b border-[#232d3b] pb-3">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🔬</span>
+          <h3 class="text-sm md:text-base font-bold text-[#9b88bf] uppercase tracking-wide">
+            Πληροφοριακή Δυσκολία (Shannon Bits) &amp; Kelly Criterion στα Options
+          </h3>
+        </div>
+        <p class="text-[11px] text-[#8e99a8] mt-0.5">
+          Πώς ο Claude Shannon (1948) και ο John L. Kelly Jr. (1956) αποδομούν την αερολογία των Finfluencers.
+        </p>
+      </div>
+      <button onclick="closeShannonModal()" class="text-2xl text-[#8e99a8] hover:text-white px-2 py-0.5 rounded hover:bg-[#1f2633] transition leading-none">&times;</button>
+    </div>
+
+    <!-- Section 1: The 0.5 Bits Mystery Unraveled -->
+    <div class="card-elevated p-4 border border-[#2b384c] space-y-2">
+      <div class="flex items-center gap-2 text-[#c8963e] font-bold text-xs">
+        <span>💡</span>
+        <span>1. ΤΟ ΜΥΣΤΗΡΙΟ ΤΩΝ 0.5 BITS: ΓΙΑΤΙ ΑΠΟΡΗΣΕ Ο «ΟΨΙΟΝΑΚΙΑΣ»;</span>
+      </div>
+      <p class="text-[#8e99a8] leading-relaxed">
+        Στη Θεωρία Πληροφοριών του Claude Shannon (1948), η <b>Αυτοπληροφορία (Shannon Surprisal)</b> ενός γεγονότος με πιθανότητα $P$ ορίζεται ως:
+      </p>
+      <div class="p-2.5 rounded bg-[#0b0e13] border border-[#232d3b] text-center mono text-sm text-[#9b88bf]">
+        $$I(P) = -\log_2(P) = \log_2\left(\frac{1}{P}\right) \quad \text{(σε Bits)}$$
+      </div>
+      <div class="space-y-1.5 text-[#ebe8e1]">
+        <div>• <b>Ένα δίκαιο στρίψιμο νομίσματος ($P = 50\%$):</b> $I(0.50) = -\log_2(0.50) = \mathbf{1.0 \text{ Bit}}$.</div>
+        <div>• <b>Όταν $P = 70.7\%$ ($1/\sqrt{2}$):</b> $I(0.7071) = -\log_2(0.7071) = \mathbf{0.50 \text{ Bits}}$.</div>
+      </div>
+      <div class="p-2.5 rounded bg-[#241315] border border-[#c85648]/40 text-[#f08a7d] leading-relaxed">
+        <b>Το Σφάλμα της Στρογγυλοποίησης:</b> Ο παλιός κώδικας στρογγυλοποιούσε τα $0.5$ Bits σε $1$ και έγραφε <i>«1 συνεχόμενες επιτυχίες σε κορώνα-γράμματα»</i>! Αυτό ήταν στατιστικά ψευδές, διότι ένα γεγονός με $71\%$ πιθανότητα είναι <b>πολύ πιο εύκολο</b> από ένα στρίψιμο νομίσματος (50%)!
+      </div>
+    </div>
+
+    <!-- Section 2: Dual Regimes of Information -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="p-3.5 rounded bg-[#161d27] border border-[#c8963e]/40 space-y-1.5">
+        <div class="font-bold text-[#c8963e] flex items-center gap-1.5">
+          <span>📻</span> <span>ΚΑΘΕΣΤΩΣ 1: $P \ge 50\%$ (Bits $< 1$)</span>
+        </div>
+        <div class="font-bold text-[#ebe8e1] text-xs">Αναμενόμενος Θόρυβος Αγοράς (Baseline Noise)</div>
+        <p class="text-[11px] text-[#8e99a8] leading-relaxed">
+          Η αγορά ήδη αναμένει την επαφή ($P_{\text{Touch}} \ge 50\%$). Όταν ο finfluencer προβλέπει αυτό το επίπεδο, <b>δεν προσφέρει καμία ουσιαστική πληροφορία</b>. Προβλέπει κάτι που είναι αυτονόητο, αλλά το παρουσιάζει ως επίτευγμα!
+        </p>
+      </div>
+
+      <div class="p-3.5 rounded bg-[#161d27] border border-[#9b88bf]/40 space-y-1.5">
+        <div class="font-bold text-[#9b88bf] flex items-center gap-1.5">
+          <span>⚡</span> <span>ΚΑΘΕΣΤΩΣ 2: $P < 50\%$ (Bits $\ge 1$)</span>
+        </div>
+        <div class="font-bold text-[#ebe8e1] text-xs">Πληροφοριακή Έκπληξη (Forecasting Alpha)</div>
+        <p class="text-[11px] text-[#8e99a8] leading-relaxed">
+          Πρόκειται για σπάνιο γεγονός. Για να επαληθευτεί, απαιτεί $I$ Bits έκπληξης. Π.χ. $P = 6.25\% \implies 4 \text{ Bits}$ ($4$ διαδοχικές κορώνες, $1$ στις $16$ φορές). Εδώ ο αναλυτής <b>οφείλει να βάλει Skin in the Game</b> με vertical spread!
+        </p>
+      </div>
+    </div>
+
+    <!-- Section 3: Kelly Criterion Connection -->
+    <div class="card-elevated p-4 border border-[#2b384c] space-y-2">
+      <div class="flex items-center gap-2 text-[#3da678] font-bold text-xs">
+        <span>💰</span>
+        <span>2. Η ΣΥΝΔΕΣΗ ΜΕ ΤΟ KELLY CRITERION (JOHN L. KELLY JR., 1956)</span>
+      </div>
+      <p class="text-[#8e99a8] leading-relaxed">
+        Στο μνημειώδες paper <i>«A New Interpretation of Information Rate»</i>, ο John Kelly απέδειξε ότι ο ρυθμός μετάδοσης πληροφορίας σε Bits ισούται ακριβώς με τον <b>μέγιστο ρυθμό εκθετικής αύξησης πλούτου</b> ενός trader.
+      </p>
+      <div class="p-2.5 rounded bg-[#0b0e13] border border-[#232d3b] text-center mono text-sm text-[#3da678]">
+        $$f^* = \frac{b \cdot p - (1 - p)}{b} = p - \frac{1 - p}{b}$$
+      </div>
+      <p class="text-[#8e99a8] leading-relaxed">
+        Όπου $p = P_{\text{Touch}}$ και $b = \text{Multiple} - 1$ (το καθαρό κέρδος). Αν ο finfluencer έχει όντως «πληροφορία», το Kelly Criterion υποδεικνύει το ακριβές βέλτιστο ποσοστό του bankroll που πρέπει να ποντάρει στο ασύμμετρο spread. Αν $f^* \le 0$, η αγορά έχει ήδη τιμολογήσει δίκαια το στοίχημα ($-EV$) και ο αναλυτής πουλάει λόγια χωρίς κόστος.
+      </p>
+    </div>
+
+    <!-- Section 4: Live Interactive Probability-to-Bits Converter -->
+    <div class="p-4 rounded bg-[#10151e] border border-[#232d3b] space-y-3">
+      <div class="flex justify-between items-center text-xs font-bold text-[#c8963e]">
+        <span>🎛️ ΔΙΑΔΡΑΣΤΙΚΟΣ ΜΕΤΑΤΡΟΠΕΑΣ: ΔΕΣ ΤΑ BITS ΣΕ ΠΡΑΓΜΑΤΙΚΟ ΧΡΟΝΟ</span>
+        <span id="modalProbBadge" class="mono text-sm text-[#ebe8e1]">P = 70.7%</span>
+      </div>
+      <input id="modalProbSlider" type="range" min="1" max="99" step="0.5" value="70.7" class="w-full cursor-pointer accent-[#9b88bf]" oninput="onShannonSlider(this.value)" />
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center mono text-xs">
+        <div class="p-2 rounded bg-[#151c27] border border-[#232d3b]">
+          <div class="text-[10px] text-[#8e99a8] font-sans">ΠΙΘΑΝΟΤΗΤΑ P</div>
+          <div id="modalOutProb" class="text-sm font-bold text-[#ebe8e1] mt-0.5">70.7%</div>
+        </div>
+        <div class="p-2 rounded bg-[#151c27] border border-[#232d3b]">
+          <div class="text-[10px] text-[#8e99a8] font-sans">SHANNON BITS</div>
+          <div id="modalOutBits" class="text-sm font-bold text-[#9b88bf] mt-0.5">0.5 Bits</div>
+        </div>
+        <div class="p-2 rounded bg-[#151c27] border border-[#232d3b]">
+          <div class="text-[10px] text-[#8e99a8] font-sans">ΣΠΑΝΙΟΤΗΤΑ (ODDS)</div>
+          <div id="modalOutOdds" class="text-sm font-bold text-[#c8963e] mt-0.5">1 στις 1.4</div>
+        </div>
+        <div class="p-2 rounded bg-[#151c27] border border-[#232d3b]">
+          <div class="text-[10px] text-[#8e99a8] font-sans">ΔΙΚΑΙΟ MULTIPLE</div>
+          <div id="modalOutMult" class="text-sm font-bold text-[#3da678] mt-0.5">1.41x</div>
+        </div>
+      </div>
+      <div id="modalOutInterpretation" class="p-2.5 rounded bg-[#181524] border border-[#3b2f52] text-[11px] leading-relaxed text-[#c3b6dd]">
+        Αναμενόμενος Θόρυβος Αγοράς (Noise / Baseline)...
+      </div>
+    </div>
+
+    <!-- Section 5: Honor to Dimitris Andreou -->
+    <div class="p-3 rounded bg-[#11161f] border border-[#232d3b] text-[11px] text-[#8e99a8] flex items-center justify-between gap-3">
+      <span>
+        🏛️ <b>Μαθηματικά Θεμέλια:</b> Οι αλγόριθμοι πιθανοτήτων επαφής, reflection principle και κατανομής vertical spreads βασίζονται στον κορμό του <a href="https://github.com/DimitrisAndreou/options-tools" target="_blank" class="text-[#4a86c6] hover:underline font-bold">DimitrisAndreou/options-tools</a>.
+      </span>
+      <button onclick="closeShannonModal()" class="px-3 py-1 rounded bg-[#1f2735] hover:bg-[#2b364a] text-white font-bold transition">
+        Κλείσιμο
+      </button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
