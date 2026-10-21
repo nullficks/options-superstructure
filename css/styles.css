@@ -1,0 +1,146 @@
+/* ==========================================================================
+   Options Probabilistic Superstructure — Design System & Visual Palette
+   Wada Sanzo (和田三造) Organic Japanese Color Harmony & KaTeX Typography
+   ========================================================================== */
+
+.katex {
+  font-size: 1.05em !important;
+  color: inherit;
+}
+
+.katex-display {
+  margin: 0.6em 0 !important;
+}
+
+:root {
+  /* Παλέτα Wada Sanzo (和田三造) - Φυσικοί ιαπωνικοί τόνοι */
+  --bg-kuro: #0e1115;        /* Kuro-tsurubami: Βαθύ οργανικό μελάνι Sumi */
+  --card-kachi: #151b23;     /* Kachiiro: Σκούρο ίντιγκο επιφανειών */
+  --card-elevated: #1c232e;  /* Ελαφρώς ανυψωμένο στοιχείο */
+  --border-gin: #232d3b;     /* Ginjyu: Απαλό γκρι-μπλε γραφίτη */
+  --border-focus: #3a4b61;   /* Τονισμένο περίγραμμα */
+  --text-washi: #ebe8e1;     /* Washi: Ζεστό λευκό ιαπωνικού χαρτιού */
+  --text-hai: #8e99a8;       /* Hai-shirouo: Ήρεμο γκρι δευτερεύοντος κειμένου */
+  --text-faint: #596575;     /* Υποτονικό κείμενο */
+  --aizome-blue: #3d76b8;    /* Aizome: Παραδοσιακό ίντιγκο (Spot / Focus) */
+  --kincha-gold: #c8963e;    /* Kin-cha: Κεχριμπαρένιο χρυσό τσαγιού (Carry / Forward / Drift) */
+  --matsuba-green: #3da678;  /* Matsu-ba: Πράσινο πευκοβελόνας (Touch / Payout / Yield) */
+  --shuiro-red: #c85648;     /* Shu-iro: Ιαπωνικό βερμιγιόν (No-Touch / Puts / Drop) */
+  --fujiiro-purple: #9b88bf; /* Fujiiro: Απαλό μοβ γλυκίνης (Bits / Entropy / Spreads) */
+}
+
+body {
+  background-color: var(--bg-kuro);
+  color: var(--text-washi);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.mono {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.card {
+  background-color: var(--card-kachi);
+  border: 1px solid var(--border-gin);
+  border-radius: 0.65rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.card-elevated {
+  background-color: var(--card-elevated);
+  border: 1px solid var(--border-gin);
+  border-radius: 0.65rem;
+}
+
+input, select {
+  background-color: #0b0e12;
+  border: 1px solid var(--border-gin);
+  color: var(--text-washi);
+  border-radius: 0.4rem;
+}
+
+input:focus, select:focus {
+  border-color: var(--aizome-blue);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(61, 118, 184, 0.2);
+}
+
+th {
+  background-color: #11161d;
+  color: var(--text-hai);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+tr:hover {
+  background-color: #1a222e;
+}
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Custom Wada Sanzo Slider */
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #1e2633;
+  height: 6px;
+  border-radius: 9999px;
+  outline: none;
+  border: 1px solid var(--border-gin);
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--aizome-blue);
+  border: 2px solid var(--text-washi);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background: var(--kincha-gold);
+}
+
+input[type=range]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--aizome-blue);
+  border: 2px solid var(--text-washi);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* Visx Atmospheric Glow & Tooltip Styles */
+.visx-glow {
+  filter: drop-shadow(0 0 6px rgba(61, 166, 120, 0.45));
+}
+
+.visx-glow-gold {
+  filter: drop-shadow(0 0 6px rgba(200, 150, 62, 0.5));
+}
+
+.visx-glow-blue {
+  filter: drop-shadow(0 0 6px rgba(61, 118, 184, 0.5));
+}
+
+#visxTooltip {
+  background: rgba(14, 17, 22, 0.96);
+  border: 1px solid #2e3a4c;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
