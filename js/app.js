@@ -434,9 +434,9 @@ function onSliderChange(targetVal) {
       '<span class="text-[11px] text-[#8e99a8]">(Σπανιότητα: <b>1 στις ' + rarityOdds + ' φορές</b> • Πιθανότητα: <b>' + (pTouchVal * 100).toFixed(1) + '%</b>)</span>. ' +
       '<span class="px-1.5 py-0.5 rounded bg-[#2e2617] text-[#c8963e] text-[10px] font-bold border border-[#524122]">Αναμενόμενος Θόρυβος Αγοράς (Noise / Baseline)</span>' +
       '<div class="text-[11px] text-[#8e99a8] mt-0.5 pl-3 border-l-2 border-[#c8963e]/40">' +
-      'Η αγορά θεωρεί ήδη την επαφή ως το πιθανότερο σενάριο ($P_{\\text{Touch}} \\ge 50\\%$). Η πρόβλεψη περιέχει <b>λιγότερο από 1 Bit πληροφορίας</b> (ευκολότερο ακόμη κι από ένα απλό στρίψιμο νομίσματος!). ' +
-      'Ο finfluencer πουλάει ως «επίτευγμα» αυτό που αποτελεί τη φυσιολογική, αναμενόμενη διακύμανση της αγοράς. ' +
-      '<button onclick="openShannonModal()" class="text-[#9b88bf] hover:underline font-bold ml-1">🔬 Ανάλυση Claude Shannon ↗</button>' +
+      'Η αγορά τιμολογεί ήδη την επαφή ως το πιθανότερο σενάριο ($P_{\\text{Touch}} \\ge 50\\%$). Η πρόβλεψη περιέχει <b>λιγότερο από 1 Bit πληροφορίας</b> (στατιστικά ευκολότερο κι από ένα απλό στρίψιμο νομίσματος). ' +
+      'Πρόκειται για φυσιολογική, αναμενόμενη διακύμανση της αγοράς (Noise / Baseline) και όχι για σπάνιο προγνωστικό πλεονέκτημα (Alpha). ' +
+      '<button onclick="openShannonModal()" class="text-[#9b88bf] hover:underline font-bold ml-1">🔬 Θεωρία Πληροφοριών Shannon &amp; Kelly ↗</button>' +
       '</div></div>';
   } else {
     const coinEquivalent = bitsVal.toFixed(1);
@@ -650,6 +650,209 @@ function runTimelineCalculator() {
   renderTimelineCurveChart(spot, target, ivPct, ratePct, days50, days75);
 }
 
+// ==================== ΦΟΡΟΛΟΓΙΚΗ ΑΝΑΛΥΣΗ & ΒΑΣΗ ΚΟΣΤΟΥΣ / TAX & COST BASIS ANALYSIS ====================
+window.currentTaxTradingMode = 'PRE_EXISTING';
+window.currentTaxRegimeKey = 'GR_STOCKS';
+
+function setTaxTradingMode(mode) {
+  window.currentTaxTradingMode = mode;
+  const btnFresh = document.getElementById('btnTaxModeFresh');
+  const btnExisting = document.getElementById('btnTaxModeExisting');
+  const costInput = document.getElementById('taxCostBasis') || document.getElementById('cockpitCostBasis');
+  const stratCost = document.getElementById('stratCostBasis');
+
+  if (mode === 'FRESH') {
+    if (btnFresh) {
+      btnFresh.className = 'p-3 rounded-lg border text-left transition flex items-start gap-3 bg-[#1e293b] border-[#3d76b8] shadow-md';
+    }
+    if (btnExisting) {
+      btnExisting.className = 'p-3 rounded-lg border text-left transition flex items-start gap-3 bg-[#12161f] border-[#2d3848] opacity-75 hover:opacity-100';
+    }
+    if (costInput) {
+      costInput.disabled = true;
+      costInput.placeholder = 'Spot (Market.long)';
+      costInput.value = '';
+    }
+    if (stratCost) {
+      stratCost.disabled = true;
+      stratCost.placeholder = 'Spot';
+      stratCost.value = '';
+    }
+  } else {
+    if (btnFresh) {
+      btnFresh.className = 'p-3 rounded-lg border text-left transition flex items-start gap-3 bg-[#12161f] border-[#2d3848] opacity-75 hover:opacity-100';
+    }
+    if (btnExisting) {
+      btnExisting.className = 'p-3 rounded-lg border text-left transition flex items-start gap-3 bg-[#1e1916] border-[#c8963e] shadow-md';
+    }
+    if (costInput) {
+      costInput.disabled = false;
+      costInput.placeholder = 'Cost Basis B';
+    }
+    if (stratCost) {
+      stratCost.disabled = false;
+      stratCost.placeholder = 'Spot';
+    }
+  }
+
+  runStrategyScanner();
+}
+
+function applyTaxRegime(regimeKey) {
+  const regime = TaxEngine.REGIMES[regimeKey];
+  if (!regime) return;
+  window.currentTaxRegimeKey = regimeKey;
+
+  const rateEl1 = document.getElementById('stratTaxRate');
+  const rateEl2 = document.getElementById('taxRateInput') || document.getElementById('cockpitTaxRate');
+  if (rateEl1) rateEl1.value = regime.rate;
+  if (rateEl2) rateEl2.value = regime.rate;
+
+  const lawEl = document.getElementById('taxLawLabel') || document.getElementById('cockpitLawLabel');
+  if (lawEl) lawEl.textContent = regime.law;
+
+  const badgeEl = document.getElementById('taxRegimeBadge') || document.getElementById('taxCockpitRegimeBadge');
+  if (badgeEl) {
+    badgeEl.textContent = regime.name;
+    badgeEl.className = regime.rate === 0
+      ? 'text-xs px-2.5 py-1 rounded bg-[#3da678]/20 text-[#3da678] border border-[#3da678]/40 font-mono font-bold'
+      : 'text-xs px-2.5 py-1 rounded bg-[#c8963e]/20 text-[#c8963e] border border-[#c8963e]/40 font-mono font-bold';
+  }
+
+  // Update regime button styles
+  Object.keys(TaxEngine.REGIMES).forEach(key => {
+    const btn = document.getElementById('btnRegime_' + key);
+    if (!btn) return;
+    if (key === regimeKey) {
+      btn.className = 'px-2.5 py-1 rounded text-xs border border-[#3ea87c] bg-[#1a2e24] text-white font-semibold transition';
+    } else {
+      btn.className = 'px-2.5 py-1 rounded text-xs border border-[#2d3848] bg-[#1a2332] text-[#8e99a8] hover:border-[#3ea87c] transition';
+    }
+  });
+
+  runStrategyScanner();
+}
+
+function setCostBasisPct(ratio) {
+  const spot = currentState.spot || 100;
+  const cost = (spot * ratio).toFixed(2);
+  const costInput = document.getElementById('taxCostBasis') || document.getElementById('cockpitCostBasis');
+  const stratCost = document.getElementById('stratCostBasis');
+
+  if (ratio === 1.0) {
+    setTaxTradingMode('FRESH');
+  } else {
+    setTaxTradingMode('PRE_EXISTING');
+    if (costInput) costInput.value = cost;
+    if (stratCost) stratCost.value = cost;
+    runStrategyScanner();
+  }
+}
+
+function syncTaxInputs(sourceId) {
+  const costInput1 = document.getElementById('stratCostBasis');
+  const costInput2 = document.getElementById('taxCostBasis') || document.getElementById('cockpitCostBasis');
+  const rateInput1 = document.getElementById('stratTaxRate');
+  const rateInput2 = document.getElementById('taxRateInput') || document.getElementById('cockpitTaxRate');
+
+  if (sourceId === 'stratCostBasis' && costInput2) {
+    costInput2.value = costInput1.value;
+  } else if ((sourceId === 'taxCostBasis' || sourceId === 'cockpitCostBasis') && costInput1) {
+    costInput1.value = costInput2.value;
+  }
+
+  if (sourceId === 'stratTaxRate' && rateInput2) {
+    rateInput2.value = rateInput1.value;
+  } else if ((sourceId === 'taxRateInput' || sourceId === 'cockpitTaxRate') && rateInput1) {
+    rateInput1.value = rateInput2.value;
+  }
+
+  runStrategyScanner();
+}
+
+function updateTaxAnalysisHud(spot, costBasis, taxRate, taxMode, activeItem) {
+  const spotEl = document.getElementById('taxSpotDisplay') || document.getElementById('cockpitSpotDisplay');
+  const outlayEl = document.getElementById('taxCashOutlayDisplay') || document.getElementById('cockpitCashOutlayDisplay');
+  const outlaySubEl = document.getElementById('taxCashOutlaySub') || document.getElementById('cockpitCashOutlaySub');
+  const hudEmbedded = document.getElementById('hudEmbeddedTax');
+  const hudEmbeddedSub = document.getElementById('hudEmbeddedTaxSub');
+  const hudCliff = document.getElementById('hudTaxCliff');
+  const hudCliffSub = document.getElementById('hudTaxCliffSub');
+  const hudT2P = document.getElementById('hudT2P');
+  const hudT2PSub = document.getElementById('hudT2PSub');
+  const hudNeutral = document.getElementById('hudTaxNeutral');
+  const hudNeutralSub = document.getElementById('hudTaxNeutralSub');
+  const advisoryEl = document.getElementById('taxAdvisoryText');
+  const advisoryBanner = document.getElementById('taxAdvisoryBanner');
+
+  if (spotEl) spotEl.textContent = fmtMoney(spot);
+
+  const K = activeItem?.strikeAbsolute || spot * 1.05;
+  const P = Math.max(0, activeItem ? (spot - activeItem.breakEvenVsFullMoneyAbsolute) : (spot * 0.03));
+  const DTE = activeItem?.DTE || 30;
+
+  const evalRes = TaxEngine.evaluateContract({
+    spot, strike: K, premium: P, costBasis, taxRate, dte: DTE, mode: taxMode
+  });
+
+  if (outlayEl) {
+    if (taxMode === 'FRESH') {
+      outlayEl.textContent = fmtMoney(evalRes.initialCashOutlay);
+      outlayEl.className = 'mono text-base font-bold text-[#c8963e] py-1.5';
+      if (outlaySubEl) outlaySubEl.textContent = `Αγορά Spot (${fmtMoney(spot)}) - Premium (${fmtMoney(P)})`;
+    } else {
+      outlayEl.textContent = '$0.00';
+      outlayEl.className = 'mono text-base font-bold text-[#3da678] py-1.5';
+      if (outlaySubEl) outlaySubEl.textContent = 'Υπάρχουσα θέση (μηδενικό cash flow σήμερα)';
+    }
+  }
+
+  if (hudEmbedded) hudEmbedded.textContent = fmtMoney(evalRes.embeddedTaxNow);
+  if (hudEmbeddedSub) {
+    hudEmbeddedSub.textContent = evalRes.embeddedTaxNow > 0
+      ? `Αναβαλλόμενο κέρδος: ${fmtMoney(spot - costBasis)}`
+      : 'Μηδενικός ιστορικός φόρος';
+  }
+
+  if (hudCliff) hudCliff.textContent = fmtMoney(evalRes.cliffLoss);
+  if (hudCliffSub) {
+    hudCliffSub.textContent = `Στο Strike ${fmtMoney(K)} (${(taxRate * 100).toFixed(0)}% φόρος)`;
+  }
+
+  if (hudT2P) {
+    hudT2P.textContent = evalRes.t2p.label;
+    hudT2P.className = 'text-xl font-bold mono mt-1 ' + (
+      evalRes.t2p.status === 'TRAP' ? 'text-[#ff5252]' : (evalRes.t2p.status === 'MODERATE' ? 'text-[#c8963e]' : 'text-[#3da678]')
+    );
+  }
+  if (hudT2PSub) {
+    hudT2PSub.textContent = evalRes.t2p.status === 'TRAP'
+      ? '🔴 TAX TRAP (Φόρος > Premium!)'
+      : (evalRes.t2p.status === 'MODERATE' ? '🟡 Μέτριο Ρίσκο (50-100%)' : '🟢 Ασφαλής Ζώνη (<0.5x)');
+    hudT2PSub.className = 'text-[10px] mt-0.5 ' + (
+      evalRes.t2p.status === 'TRAP' ? 'text-[#ff8a80]' : (evalRes.t2p.status === 'MODERATE' ? 'text-[#e0aa4f]' : 'text-[#3da678]')
+    );
+  }
+
+  if (hudNeutral) hudNeutral.textContent = fmtMoney(evalRes.taxNeutralTarget);
+  if (hudNeutralSub) {
+    hudNeutralSub.textContent = `Strike+Prem ≥ ${fmtMoney(evalRes.taxNeutralTarget)} για Net ≥ Spot`;
+  }
+
+  if (advisoryEl && advisoryBanner) {
+    if (taxMode === 'FRESH') {
+      advisoryBanner.className = 'p-3 rounded-lg bg-[#14202d] border border-[#3d76b8]/50 text-xs text-[#ebe8e1] leading-relaxed flex items-start gap-2.5';
+      advisoryEl.innerHTML = `<b>🛒 Fresh Buy-Write Mode (Market.long):</b> Αγοράζεις 100 μετοχές στο Spot <b>${fmtMoney(spot)}</b> και πουλάς Call. Αρχική εκροή: <b>${fmtMoney(evalRes.initialCashOutlay)}</b>. Δεν κουβαλάς ιστορικό φόρο. Αν ασκηθείς στο ${fmtMoney(K)}, κλειδώνεις καθαρό κέρδος <b>+${fmtMoney(evalRes.deltaVsSpot)} (+${evalRes.deltaVsSpotPct.toFixed(2)}%)</b>.`;
+    } else if (evalRes.isTaxTrap) {
+      advisoryBanner.className = 'p-3 rounded-lg bg-[#2b1416] border border-[#ff5252]/60 text-xs text-[#ebe8e1] leading-relaxed flex items-start gap-2.5 shadow-lg';
+      advisoryEl.innerHTML = `<b class="text-[#ff8a80]">⚠️ TAX TRAP ALERT (T2P: ${evalRes.t2p.label}):</b> Ο φόρος εκχώρησης (<b>${fmtMoney(evalRes.cliffLoss)}</b>) υπερβαίνει το premium (<b>${fmtMoney(P)}</b>)! Ρισκάρεις να ρευστοποιήσεις όλη την ιστορική υπεραξία και να πληρώσεις περισσότερο φόρο από ό,τι κερδίζεις. <b>Σύσταση:</b> Επίλεξε Strike <b>&ge; ${fmtMoney(evalRes.taxNeutralTarget)}</b> με χαμηλό Delta (&lt;0.15) για να διατηρήσεις την υπεραξία unrealized.`;
+    } else {
+      advisoryBanner.className = 'p-3 rounded-lg bg-[#18202c] border border-[#3d76b8]/40 text-xs text-[#ebe8e1] leading-relaxed flex items-start gap-2.5';
+      advisoryEl.innerHTML = `<b>💼 Pre-Existing Holding (Cost Basis ${fmtMoney(costBasis)}):</b> Κουβαλάς <b>${fmtMoney(evalRes.embeddedTaxNow)}</b> αναβαλλόμενο φόρο. Στο επιλεγμένο Strike ${fmtMoney(K)}, τα καθαρά μετρητά αν γίνει assignment είναι <b>${fmtMoney(evalRes.netCash)}</b> (${evalRes.deltaVsSpotPct >= 0 ? '+' : ''}${evalRes.deltaVsSpotPct.toFixed(2)}% vs Spot ${evalRes.isTaxSafe ? '✅' : '⚠️'}). Αν λήξει OTM, κρατάς το 100% των τεμαχίων σου και ο φόρος μετοχής παραμένει 0%!`;
+    }
+  }
+}
+
 async function runStrategyScanner() {
   const thead = document.getElementById('stratTableHead');
   const tbody = document.getElementById('stratTableBody');
@@ -682,55 +885,79 @@ async function runStrategyScanner() {
     const jsonStr = await fn(ticker, slip, minDte, maxDte);
     const items = JSON.parse(jsonStr);
 
-    const ccCockpit = document.getElementById('ccCockpitSection');
-    const straddleCockpit = document.getElementById('straddlesCockpitSection');
-    const vsCockpit = document.getElementById('vsCockpitSection');
-    const longCockpit = document.getElementById('longCockpitSection');
+    const ccSection = document.getElementById('ccAnalysisSection') || document.getElementById('ccCockpitSection');
+    const straddleSection = document.getElementById('straddlesAnalysisSection') || document.getElementById('straddlesCockpitSection');
+    const vsSection = document.getElementById('vsAnalysisSection') || document.getElementById('vsCockpitSection');
+    const longSection = document.getElementById('longAnalysisSection') || document.getElementById('longCockpitSection');
 
-    if (ccCockpit) ccCockpit.classList.toggle('hidden', strat !== 'CC');
-    if (straddleCockpit) straddleCockpit.classList.toggle('hidden', strat !== 'STRADDLE');
-    if (vsCockpit) vsCockpit.classList.toggle('hidden', strat !== 'VS');
-    if (longCockpit) longCockpit.classList.toggle('hidden', strat !== 'LONG');
+    if (ccSection) ccSection.classList.toggle('hidden', strat !== 'CC');
+    if (straddleSection) straddleSection.classList.toggle('hidden', strat !== 'STRADDLE');
+    if (vsSection) vsSection.classList.toggle('hidden', strat !== 'VS');
+    if (longSection) longSection.classList.toggle('hidden', strat !== 'LONG');
 
     if (strat === 'CC') {
-      const rawBasis = document.getElementById('stratCostBasis')?.value;
-      const taxPct = Number(document.getElementById('stratTaxRate')?.value || 0);
+      const rawBasis = document.getElementById('taxCostBasis')?.value || document.getElementById('stratCostBasis')?.value || document.getElementById('cockpitCostBasis')?.value;
+      const taxPct = Number(document.getElementById('taxRateInput')?.value || document.getElementById('stratTaxRate')?.value || document.getElementById('cockpitTaxRate')?.value || 0);
+      const taxMode = window.currentTaxTradingMode || 'PRE_EXISTING';
       const taxRate = TaxEngine.resolveTaxRate(taxPct);
+      const taxSafeOnly = document.getElementById('stratTaxSafeOnly')?.checked;
 
-      const validCC = items.filter(x => x.strikeRelative >= 0.995 && x.moneyYield > 1.002);
+      let validCC = items.filter(x => x.strikeRelative >= 0.995 && x.moneyYield > 1.002);
       const spot0 = validCC[0]?.spotPrice || currentState.spot || 100;
-      const costBasis = TaxEngine.resolveCostBasis(rawBasis, spot0);
-      const isTaxActive = taxRate > 0 && costBasis !== spot0;
+      const costBasis = TaxEngine.resolveCostBasis(rawBasis, spot0, taxMode);
+      const isTaxActive = taxRate > 0 && (taxMode === 'FRESH' || costBasis !== spot0);
+
+      // Filter by Tax-Safe if toggled
+      if (taxSafeOnly && isTaxActive) {
+        validCC = validCC.filter(x => {
+          const prem = Math.max(0, (x.spotPrice || spot0) - x.breakEvenVsFullMoneyAbsolute);
+          const ev = TaxEngine.evaluateContract({
+            spot: x.spotPrice || spot0,
+            strike: x.strikeAbsolute,
+            premium: prem,
+            costBasis,
+            taxRate,
+            dte: x.DTE,
+            mode: taxMode
+          });
+          return ev.isTaxSafe;
+        });
+      }
 
       const embeddedTaxNow = TaxEngine.calcEmbeddedTax(spot0, costBasis, taxRate);
       const taxFreeTarget = TaxEngine.calcTaxNeutralTarget(spot0, costBasis, taxRate);
 
-      badge.textContent = validCC.length + ' Covered Calls';
+      badge.textContent = validCC.length + ' Covered Calls' + (taxSafeOnly ? ' (Tax-Safe Only)' : '');
 
       const assetUnit = venue === 'CRYPTO' ? ticker : 'μετοχή';
       note.innerHTML = isTaxActive
-        ? '💡 <b>Φορολογική Ανάλυση Covered Call (Cost Basis: ' + fmtMoney(costBasis) + ' | Φόρος: ' + taxPct + '% [Ελλάδα/Ν.4172]):</b> ' +
-          'Σήμερα κουβαλάς <b>' + fmtMoney(embeddedTaxNow) + '/' + assetUnit + '</b> αναβαλλόμενο (unrealized) φόρο. ' +
-          'Για να σου πληρώσει το Covered Call <b>ολόκληρο τον φόρο</b> αν γίνει assignment (ώστε τα καθαρά μετρητά να είναι τουλάχιστον ίσα με το σημερινό Spot ' + fmtMoney(spot0) + '), ' +
-          'χρειάζεσαι <b>Strike + Premium &ge; ' + fmtMoney(taxFreeTarget) + '</b>! ' +
-          'Η στήλη <b>Rebuy Price</b> δείχνει πόσο πρέπει να πέσει η τιμή μετά το assignment για να ξαναγοράσεις τον ίδιο αριθμό ' + (venue === 'CRYPTO' ? 'coins' : 'μετοχών') + '.'
-        : '💡 <b>Geometric Covered Call (Buy-Write Σήμερα στο Spot):</b> ' +
-          'Εξετάζουμε δύο μεγέθη: <b>Απόδοση σε Χρήμα ($)</b> (αν ασκηθείς) vs <b>Απόδοση σε Τεμάχια</b> (πόσες περισσότερες μετοχές/coins κρατάς λόγω του premium αν δεν ασκηθείς). ' +
-          'Συμπλήρωσε τα πεδία <b>Avg Cost</b> και <b>Φόρος %</b> παραπάνω αν έχεις ήδη τη θέση από παλιά!';
+        ? (taxMode === 'FRESH'
+            ? '💡 <b>Νέα Θέση Αγοράς Υποκειμένου &amp; Πώλησης Call / Fresh Buy-Write Mode (Spot: ' + fmtMoney(spot0) + '):</b> ' +
+              'Αγορά του asset και ταυτόχρονη πώληση Call. Αρχική καθαρή εκροή: <b>Spot - Premium</b>. ' +
+              'Χωρίς αναβαλλόμενο ιστορικό φόρο. Κέρδη πάνω από το Spot φορολογούνται με ' + (taxRate * 100).toFixed(0) + '%.'
+            : '💡 <b>Φορολογική Ανάλυση &amp; Βάση Κόστους / Taxation &amp; Cost Basis (Βάση Κόστους / Cost Basis: ' + fmtMoney(costBasis) + ' | ' + (TaxEngine.REGIMES[window.currentTaxRegimeKey]?.name || (taxPct + '%')) + '):</b> ' +
+              'Σήμερα κουβαλάς <b>' + fmtMoney(embeddedTaxNow) + '/' + assetUnit + '</b> αναβαλλόμενη (unrealized) φορολογική υποχρέωση. ' +
+              'Σε περίπτωση λήξης OTM, ο φόρος κεφαλαιακών κερδών παραμένει <b>0%</b>! Σε περίπτωση άσκησης (Assignment), για πλήρη κάλυψη του φόρου ' +
+              'απαιτείται <b>Strike + Premium &ge; ' + fmtMoney(taxFreeTarget) + '</b>. ' +
+              'Παρακολούθηση δείκτη <b>T2P / Alert</b> για αποφυγή φορολογικής επιβάρυνσης!')
+        : '💡 <b>Καλυμμένο Δικαίωμα Αγοράς / Covered Call (Αφορολόγητο ή Spot = Basis):</b> ' +
+          'Διπλή αξιολόγηση: <b>Απόδοση σε Χρήμα ($)</b> (αν ασκηθείς) έναντι <b>Απόδοσης σε Τεμάχια</b> (πόσες περισσότερες μονάδες διακρατούνται μέσω του premium αν δεν ασκηθείς). ' +
+          'Χρησιμοποίησε την ενότητα <b>Φορολογική Ανάλυση &amp; Βάση Κόστους / Taxation &amp; Cost Basis</b> παραπάνω για να εισάγεις το πραγματικό ιστορικό κόστος κτήσης.';
 
       currentCcItems = validCC;
       selectCcProfile('BALANCED');
 
-      thead.innerHTML = '<tr class="border-b border-[#26303e]">' +
-        '<th class="p-3">Λήξη (DTE)</th>' +
-        '<th class="p-3">Strike</th>' +
-        '<th class="p-3 text-right">Premium / ' + (venue === 'CRYPTO' ? ticker : 'μετ.') + '</th>' +
-        '<th class="p-3 text-right text-[#c85648]">Φόρος αν Ασκηθεί</th>' +
-        '<th class="p-3 text-right font-bold text-white">Καθαρά Μετρητά (Net)</th>' +
+      thead.innerHTML = '<tr class="border-b border-[#26303e] text-[11px]">' +
+        '<th class="p-3">Λήξη / Expiration (DTE)</th>' +
+        '<th class="p-3">Τιμή Άσκησης / Strike</th>' +
+        '<th class="p-3 text-right">Ασφάλιστρο / Premium (' + (venue === 'CRYPTO' ? ticker : 'μετ.') + ')</th>' +
+        '<th class="p-3 text-right text-[#c85648]">Φόρος Άσκησης / Tax</th>' +
+        '<th class="p-3 text-right font-bold text-white">Καθαρά Μετρητά / Net Cash</th>' +
         '<th class="p-3 text-right">Net vs Spot Σήμερα</th>' +
-        '<th class="p-3 text-right text-[#9b88bf]">Rebuy Price</th>' +
-        '<th class="p-3 text-right">P(Assignment)</th>' +
-        '<th class="p-3 text-center">Payoff</th>' +
+        '<th class="p-3 text-center">Κατάσταση / T2P Status</th>' +
+        '<th class="p-3 text-right text-[#9b88bf]">Τιμή Επαναγοράς / Rebuy Price</th>' +
+        '<th class="p-3 text-right">Πιθανότητα Άσκησης / P(Assignment)</th>' +
+        '<th class="p-3 text-center">Διάγραμμα / Payoff</th>' +
         '</tr>';
 
       validCC.sort((a, b) => ((b.moneyYield - 1) / b.DTE) - ((a.moneyYield - 1) / a.DTE));
@@ -745,12 +972,21 @@ async function runStrategyScanner() {
           premium: prem,
           costBasis,
           taxRate,
-          dte: x.DTE
+          dte: x.DTE,
+          mode: taxMode
         });
 
         const moveStrike = ((x.strikeRelative - 1) * 100).toFixed(1);
         const pAssign = x.moneyProbability != null ? ((x.moneyProbability * 100).toFixed(1) + '%') : '—';
         const isRowMatch = currentCcActiveItem && currentCcActiveItem.strikeAbsolute === k;
+
+        const t2pBadge = !isTaxActive
+          ? '<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#232d3b] text-[#8e99a8] font-mono">0% Tax</span>'
+          : (taxEval.isTaxTrap
+              ? '<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#ff5252]/20 text-[#ff8a80] font-mono font-bold" title="Tax Cliff exceeds Option Premium">🔴 TRAP ' + taxEval.t2p.label + '</span>'
+              : (taxEval.t2p.status === 'MODERATE'
+                  ? '<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#c8963e]/20 text-[#e0aa4f] font-mono font-bold">🟡 ' + taxEval.t2p.label + '</span>'
+                  : '<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#3da678]/15 text-[#3da678] font-mono font-bold">🟢 ' + taxEval.t2p.label + '</span>'));
 
         return '<tr class="cursor-pointer transition ' + (isRowMatch ? 'bg-[#222e40] font-bold text-white' : (taxEval.isTaxSafe ? 'hover:bg-[#1a2332]' : 'bg-[#241a18]/40 hover:bg-[#2e1f1d]')) + '" data-strike="' + k + '" onclick="selectCcItemByStrike(' + k + ')">' +
           '<td class="p-3">' + x.formattedDate + ' <span class="text-gray-500">(' + x.DTE + 'd)</span></td>' +
@@ -761,30 +997,34 @@ async function runStrategyScanner() {
           '<td class="p-3 text-right font-bold ' + (taxEval.isTaxSafe ? 'text-[#3ea87c]' : 'text-[#c8963e]') + '">' +
             (taxEval.deltaVsSpotPct >= 0 ? '+' : '') + taxEval.deltaVsSpotPct.toFixed(2) + '% ' + (taxEval.isTaxSafe ? '✅' : '⚠️') +
           '</td>' +
+          '<td class="p-3 text-center">' + t2pBadge + '</td>' +
           '<td class="p-3 text-right text-[#9b88bf]">' + fmtMoney(taxEval.rebuyPrice) + '</td>' +
           '<td class="p-3 text-right text-[#8e99a8]">' + pAssign + '</td>' +
           '<td class="p-3 text-center"><a href="' + x.strategyURL + '" target="_blank" onclick="event.stopPropagation()" class="text-[#4a86c6] hover:underline font-sans">Payoff ↗</a></td>' +
         '</tr>';
       }).join('');
+
+      // Refresh the Tax HUD with active item
+      updateTaxAnalysisHud(spot0, costBasis, taxRate, taxMode, currentCcActiveItem || validCC[0]);
     } else if (strat === 'VS') {
       const actionable = items.filter(x => x.touchReturnMultiple >= 1.25 && x.probTouchBeforeExpiry >= 0.02);
       badge.textContent = actionable.length + ' Touch Spreads';
 
-      if (vsCockpit) renderVsFrontierChart(actionable);
+      if (vsSection) renderVsFrontierChart(actionable);
 
       note.innerHTML =
-        '💡 <b>Touch Spreads σε Όλες τις Λήξεις:</b> Εντοπίζει στενά Vertical Spreads όπου η καθαρή απόδοση στο Touch υπερβαίνει το <b>1.25x</b> μετά το Slippage.';
+        '💡 <b>Κάθετα Ανοίγματα Επαφής / Touch Spreads:</b> Εντοπίζει κάθετα ανοίγματα (Vertical Spreads) όπου ο καθαρός πολλαπλασιαστής απόδοσης στο Touch υπερβαίνει το <b>1.25x</b> μετά το Slippage.';
 
-      thead.innerHTML = '<tr class="border-b border-[#26303e]">' +
-        '<th class="p-3">Λήξη (Μέρες)</th>' +
-        '<th class="p-3">Στόχος</th>' +
-        '<th class="p-3">Spread</th>' +
-        '<th class="p-3 text-right text-[#3ea87c]">P(Touch)</th>' +
-        '<th class="p-3 text-right text-[#9b7ad6]">P(Expire)</th>' +
-        '<th class="p-3 text-right">Κόστος (Ask)</th>' +
-        '<th class="p-3 text-right">Αξία στο Touch</th>' +
-        '<th class="p-3 text-right text-[#3ea87c]">Απόδοση (Multiple)</th>' +
-        '<th class="p-3 text-center">Payoff</th>' +
+      thead.innerHTML = '<tr class="border-b border-[#26303e] text-[11px]">' +
+        '<th class="p-3">Λήξη / Expiration (DTE)</th>' +
+        '<th class="p-3">Τιμή-Στόχος / Target</th>' +
+        '<th class="p-3">Κάθετο Άνοιγμα / Spread</th>' +
+        '<th class="p-3 text-right text-[#3ea87c]">Πιθανότητα Επαφής / P(Touch)</th>' +
+        '<th class="p-3 text-right text-[#9b7ad6]">Πιθανότητα Λήξης / P(Expire)</th>' +
+        '<th class="p-3 text-right">Κόστος / Premium (Ask)</th>' +
+        '<th class="p-3 text-right">Αξία στο Touch / Touch Value</th>' +
+        '<th class="p-3 text-right text-[#3ea87c]">Πολλαπλασιαστής / Multiple</th>' +
+        '<th class="p-3 text-center">Διάγραμμα / Payoff</th>' +
         '</tr>';
 
       actionable.sort((a, b) => b.touchReturnMultiple - a.touchReturnMultiple);
@@ -804,18 +1044,18 @@ async function runStrategyScanner() {
       }).join('');
     } else if (strat === 'STRADDLE') {
       badge.textContent = items.length + ' Straddles';
-      if (straddleCockpit) renderStraddlesCorridorChart(items);
+      if (straddleSection) renderStraddlesCorridorChart(items);
 
-      note.innerHTML = '💡 <b>Straddles (Αναμενόμενο Εύρος Κίνησης):</b> Αγοράζοντας ταυτόχρονα το ATM Call και το ATM Put, βλέπεις ακριβώς πόσο % αναμένει η αγορά να κινηθεί το asset μέχρι τη λήξη.';
+      note.innerHTML = '💡 <b>Αμφίδρομα Ανοίγματα / Straddles (Αναμενόμενο Εύρος Κίνησης / Implied Volatility Corridor):</b> Ταυτόχρονη αγορά ATM Call και ATM Put για απεικόνιση του εύρους διακύμανσης (±%) που τιμολογεί η αγορά μέχρι τη λήξη.';
 
-      thead.innerHTML = '<tr class="border-b border-[#26303e]">' +
-        '<th class="p-3">Λήξη (Μέρες)</th>' +
-        '<th class="p-3">Κεντρικό Strike</th>' +
-        '<th class="p-3 text-right text-[#d95d4e]">Κάτω Breakeven</th>' +
-        '<th class="p-3 text-right text-[#3ea87c]">Πάνω Breakeven</th>' +
-        '<th class="p-3 text-right text-[#d49a42]">Εύρος Αγοράς (±%)</th>' +
-        '<th class="p-3 text-right">Συνολικό Κόστος</th>' +
-        '<th class="p-3 text-center">Payoff</th>' +
+      thead.innerHTML = '<tr class="border-b border-[#26303e] text-[11px]">' +
+        '<th class="p-3">Λήξη / Expiration (DTE)</th>' +
+        '<th class="p-3">Τιμή Άσκησης / Central Strike</th>' +
+        '<th class="p-3 text-right text-[#d95d4e]">Κάτω Νεκρό Σημείο / Lower Breakeven</th>' +
+        '<th class="p-3 text-right text-[#3ea87c]">Άνω Νεκρό Σημείο / Upper Breakeven</th>' +
+        '<th class="p-3 text-right text-[#d49a42]">Εύρος Αγοράς / Market Corridor (±%)</th>' +
+        '<th class="p-3 text-right">Συνολικό Κόστος / Total Premium</th>' +
+        '<th class="p-3 text-center">Διάγραμμα / Payoff</th>' +
         '</tr>';
 
       tbody.innerHTML = items.slice(0, 60).map(x => {
@@ -834,20 +1074,20 @@ async function runStrategyScanner() {
           '</tr>';
       }).join('');
     } else if (strat === 'LONG') {
-      badge.textContent = items.length + ' Συμβόλαια';
-      if (longCockpit) renderLongLeverageChart(items);
+      badge.textContent = items.length + ' Συμβόλαια / Contracts';
+      if (longSection) renderLongLeverageChart(items);
 
-      note.innerHTML = '💡 <b>Απλά Calls &amp; Puts (Κατάταξη Μόχλευσης):</b> Δείχνει πόση πραγματική μόχλευση (Spot / Κόστος Option) προσφέρει κάθε συμβόλαιο.';
+      note.innerHTML = '💡 <b>Απλά Δικαιώματα Αγοράς &amp; Πώλησης / Long Calls &amp; Puts (Κατάταξη Μόχλευσης / Leverage Ranking):</b> Απεικόνιση πραγματικής αποτελεσματικής μόχλευσης (Spot / Ασφάλιστρο Option) ανά συμβόλαιο.';
 
-      thead.innerHTML = '<tr class="border-b border-[#26303e]">' +
-        '<th class="p-3">Λήξη (Μέρες)</th>' +
-        '<th class="p-3">Συμβόλαιο</th>' +
-        '<th class="p-3">Strike</th>' +
-        '<th class="p-3 text-right text-[#d95d4e]">Breakeven</th>' +
-        '<th class="p-3 text-right text-[#9b7ad6]">Απόσταση Breakeven</th>' +
-        '<th class="p-3 text-right text-[#3ea87c]">Πραγματική Μόχλευση</th>' +
-        '<th class="p-3 text-right">Κόστος Αγοράς</th>' +
-        '<th class="p-3 text-center">Payoff</th>' +
+      thead.innerHTML = '<tr class="border-b border-[#26303e] text-[11px]">' +
+        '<th class="p-3">Λήξη / Expiration (DTE)</th>' +
+        '<th class="p-3">Τύπος / Option Type</th>' +
+        '<th class="p-3">Τιμή Άσκησης / Strike</th>' +
+        '<th class="p-3 text-right text-[#d95d4e]">Νεκρό Σημείο / Breakeven</th>' +
+        '<th class="p-3 text-right text-[#9b88bf]">Απόσταση / Distance (%)</th>' +
+        '<th class="p-3 text-right text-[#3ea87c]">Μόχλευση / Effective Leverage</th>' +
+        '<th class="p-3 text-right">Κόστος / Option Premium</th>' +
+        '<th class="p-3 text-center">Διάγραμμα / Payoff</th>' +
         '</tr>';
 
       items.sort((a, b) => b.maxLeverage - a.maxLeverage);
@@ -958,25 +1198,25 @@ function onShannonSlider(val) {
     if (p >= 0.50) {
       outInterp.className = 'p-2.5 rounded bg-[#241c12] border border-[#4d3a1f] text-[11px] leading-relaxed text-[#e0b96b]';
       outInterp.innerHTML =
-        '<b>📻 Καθεστώς 1 — Αναμενόμενος Θόρυβος Αγοράς (Noise / Baseline):</b><br/>' +
+        '<b>📻 Καθεστώς 1 — Αναμενόμενος Θόρυβος Αγοράς (Noise / Baseline Distribution):</b><br/>' +
         'Επειδή η πιθανότητα είναι $\\ge 50\\%$, η αυτοπληροφορία είναι <b>λιγότερο από 1 Bit</b> ($I < 1.0$). ' +
-        'Είναι ευκολότερο ακόμη κι από ένα στρίψιμο νομίσματος! Αν ένας finfluencer προβλέψει αυτή την κίνηση, ' +
-        'δεν παρέχει σχεδόν καμία πληροφορία (μηδενικός Alpha). Προβλέπει κάτι που η αγορά θεωρεί αυτονόητο.';
+        'Στατιστικά είναι ευκολότερο ακόμη κι από ένα στρίψιμο νομίσματος. Μια πρόβλεψη σε αυτή τη ζώνη ' +
+        'δεν παρέχει ουσιαστική στατιστική πληροφόρηση (μηδενικός Alpha), καθώς αντικατοπτρίζει τη φυσιολογική συμπεριφορά της αγοράς.';
     } else {
       const flips = Number(bits).toFixed(1);
       outInterp.className = 'p-2.5 rounded bg-[#1c1628] border border-[#3e2e58] text-[11px] leading-relaxed text-[#c3b6dd]';
       outInterp.innerHTML =
-        '<b>⚡ Καθεστώς 2 — Πληροφοριακή Έκπληξη (Forecasting Alpha):</b><br/>' +
+        '<b>⚡ Καθεστώς 2 — Πληροφοριακή Έκπληξη (Forecasting Alpha &amp; Surprisal):</b><br/>' +
         'Επειδή η πιθανότητα είναι $< 50\\%$, η πρόβλεψη απαιτεί <b>' + bits + ' Bits καθαρής έκπληξης</b>. ' +
         'Ισοδυναμεί με <b>' + flips + ' διαδοχικές σωστές προβλέψεις σε κορώνα-γράμματα</b> ($2^{-' + flips + '} \\approx ' + (p * 100).toFixed(1) + '\\%$). ' +
-        'Αν ο αναλυτής έχει όντως edge, η αγορά τον πληρώνει δίκαιο πολλαπλασιαστή <b>' + fairMult + '</b> στο Touch. ' +
-        'Απαιτείται αυστηρό Skin in the Game!';
+        'Εφόσον υφίσταται πραγματικό στατιστικό πλεονέκτημα, η αγορά προσφέρει δίκαιο πολλαπλασιαστή <b>' + fairMult + '</b> στο Touch. ' +
+        'Η αξιοποίηση τέτοιων σεναρίων απαιτεί αυστηρό έλεγχο κινδύνου (Skin in the Game).';
     }
     safeRenderMath(outInterp);
   }
 }
 
-// --- TAB 5: MYTHBUSTERS LIVE SIMULATORS ---
+// --- TAB 5: RISK MANAGEMENT & STRESS TESTING SIMULATORS ---
 function runRuinSimulator() {
   const probSlider = document.getElementById('ruinProbSlider');
   const tradesSlider = document.getElementById('ruinTradesSlider');
@@ -997,14 +1237,14 @@ function runRuinSimulator() {
   const ruinOddsPct = (pZeroWins * 100).toFixed(1);
   const bitsPerTrade = (-Math.log2(p)).toFixed(1);
 
-  if (oddsBadge) oddsBadge.textContent = 'Μηδενικές Επιτυχίες: ' + ruinOddsPct + '%';
+  if (oddsBadge) oddsBadge.textContent = 'Πιθανότητα Μηδενικών Επιτυχιών: ' + ruinOddsPct + '%';
 
   if (verdictBox) {
     verdictBox.innerHTML =
-      'Σε <b>' + n + '</b> διαδοχικά trades OTM λαχείων με $P = ' + (p * 100).toFixed(0) + '\\%$, ' +
-      'η πιθανότητα να μην κερδίσεις <b>ΟΥΤΕ ΜΙΑ ΦΟΡΑ</b> (100% loss) είναι <span class="text-[#c85648] font-bold text-xs">' + ruinOddsPct + '%</span>! ' +
-      'Απαιτείς <b>' + bitsPerTrade + ' Bits</b> πληροφορίας σε κάθε trade ενώ πληρώνεις bid-ask spread & volatility smile. ' +
-      'Μαθηματικά, το drawdown $>80\\%$ επέρχεται σχεδόν νομοτελειακά.';
+      'Σε <b>' + n + '</b> διαδοχικές συναλλαγές βαθιά OTM δικαιωμάτων με $P = ' + (p * 100).toFixed(0) + '\\%$, ' +
+      'η πιθανότητα μηδενικής επιτυχίας (πλήρης απώλεια κεφαλαίου θέσης) ανέρχεται σε <span class="text-[#c85648] font-bold text-xs">' + ruinOddsPct + '%</span>! ' +
+      'Απαιτούνται <b>' + bitsPerTrade + ' Bits</b> πληροφορίας ανά συναλλαγή, επιβαρυνόμενα από Bid-Ask Spread και Volatility Smile. ' +
+      'Μαθηματικά, η συστηματική έκθεση σε τέτοιες κατανομές οδηγεί σε βέβαιη εξάντληση κεφαλαίου (Ruin).';
     safeRenderMath(verdictBox);
   }
 }
@@ -1029,16 +1269,16 @@ function runTailShockSimulator() {
   const netPnL = yearlyGains - grossLoss;
 
   if (netBadge) {
-    netBadge.textContent = 'Καθαρό PnL: ' + (netPnL >= 0 ? '+$' : '-$') + Math.abs(Math.round(netPnL)).toLocaleString('en-US');
+    netBadge.textContent = 'Καθαρό Αποτέλεσμα (Net PnL): ' + (netPnL >= 0 ? '+$' : '-$') + Math.abs(Math.round(netPnL)).toLocaleString('en-US');
     netBadge.className = netPnL >= 0 ? 'mono text-[#3ea87c] font-bold' : 'mono text-[#c85648] font-bold';
   }
 
   if (verdictBox) {
     verdictBox.innerHTML =
-      'Μαζεύεις <b>$' + prem + '/εβδομάδα</b> επί 52 εβδομάδες $\\implies$ Ετήσιο κέρδος: <span class="text-[#3ea87c] font-bold">+$' + yearlyGains.toLocaleString('en-US') + '</span>.<br/>' +
-      'Ξαφνικό σοκ <b>-' + shockPct + '%</b> σε 1 ημέρα $\\implies$ Ζημιά θέσης: <span class="text-[#c85648] font-bold">-$' + Math.round(grossLoss).toLocaleString('en-US') + '</span>.<br/>' +
-      '<b>Τελικό Αποτέλεσμα:</b> <span class="' + (netPnL >= 0 ? 'text-[#3ea87c]' : 'text-[#c85648]') + ' font-bold">' + (netPnL >= 0 ? '+$' : '-$') + Math.abs(Math.round(netPnL)).toLocaleString('en-US') + '</span>. ' +
-      'Ένα και μόνο 4-sigma tail event εξαφάνισε έως και <b>' + (grossLoss / (yearlyGains || 1)).toFixed(1) + ' χρόνια</b> κερδών!';
+      'Είσπραξη ασφαλίστρου <b>$' + prem + '/εβδομάδα</b> επί 52 εβδομάδες $\\implies$ Ετήσια σωρευμένη είσπραξη: <span class="text-[#3ea87c] font-bold">+$' + yearlyGains.toLocaleString('en-US') + '</span>.<br/>' +
+      'Σενάριο ακραίας διόρθωσης (Tail Shock) <b>-' + shockPct + '%</b> $\\implies$ Ζημιά θέσης υποκειμένου: <span class="text-[#c85648] font-bold">-$' + Math.round(grossLoss).toLocaleString('en-US') + '</span>.<br/>' +
+      '<b>Καθαρό Αποτέλεσμα:</b> <span class="' + (netPnL >= 0 ? 'text-[#3ea87c]' : 'text-[#c85648]') + ' font-bold">' + (netPnL >= 0 ? '+$' : '-$') + Math.abs(Math.round(netPnL)).toLocaleString('en-US') + '</span>. ' +
+      'Ένα μεμονωμένο ακραίο γεγονός (Fat Tail) εξανεμίζει έως και <b>' + (grossLoss / (yearlyGains || 1)).toFixed(1) + ' έτη</b> εισπραχθέντων ασφαλίστρων.';
     safeRenderMath(verdictBox);
   }
 }
@@ -1064,3 +1304,6 @@ function runTailShockSimulator() {
     runTailShockSimulator();
   }, 300);
 })();
+
+window.updateTaxAnalysisHud = updateTaxAnalysisHud;
+window.updateTaxCockpitHud = updateTaxAnalysisHud;

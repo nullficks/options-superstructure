@@ -1,5 +1,5 @@
 /**
- * Options Probabilistic Superstructure — Covered Call Cockpit & Payoff Simulation
+ * Options Probability & Strategy Analyzer — Covered Call Analysis & Payoff Simulation
  * Integrated with TaxEngine for After-Tax Payoff Curves, Rebuy Equivalence & Cliff Loss.
  */
 
@@ -43,12 +43,13 @@ function renderCoveredCallPayoffChart(item, simPrice = null) {
   const P = Math.max(0, spot - BE);
   const maxProf = K - BE;
 
-  // Retrieve Tax & Cost Basis parameters
-  const rawBasis = document.getElementById('stratCostBasis')?.value;
-  const taxPct = Number(document.getElementById('stratTaxRate')?.value || 0);
+  // Retrieve Tax & Cost Basis parameters (Praxeological Model)
+  const rawBasis = document.getElementById('taxCostBasis')?.value || document.getElementById('stratCostBasis')?.value || document.getElementById('cockpitCostBasis')?.value;
+  const taxPct = Number(document.getElementById('taxRateInput')?.value || document.getElementById('stratTaxRate')?.value || document.getElementById('cockpitTaxRate')?.value || 0);
+  const taxMode = window.currentTaxTradingMode || 'PRE_EXISTING';
   const taxRate = TaxEngine.resolveTaxRate(taxPct);
-  const costBasis = TaxEngine.resolveCostBasis(rawBasis, spot);
-  const isTaxActive = taxRate > 0 && costBasis !== spot;
+  const costBasis = TaxEngine.resolveCostBasis(rawBasis, spot, taxMode);
+  const isTaxActive = taxRate > 0 && (taxMode === 'FRESH' || costBasis !== spot);
 
   if (simPrice == null) simPrice = K * 1.01;
 
@@ -104,21 +105,28 @@ function renderCoveredCallPayoffChart(item, simPrice = null) {
   // Shaded Max Profit Plateau Zone
   const dMaxPlateau = `M ${pK.x.toFixed(1)} ${yK.toFixed(1)} L ${pMax.x.toFixed(1)} ${pMax.y.toFixed(1)} L ${pMax.x.toFixed(1)} ${yZero.toFixed(1)} L ${pK.x.toFixed(1)} ${yZero.toFixed(1)} Z`;
 
-  // After-tax line calculations
+  // After-tax line calculations (Praxeological step-down at K)
   let dAfterTax = '';
-  let yAfterAssignment = yK;
+  let yCliffTop = yK;
+  let yCliffBottom = yK;
+  let taxCliffLoss = 0;
+  let t2pInfo = null;
+
   if (isTaxActive) {
     const atMinProf = calcAfterTaxProfit(minPx);
-    const atKMinus = calcAfterTaxProfit(K - 0.01);
-    const atKPlus = calcAfterTaxProfit(K + 0.01);
+    const atKMinus = calcAfterTaxProfit(K - 0.001);
+    const atKPlus = calcAfterTaxProfit(K + 0.001);
     const atMaxProf = calcAfterTaxProfit(maxPx);
 
-    yAfterAssignment = toY(atKPlus);
+    yCliffTop = toY(atKMinus);
+    yCliffBottom = toY(atKPlus);
+    taxCliffLoss = TaxEngine.calcTaxCliffLoss(K, costBasis, taxRate);
+    t2pInfo = TaxEngine.calcTaxToPremiumRatio(K, P, costBasis, taxRate);
 
-    // After-tax path with step-down cliff at K
+    // After-tax path with mathematically exact step-down cliff at K
     dAfterTax = `M ${toX(minPx).toFixed(1)} ${toY(atMinProf).toFixed(1)} ` +
-      `L ${toX(K).toFixed(1)} ${toY(atKMinus).toFixed(1)} ` +
-      `L ${toX(K).toFixed(1)} ${toY(atKPlus).toFixed(1)} ` +
+      `L ${toX(K).toFixed(1)} ${yCliffTop.toFixed(1)} ` +
+      `L ${toX(K).toFixed(1)} ${yCliffBottom.toFixed(1)} ` +
       `L ${toX(maxPx).toFixed(1)} ${toY(atMaxProf).toFixed(1)}`;
   }
 
@@ -162,11 +170,11 @@ function renderCoveredCallPayoffChart(item, simPrice = null) {
     <!-- After-Tax Payoff Line (with Tax Cliff Step-Down) -->
     ${isTaxActive ? `
       <path d="${dAfterTax}" fill="none" stroke="#e0aa4f" stroke-width="3" stroke-linejoin="round"/>
-      <!-- Tax Cliff Step Down Indicator at K -->
-      <line x1="${xK}" y1="${yK}" x2="${xK}" y2="${yAfterAssignment}" stroke="#c85648" stroke-width="3.5" filter="url(#visxTaxGlow)"/>
-      <rect x="${Math.min(R - 110, xK + 8)}" y="${(yK + yAfterAssignment) / 2 - 10}" width="95" height="20" rx="4" fill="#241315" stroke="#c85648" stroke-width="1"/>
-      <text x="${Math.min(R - 62, xK + 55)}" y="${(yK + yAfterAssignment) / 2 + 3}" font-size="8.5" font-family="'JetBrains Mono', monospace" font-weight="700" fill="#f3a49b" text-anchor="middle">
-        📉 Φόρος -${fmtMoney(TaxEngine.calcTaxCliffLoss(K, costBasis, taxRate))}
+      <!-- Tax Cliff Step Down Discontinuity Indicator at K -->
+      <line x1="${xK}" y1="${yCliffTop}" x2="${xK}" y2="${yCliffBottom}" stroke="#c85648" stroke-width="3.5" stroke-dasharray="3,2" filter="url(#visxTaxGlow)"/>
+      <rect x="${Math.min(R - 130, xK + 8)}" y="${(yCliffTop + yCliffBottom) / 2 - 11}" width="124" height="22" rx="4" fill="#241315" stroke="${t2pInfo?.isTrap ? '#ff5252' : '#c85648'}" stroke-width="1.2"/>
+      <text x="${Math.min(R - 68, xK + 70)}" y="${(yCliffTop + yCliffBottom) / 2 + 4}" font-size="8.5" font-family="'JetBrains Mono', monospace" font-weight="700" fill="${t2pInfo?.isTrap ? '#ff8a80' : '#f3a49b'}" text-anchor="middle">
+        ${t2pInfo?.isTrap ? '🔴 TRAP ' : '⚡ Cliff '}-${fmtMoney(taxCliffLoss)}
       </text>
     ` : ''}
 
@@ -232,8 +240,9 @@ function renderCoveredCallPayoffChart(item, simPrice = null) {
     const isAssigned = hoverP >= K;
     const isProtected = hoverP >= BE;
 
+    const taxMode = window.currentTaxTradingMode || 'PRE_EXISTING';
     const taxEval = isTaxActive
-      ? TaxEngine.evaluateContract({ spot, strike: K, premium: P, costBasis, taxRate, dte: item.DTE })
+      ? TaxEngine.evaluateContract({ spot, strike: K, premium: P, costBasis, taxRate, dte: item.DTE, mode: taxMode, simPrice: hoverP })
       : null;
 
     visxShowTooltip(e, `
@@ -246,8 +255,13 @@ function renderCoveredCallPayoffChart(item, simPrice = null) {
         ${isTaxActive && isAssigned ? `
           <div class="flex justify-between text-[#8e99a8]"><span>Φόρος Assignment:</span> <span class="mono font-bold text-[#c85648]">-${fmtMoney(taxEval.taxPaid)}</span></div>
           <div class="flex justify-between text-[#8e99a8]"><span>Καθαρά Μετρητά:</span> <span class="mono font-bold text-[#ebe8e1]">${fmtMoney(taxEval.netCash)}</span></div>
+          <div class="flex justify-between text-[#8e99a8]"><span>T2P Ratio:</span> <span class="mono font-bold ${taxEval.isTaxTrap ? 'text-[#ff5252]' : 'text-[#3da678]'}">${taxEval.t2p.label} ${taxEval.isTaxTrap ? '⚠️ TRAP' : '✅'}</span></div>
           <div class="flex justify-between text-[#8e99a8]"><span>Rebuy Price:</span> <span class="mono font-bold text-[#9b88bf]">${fmtMoney(taxEval.rebuyPrice)}</span></div>
-        ` : ''}
+          <div class="flex justify-between text-[#8e99a8]"><span>Διατήρηση Τεμαχίων:</span> <span class="mono font-bold ${taxEval.unitDestruction.units < 1 ? 'text-[#c8963e]' : 'text-[#3da678]'}">${taxEval.unitDestruction.label}</span></div>
+        ` : (isTaxActive ? `
+          <div class="flex justify-between text-[#8e99a8]"><span>Φόρος Μετοχής:</span> <span class="mono font-bold text-[#3da678]">0% (Unrealized)</span></div>
+          <div class="flex justify-between text-[#8e99a8]"><span>Φόρος Premium:</span> <span class="mono font-bold text-[#c85648]">-${fmtMoney(P * taxRate)}</span></div>
+        ` : '')}
       </div>
       <div class="text-[10px] text-[#596575] mt-1.5 pt-1 border-t border-[#232d3b]">💡 Σύρε το slider παρακάτω για δοκιμή σεναρίου</div>
     `);
@@ -273,11 +287,12 @@ function updateCcSimulationOutcome(item, spot, K, BE, P, simPrice) {
   const deltaDir = Number(deltaPct) >= 0 ? '+' : '';
   labelEl.textContent = fmtMoney(simPrice) + ' (' + deltaDir + deltaPct + '%)';
 
-  const rawBasis = document.getElementById('stratCostBasis')?.value;
-  const taxPct = Number(document.getElementById('stratTaxRate')?.value || 0);
+  const rawBasis = document.getElementById('taxCostBasis')?.value || document.getElementById('stratCostBasis')?.value || document.getElementById('cockpitCostBasis')?.value;
+  const taxPct = Number(document.getElementById('taxRateInput')?.value || document.getElementById('stratTaxRate')?.value || document.getElementById('cockpitTaxRate')?.value || 0);
+  const taxMode = window.currentTaxTradingMode || 'PRE_EXISTING';
   const taxRate = TaxEngine.resolveTaxRate(taxPct);
-  const costBasis = TaxEngine.resolveCostBasis(rawBasis, spot);
-  const isTaxActive = taxRate > 0 && costBasis !== spot;
+  const costBasis = TaxEngine.resolveCostBasis(rawBasis, spot, taxMode);
+  const isTaxActive = taxRate > 0 && (taxMode === 'FRESH' || costBasis !== spot);
 
   const profit = Math.min(simPrice, K) - BE;
   const retPct = ((profit / BE) * 100).toFixed(1);
@@ -285,16 +300,24 @@ function updateCcSimulationOutcome(item, spot, K, BE, P, simPrice) {
 
   if (simPrice >= K) {
     if (isTaxActive) {
-      const taxEval = TaxEngine.evaluateContract({ spot, strike: K, premium: P, costBasis, taxRate, dte: item.DTE });
-      badgeEl.className = 'mt-2.5 text-xs p-2.5 rounded bg-[#16221b] border border-[#3da678]/40 leading-relaxed text-[#ebe8e1]';
+      const taxEval = TaxEngine.evaluateContract({
+        spot, strike: K, premium: P, costBasis, taxRate, dte: item.DTE,
+        mode: taxMode, simPrice
+      });
+      badgeEl.className = 'mt-2.5 text-xs p-3 rounded-lg bg-[#1a1c24] border ' + (taxEval.isTaxTrap ? 'border-[#ff5252]/50' : 'border-[#3da678]/40') + ' leading-relaxed text-[#ebe8e1] space-y-1';
       badgeEl.innerHTML = `
-        <b class="text-[#3da678]">🎉 Σενάριο Εκχώρησης (Assigned):</b> Η τιμή κλείνει στα <b>${fmtMoney(simPrice)}</b> (&ge; Strike ${fmtMoney(K)}).
-        Οι μετοχές πωλούνται αναγκαστικά.<br/>
-        • <b>Φορολογητέο Κέρδος:</b> ${fmtMoney((K - costBasis) + P)} (από Cost Basis ${fmtMoney(costBasis)})<br/>
-        • <b>Φόρος Εκχώρησης:</b> <span class="text-[#c85648]">-${fmtMoney(taxEval.taxPaid)} (${(taxRate * 100).toFixed(0)}%)</span><br/>
-        • <b>Καθαρά Μετρητά στην Τσέπη:</b> <b class="text-white">${fmtMoney(taxEval.netCash)}</b>
-        (<span class="${taxEval.isTaxSafe ? 'text-[#3da678]' : 'text-[#c8963e]'} font-bold">${taxEval.deltaVsSpotPct >= 0 ? '+' : ''}${taxEval.deltaVsSpotPct.toFixed(2)}% vs Spot ${taxEval.isTaxSafe ? '✅' : '⚠️'}</span>)<br/>
-        • <b>Τιμή Επαναγοράς (Rebuy Price):</b> Πρέπει η μετοχή να πέσει στα <b class="text-[#9b88bf]">${fmtMoney(taxEval.rebuyPrice)}</b> για να ξαναγοράσεις τα ίδια τεμάχια!
+        <div class="flex items-center justify-between border-b border-[#2d3848] pb-1.5 mb-1">
+          <b class="${taxEval.isTaxTrap ? 'text-[#ff8a80]' : 'text-[#3da678]'}">🎉 Σενάριο Εκχώρησης (Assigned @ Strike ${fmtMoney(K)}):</b>
+          <span class="mono text-[10px] px-2 py-0.5 rounded ${taxEval.isTaxTrap ? 'bg-[#ff5252]/20 text-[#ff8a80]' : 'bg-[#3da678]/20 text-[#3da678]'} font-bold">
+            ${taxEval.isTaxTrap ? '⚠️ TAX TRAP (T2P: ' + taxEval.t2p.label + ')' : '✅ TAX SAFE (T2P: ' + taxEval.t2p.label + ')'}
+          </span>
+        </div>
+        <div>• <b>Φορολογητέο Κέρδος:</b> ${fmtMoney(taxEval.taxableGain)} (από Cost Basis ${fmtMoney(costBasis)})</div>
+        <div>• <b>Φόρος Εκχώρησης:</b> <span class="text-[#c85648] font-bold">-${fmtMoney(taxEval.taxPaid)} (${(taxRate * 100).toFixed(1)}%)</span></div>
+        <div>• <b>Καθαρά Μετρητά στην Τσέπη:</b> <b class="text-white">${fmtMoney(taxEval.netCash)}</b> (<span class="${taxEval.isTaxSafe ? 'text-[#3da678]' : 'text-[#c8963e]'} font-bold">${taxEval.deltaVsSpotPct >= 0 ? '+' : ''}${taxEval.deltaVsSpotPct.toFixed(2)}% vs Spot ${taxEval.isTaxSafe ? '✅' : '⚠️'}</span>)</div>
+        <div>• <b>Τιμή Επαναγοράς (Rebuy Price):</b> Πρέπει η τιμή να πέσει στα <b class="text-[#9b88bf]">${fmtMoney(taxEval.rebuyPrice)}</b> για 100% επαναγορά!</div>
+        ${simPrice > taxEval.rebuyPrice ? `<div class="text-[#c8963e]">• <b>Απώλεια Τεμαχίων (Dilution):</b> Αν αγοράσεις στα ${fmtMoney(simPrice)}, παίρνεις <b>${taxEval.unitDestruction.label}</b>.</div>` : ''}
+        ${taxEval.taxShield.hasLoss ? `<div class="text-[#3d76b8]">• <b>Φορολογική Ασπίδα:</b> ${taxEval.taxShield.description}</div>` : ''}
       `;
     } else {
       badgeEl.className = 'mt-2.5 text-xs p-2.5 rounded bg-[#16221b] border border-[#3da678]/40 leading-relaxed text-[#ebe8e1]';
@@ -478,6 +501,18 @@ function selectCcItem(item) {
   currentCcActiveItem = item;
   updateCcActiveCards(item);
 
+  // Sync with Tax & Cost Basis Analysis Panel
+  const fnUpdate = typeof updateTaxAnalysisHud === 'function' ? updateTaxAnalysisHud : (typeof updateTaxCockpitHud === 'function' ? updateTaxCockpitHud : null);
+  if (fnUpdate) {
+    const rawBasis = document.getElementById('taxCostBasis')?.value || document.getElementById('stratCostBasis')?.value || document.getElementById('cockpitCostBasis')?.value;
+    const taxPct = Number(document.getElementById('taxRateInput')?.value || document.getElementById('stratTaxRate')?.value || document.getElementById('cockpitTaxRate')?.value || 0);
+    const taxMode = window.currentTaxTradingMode || 'PRE_EXISTING';
+    const taxRate = TaxEngine.resolveTaxRate(taxPct);
+    const spot = currentState.spot || item.spotPrice || item.strikeAbsolute * 0.95;
+    const costBasis = TaxEngine.resolveCostBasis(rawBasis, spot, taxMode);
+    fnUpdate(spot, costBasis, taxRate, taxMode, item);
+  }
+
   if (currentCcView === 'PAYOFF') {
     renderCoveredCallPayoffChart(item);
   } else {
@@ -509,11 +544,12 @@ function updateCcActiveCards(item) {
   const premium = Math.max(0, spot - item.breakEvenVsFullMoneyAbsolute);
   const maxProfitCash = item.strikeAbsolute - item.breakEvenVsFullMoneyAbsolute;
 
-  const rawBasis = document.getElementById('stratCostBasis')?.value;
-  const taxPct = Number(document.getElementById('stratTaxRate')?.value || 0);
+  const rawBasis = document.getElementById('taxCostBasis')?.value || document.getElementById('stratCostBasis')?.value || document.getElementById('cockpitCostBasis')?.value;
+  const taxPct = Number(document.getElementById('taxRateInput')?.value || document.getElementById('stratTaxRate')?.value || document.getElementById('cockpitTaxRate')?.value || 0);
+  const taxMode = window.currentTaxTradingMode || 'PRE_EXISTING';
   const taxRate = TaxEngine.resolveTaxRate(taxPct);
-  const costBasis = TaxEngine.resolveCostBasis(rawBasis, spot);
-  const isTaxActive = taxRate > 0 && costBasis !== spot;
+  const costBasis = TaxEngine.resolveCostBasis(rawBasis, spot, taxMode);
+  const isTaxActive = taxRate > 0 && (taxMode === 'FRESH' || costBasis !== spot);
 
   const cashYieldEl = document.getElementById('ccCardCashYield');
   const cashSubEl = document.getElementById('ccCardCashSub');
@@ -523,7 +559,10 @@ function updateCcActiveCards(item) {
   const cushionSubEl = document.getElementById('ccCardCushionSub');
 
   if (isTaxActive) {
-    const taxEval = TaxEngine.evaluateContract({ spot, strike: item.strikeAbsolute, premium, costBasis, taxRate, dte: item.DTE });
+    const taxEval = TaxEngine.evaluateContract({
+      spot, strike: item.strikeAbsolute, premium, costBasis, taxRate, dte: item.DTE,
+      mode: taxMode
+    });
     if (cashYieldEl) {
       cashYieldEl.textContent = (taxEval.deltaVsSpotPct >= 0 ? '+' : '') + taxEval.deltaVsSpotPct.toFixed(2) + '% Net';
       cashYieldEl.className = 'text-2xl font-bold mt-1 mono ' + (taxEval.isTaxSafe ? 'text-[#3da678]' : 'text-[#c8963e]');
@@ -550,7 +589,7 @@ function updateCcActiveCards(item) {
   if (unitYieldEl) unitYieldEl.textContent = '+' + unitYieldPct.toFixed(2) + '%';
   if (unitSubEl) unitSubEl.textContent = 'Δωρεάν Επανεπένδυση (' + item.underlying + ')';
 
-  // Practical Execution Ticket
+  // Order Execution & Cash Flow Ticket (Δελτίο Συναλλαγής & Ταμειακές Ροές)
   const leg1El = document.getElementById('ccTicketLeg1');
   const leg2El = document.getElementById('ccTicketLeg2');
   const netDebitEl = document.getElementById('ccTicketNetDebit');
@@ -559,7 +598,7 @@ function updateCcActiveCards(item) {
   const bufferEl = document.getElementById('ccTicketBuffer');
   const linkEl = document.getElementById('ccSelectedPayoffLink');
 
-  const isPreExisting = costBasis !== spot;
+  const isPreExisting = taxMode === 'PRE_EXISTING' && costBasis !== spot;
   const isCrypto = currentState.venue === 'CRYPTO' || item.venue === 'Deribit';
   const unitSizeStr = isCrypto ? (item.underlying === 'BTC' ? '0.1x' : '1.0x') : '100x';
   const lotMultiplier = isCrypto ? (item.underlying === 'BTC' ? 0.1 : 1.0) : 100.0;
@@ -567,15 +606,15 @@ function updateCcActiveCards(item) {
   if (leg1El) {
     leg1El.textContent = isPreExisting
       ? `HOLD ${unitSizeStr} ${item.underlying} (Cost Basis: ${fmtMoney(costBasis)})`
-      : `BUY ${unitSizeStr} ${item.underlying} @ Spot ${fmtMoney(spot)}`;
+      : `BUY ${unitSizeStr} ${item.underlying} @ Spot ${fmtMoney(spot)} (Αγορά Μετοχής / Buy Stock)`;
   }
   if (leg2El) {
     const contractNote = isCrypto ? `SELL 1 Call (${unitSizeStr} ${item.underlying})` : `SELL 1 Call (100 μετοχές)`;
     leg2El.textContent = `${contractNote} @ Strike ${fmtMoney(item.strikeAbsolute)} (${item.formattedDate})`;
   }
   if (netDebitEl) {
-    const totalOutlay = item.breakEvenVsFullMoneyAbsolute * lotMultiplier;
-    netDebitEl.textContent = isPreExisting ? '$0.00 (Υπάρχουσα Θέση)' : fmtMoney(totalOutlay);
+    const totalOutlay = (spot - premium) * lotMultiplier;
+    netDebitEl.textContent = isPreExisting ? '$0.00 (Υπάρχουσα Θέση / Zero Cash Outlay)' : fmtMoney(totalOutlay);
   }
   if (creditEl) {
     creditEl.textContent = 'Άμεσο Cash: +' + fmtMoney(premium * lotMultiplier);

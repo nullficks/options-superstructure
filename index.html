@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="el">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Options Probabilistic Superstructure — Praxeological Market Reality</title>
+<title>Αναλυτής Πιθανοτήτων &amp; Στρατηγικών Παραγώγων / Options Probability &amp; Strategy Analyzer</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- KaTeX for pristine mathematical typography ($P_{\text{Touch}}$, formulas, and derivations) -->
+<!-- KaTeX for mathematical typography ($P_{\text{Touch}}$, formulas, and derivations) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
@@ -23,21 +23,21 @@
 <header class="mb-5 border-b border-gray-800 pb-4 flex flex-wrap justify-between items-center gap-4">
   <div>
     <div class="flex items-center gap-2">
-      <span class="text-xl">⚡</span>
+      <span class="text-xl">📊</span>
       <h1 class="text-lg md:text-xl font-bold tracking-tight text-[#4a86c6]">
-        OPTIONS PROBABILISTIC SUPERSTRUCTURE
+        ΑΝΑΛΥΤΗΣ ΠΙΘΑΝΟΤΗΤΩΝ &amp; ΣΤΡΑΤΗΓΙΚΩΝ ΠΑΡΑΓΩΓΩΝ
       </h1>
       <span class="text-xs px-2 py-0.5 rounded bg-[#1e2430] text-[#9aa4b2] border border-[#26303e]">
-        Praxeological Market Reality
+        Options Probability &amp; Strategy Analyzer
       </span>
     </div>
     <p class="text-xs text-[#9aa4b2] mt-1">
-      Αντικειμενικές Πιθανότητες Αγοράς • Touch &amp; No-Touch Bets • Put-Call Parity Forward Drift • Debunker Αερολογίας Finfluencers
+      Αντικειμενικές Πιθανότητες Αγοράς (Market-Implied Probability) • Πιθανότητα Αγγίγματος Ορίου (Touch Probability) • Ισοτιμία Put-Call (Put-Call Parity) • Φορολογική Ανάλυση &amp; Βάση Κόστους (Taxation &amp; Cost Basis)
     </p>
   </div>
   <div class="flex flex-wrap items-center gap-2 text-xs">
     <button onclick="copyShareableUrl()" id="shareBtn" class="px-3 py-1.5 rounded bg-[#1e2837] hover:bg-[#253347] text-[#4a86c6] border border-[#26303e] font-semibold transition">
-      🔗 Αντιγραφή Link Στοιχήματος
+      🔗 Αντιγραφή Συνδέσμου (Share Link)
     </button>
     <span id="engineStatus" class="px-2.5 py-1 rounded bg-[#13221b] text-[#3ea87c] border border-[#1e4433] mono">
       ✅ Engine: Ready
@@ -51,37 +51,37 @@
 <section id="marketControlBar" class="card p-4 mb-5">
   <div class="grid grid-cols-1 md:grid-cols-6 gap-3 items-end">
     <div>
-      <label class="block text-xs text-[#9aa4b2] mb-1 font-medium">1. Αγορά</label>
+      <label class="block text-xs text-[#9aa4b2] mb-1 font-medium">1. Αγορά Συναλλαγών / Market Venue</label>
       <select id="venueSelect" class="w-full px-3 py-2 rounded text-sm font-medium" onchange="onVenueChange()">
         <option value="CRYPTO">Crypto (Deribit 24/7)</option>
-        <option value="STOCK">Μετοχές &amp; ETFs (ΗΠΑ via Yahoo)</option>
+        <option value="STOCK">Μετοχές &amp; ETFs / Equities (US via Yahoo)</option>
       </select>
     </div>
     <div>
-      <label class="block text-xs text-[#9aa4b2] mb-1 font-medium">2. Σύμβολο (Ticker)</label>
+      <label class="block text-xs text-[#9aa4b2] mb-1 font-medium">2. Σύμβολο Τίτλου / Ticker Symbol</label>
       <input id="tickerInput" type="text" value="BTC" class="w-full px-3 py-2 rounded text-sm font-bold uppercase mono text-[#4a86c6]" onkeydown="if(event.key==='Enter') loadChain()" />
     </div>
     <div>
-      <label class="block text-xs text-[#9aa4b2] mb-1 font-medium">3. Ημερομηνία Λήξης</label>
+      <label class="block text-xs text-[#9aa4b2] mb-1 font-medium">3. Ημερομηνία Λήξης / Expiration Date (DTE)</label>
       <select id="expSelect" class="w-full px-3 py-2 rounded text-sm mono" onchange="onExpirationChange()"></select>
     </div>
     <div class="md:col-span-2">
       <div class="flex justify-between text-xs text-[#9aa4b2] mb-1">
-        <span>4. Τιμή-Στόχος (Touch Bet):</span>
+        <span>4. Τιμή-Στόχος / Target Price:</span>
         <span id="targetLabel" class="text-[#4a86c6] font-bold mono">—</span>
       </div>
       <input id="targetSlider" type="range" min="100" max="300" step="0.5" value="220" class="w-full accent-[#4a86c6] cursor-pointer" oninput="onSliderChange(this.value)" />
     </div>
     <div>
       <button onclick="loadChain()" class="w-full bg-[#4a86c6] hover:bg-[#3d74af] text-white font-bold py-2 px-4 rounded text-sm transition">
-        Φόρτωση Orderbook
+        Φόρτωση Βιβλίου Εντολών / Load Order Book
       </button>
     </div>
   </div>
 
   <!-- ΓΡΗΓΟΡΗ ΕΠΙΛΟΓΗ ASSETS -->
   <div class="mt-3 flex flex-wrap gap-1.5 items-center text-xs border-t border-[#26303e] pt-3">
-    <span class="text-[#637083] mr-1">Γρήγορη Επιλογή:</span>
+    <span class="text-[#637083] mr-1">Γρήγορη Επιλογή Τίτλου / Quick Select:</span>
     <button onclick="quickLoad('CRYPTO','BTC')" class="px-2.5 py-1 rounded bg-[#2a2215] text-[#d49a42] hover:bg-[#362b1b] font-semibold border border-[#3f311c]">BTC (Deribit 24/7)</button>
     <button onclick="quickLoad('CRYPTO','ETH')" class="px-2.5 py-1 rounded bg-[#201d2d] text-[#9b7ad6] hover:bg-[#2c2640] font-semibold border border-[#352c4e]">ETH (Deribit 24/7)</button>
     <span class="text-[#3b4c63] mx-1">|</span>
@@ -97,7 +97,7 @@
   <div class="mt-2.5 text-[11px] text-[#9aa4b2] flex items-center gap-1.5 bg-[#12161d] p-2 rounded border border-[#26303e]">
     <span>ℹ️</span>
     <span>
-      <b>Πραγματικά Δεδομένα Αγοράς (Zero Mocks):</b> Στο Crypto (Deribit) τα orderbooks ανανεώνονται 24/7. Στις Μετοχές (Yahoo), όταν η Wall Street είναι κλειστή (νύχτα ή Σαββατοκύριακο), τα δεδομένα αντικατοπτρίζουν τις τελευταίες επίσημες τιμές κλεισίματος (Friday Close) της OPRA.
+      <b>Ακεραιότητα Δεδομένων Αγοράς / Market Data Integrity:</b> Στο Crypto (Deribit) τα orderbooks ανανεώνονται 24/7. Στις Μετοχές (Yahoo Finance), όταν η Wall Street είναι κλειστή, τα δεδομένα αντικατοπτρίζουν τις επίσημες τιμές κλεισίματος της OPRA.
     </span>
   </div>
 </section>
@@ -105,19 +105,19 @@
 <!-- TABS NAVIGATION -->
 <div class="mb-5 flex flex-wrap gap-2 border-b border-[#26303e] pb-3 text-xs font-bold">
   <button onclick="switchTab('PROB')" id="tabBtnProb" class="px-4 py-2 rounded bg-[#4a86c6] text-white transition">
-    1. Finfluencer Reality Check &amp; Live Orderbook
+    1. Κατανομή Πιθανοτήτων &amp; Βιβλίο Εντολών / Probability Distribution &amp; Order Book
   </button>
   <button onclick="switchTab('TIMELINE')" id="tabBtnTimeline" class="px-4 py-2 rounded bg-[#171c24] text-[#9aa4b2] hover:bg-[#1e2430] transition">
-    2. Χρονοδιάγραμμα Στόχου («Πότε θα φτάσει;»)
+    2. Χρονικός Ορίζοντας Στόχου / Target Timeline &amp; Touch Probability
   </button>
   <button onclick="switchTab('STRAT')" id="tabBtnStrat" class="px-4 py-2 rounded bg-[#171c24] text-[#9aa4b2] hover:bg-[#1e2430] transition">
-    3. Geometric Covered Calls &amp; Capital Allocation
+    3. Στρατηγικές Παραγώγων &amp; Φορολογία / Options Strategies &amp; Taxation
   </button>
   <button onclick="switchTab('THEORY')" id="tabBtnTheory" class="px-4 py-2 rounded bg-[#171c24] text-[#9aa4b2] hover:bg-[#1e2430] transition">
-    4. Πραξεολογία &amp; Θεμέλια Αγοράς (Mises &amp; Carry)
+    4. Θεωρία Αγοράς &amp; Τιμολόγηση Παραγώγων / Market Theory &amp; Pricing Models
   </button>
   <button onclick="switchTab('MYTHS')" id="tabBtnMyths" class="px-4 py-2 rounded bg-[#171c24] text-[#9aa4b2] hover:bg-[#1e2430] transition flex items-center gap-1.5 font-bold">
-    <span>🥊</span> 5. Finfluencer Mythbusters Hub (6 Μύθοι)
+    <span>📊</span> 5. Διαχείριση Κινδύνου &amp; Δοκιμές Σεναρίων / Risk Management &amp; Stress Testing
   </button>
 </div>
 
@@ -126,13 +126,13 @@
   <!-- TAB 1: 3-STEP PEDAGOGICAL ACTION GUIDE -->
   <div class="card p-4 mb-5 bg-[#12161f] border-l-4 border-[#3d76b8]">
     <div class="text-[11px] font-bold text-[#3d76b8] uppercase tracking-wider mb-2 flex items-center gap-1.5">
-      <span>🧭 ΟΔΗΓΟΣ ΧΡΗΣΤΗ: ΠΩΣ ΔΙΑΒΑΖΕΤΑΙ &amp; ΠΩΣ ΠΑΙΖΕΤΑΙ ΤΟ ΤΑΜΠ 1</span>
+      <span>🧭 ΟΔΗΓΟΣ ΑΝΑΛΥΣΗΣ ΚΑΤΑΝΟΜΗΣ ΠΙΘΑΝΟΤΗΤΩΝ / PROBABILITY ANALYSIS GUIDE</span>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
       <div class="flex items-start gap-2.5">
         <span class="text-base leading-none">1️⃣</span>
         <div>
-          <div class="font-bold text-[#ebe8e1]">Τι βλέπεις εδώ;</div>
+          <div class="font-bold text-[#ebe8e1]">Τι απεικονίζεται / What is shown:</div>
           <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
             Την αντικειμενική <b>κατανομή πιθανοτήτων</b> (Lognormal Bell Curve) γύρω από το Forward Drift. Το μπλε είναι το σημερινό Spot, το χρυσό το Forward (με επιτόκιο Carry) και το πράσινο το όριο επαφής (Target Barrier).
           </div>
@@ -141,7 +141,7 @@
       <div class="flex items-start gap-2.5">
         <span class="text-base leading-none">2️⃣</span>
         <div>
-          <div class="font-bold text-[#c8963e]">Τι να κάνεις;</div>
+          <div class="font-bold text-[#c8963e]">Ενέργεια χρήστη / Action:</div>
           <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
             <b>Σύρε το Slider</b> ή κάνε κλικ κατευθείαν πάνω στο γράφημα για να επιλέξεις τιμή-στόχο. Πέρασε το ποντίκι πάνω από την καμπύλη για να δεις τη ζωντανή μαγνητική ένδειξη P(Touch) και δυσκολίας σε Bits.
           </div>
@@ -150,7 +150,7 @@
       <div class="flex items-start gap-2.5">
         <span class="text-base leading-none">3️⃣</span>
         <div>
-          <div class="font-bold text-[#3da678]">Τι σημαίνει για την τσέπη σου;</div>
+          <div class="font-bold text-[#3da678]">Οικονομική ανάλυση / Financial analysis:</div>
           <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
             Αντί να πετάς λεφτά σε μακρινά OTM Calls που μηδενίζονται (No-Touch &gt; 85%), το σύστημα εντοπίζει <b>στενό Vertical Spread</b> με ασύμμετρη απόδοση (π.χ. 12x στο Touch) με ελάχιστο κόστος ρίσκου.
           </div>
@@ -162,42 +162,42 @@
   <!-- TOP 4 KPI CARDS -->
   <section class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-5">
     <div class="card p-3.5 border-l-4 border-[#4a86c6]">
-      <div class="text-[11px] text-[#9aa4b2] font-semibold">1. ΤΡΕΧΟΥΣΑ ΤΙΜΗ (SPOT)</div>
+      <div class="text-[11px] text-[#9aa4b2] font-semibold">1. ΤΡΕΧΟΥΣΑ ΤΙΜΗ / SPOT PRICE</div>
       <div id="kpiSpot" class="text-2xl font-bold mt-1 mono text-[#e8eaed]">—</div>
-      <div id="kpiDte" class="text-xs text-[#9aa4b2] mt-0.5">Ορίζοντας: —</div>
+      <div id="kpiDte" class="text-xs text-[#9aa4b2] mt-0.5">Ορίζοντας / Horizon: —</div>
     </div>
 
     <div class="card p-3.5 border-l-4 border-[#d49a42]">
-      <div class="text-[11px] text-[#d49a42] font-bold">2. ΤΙΜΗ FORWARD (PUT-CALL PARITY)</div>
+      <div class="text-[11px] text-[#d49a42] font-bold">2. ΠΡΟΘΕΣΜΙΑΚΗ ΤΙΜΗ / FORWARD PRICE (PUT-CALL PARITY)</div>
       <div id="kpiForward" class="text-2xl font-bold text-[#d49a42] mt-1 mono">—</div>
-      <div id="kpiCarry" class="text-xs text-[#9aa4b2] mt-0.5">Τεκμαρτό επιτόκιο / Carry Rate</div>
+      <div id="kpiCarry" class="text-xs text-[#9aa4b2] mt-0.5">Επιτόκιο Διακράτησης / Carry Rate</div>
     </div>
 
     <div class="card p-3.5 border-l-4 border-[#3ea87c]">
-      <div class="text-[11px] text-[#3ea87c] font-bold">3. ΠΙΘΑΝΟΤΗΤΑ ΕΠΑΦΗΣ P(TOUCH)</div>
+      <div class="text-[11px] text-[#3ea87c] font-bold">3. ΠΙΘΑΝΟΤΗΤΑ ΕΠΑΦΗΣ / TOUCH PROBABILITY P(TOUCH)</div>
       <div id="kpiTouch" class="text-2xl font-bold text-[#3ea87c] mt-1 mono">—</div>
       <div id="kpiTouchSub" class="text-xs text-[#9aa4b2] mt-0.5">—</div>
     </div>
 
     <div class="card p-3.5 border-l-4 border-[#d95d4e]">
-      <div class="text-[11px] text-[#d95d4e] font-bold">4. ΠΙΘΑΝΟΤΗΤΑ ΜΗ-ΕΠΑΦΗΣ P(NO-TOUCH)</div>
+      <div class="text-[11px] text-[#d95d4e] font-bold">4. ΠΙΘΑΝΟΤΗΤΑ ΜΗ-ΕΠΑΦΗΣ / NO-TOUCH PROBABILITY P(NO-TOUCH)</div>
       <div id="kpiNoTouch" class="text-2xl font-bold text-[#d95d4e] mt-1 mono">—</div>
       <div id="kpiNoTouchSub" class="text-xs text-[#9aa4b2] mt-0.5">—</div>
     </div>
   </section>
 
-  <!-- FINFLUENCER DEBUNKER VERDICT BOX -->
+  <!-- OBJECTIVE MARKET EVALUATION VERDICT BOX -->
   <section class="card p-4 md:p-5 mb-5 border-l-4 border-[#9b7ad6] bg-[#141922]">
     <div class="flex flex-wrap justify-between items-center gap-4">
       <div class="max-w-4xl">
         <div class="flex flex-wrap items-center gap-2">
-          <span class="text-sm font-bold text-[#9b7ad6]">🎯 FINFLUENCER REALITY CHECK (SKIN IN THE GAME)</span>
-          <span class="text-[10px] px-2 py-0.5 rounded bg-[#201d2d] text-[#9b7ad6] border border-[#352c4e]">Objective Market Odds</span>
+          <span class="text-sm font-bold text-[#9b7ad6]">🎯 ΑΝΤΙΚΕΙΜΕΝΙΚΗ ΑΞΙΟΛΟΓΗΣΗ ΑΓΟΡΑΣ / OBJECTIVE MARKET EVALUATION</span>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-[#201d2d] text-[#9b7ad6] border border-[#352c4e]">Πιθανότητες Αγοράς / Market Probabilities</span>
           <button onclick="openShannonModal()" class="text-[11px] px-2.5 py-0.5 rounded bg-[#2a1e38] text-[#9b88bf] hover:bg-[#38284d] border border-[#483664] font-bold transition flex items-center gap-1 shadow-sm">
-            <span>🔬 Τι είναι τα Bits;</span>
+            <span>🔬 Θεωρία Πληροφορίας Shannon / Shannon Information (Bits) ↗</span>
           </button>
           <button onclick="switchTab('MYTHS')" class="text-[11px] px-2.5 py-0.5 rounded bg-[#1e2837] text-[#4a86c6] hover:bg-[#273447] border border-[#2b3a50] font-bold transition flex items-center gap-1 shadow-sm">
-            <span>🥊 6 Μύθοι Finfluencers ↗</span>
+            <span>📊 6 Παρανοήσεις Παραγώγων / 6 Options Misconceptions ↗</span>
           </button>
         </div>
         <div id="verdictText" class="text-xs text-[#e8eaed] mt-2.5 leading-relaxed space-y-1.5">
@@ -206,30 +206,30 @@
       </div>
       <div class="flex flex-wrap gap-2">
         <a id="optionStratTouchLink" href="#" target="_blank" class="px-3.5 py-2 rounded bg-[#2d4d3e] hover:bg-[#38624f] text-[#3ea87c] text-xs font-bold transition border border-[#3ea87c]/40">
-          Touch Bet Payoff ↗
+          Απολαβή Στοιχήματος Επαφής / Touch Bet Payoff ↗
         </a>
         <a id="optionStratNoTouchLink" href="#" target="_blank" class="px-3.5 py-2 rounded bg-[#452723] hover:bg-[#57312c] text-[#d95d4e] text-xs font-bold transition border border-[#d95d4e]/40">
-          No-Touch Bet Payoff ↗
+          Απολαβή Μη-Επαφής / No-Touch Bet Payoff ↗
         </a>
       </div>
     </div>
   </section>
 
-  <!-- TAB 1: INTERACTIVE SUPERSTRUCTURE BELL CURVE & TOUCH BARRIER COCKPIT -->
+  <!-- TAB 1: PROBABILITY DISTRIBUTION & TOUCH BARRIER -->
   <section id="superstructureChartSection" class="card p-4 md:p-5 mb-5 bg-[#12171f]">
     <div class="flex flex-wrap justify-between items-center gap-2 mb-3 border-b border-[#232d3b] pb-2">
       <div>
         <h3 class="text-xs md:text-sm font-bold text-[#c8963e] flex items-center gap-2">
-          <span>⚡ ΚΑΤΑΝΟΜΗ ΠΙΘΑΝΟΤΗΤΩΝ &amp; ΟΡΙΟ ΕΠΑΦΗΣ (BELL CURVE &amp; TOUCH BARRIER)</span>
+          <span>⚡ ΚΑΤΑΝΟΜΗ ΠΙΘΑΝΟΤΗΤΩΝ &amp; ΟΡΙΟ ΕΠΑΦΗΣ / PROBABILITY DISTRIBUTION &amp; TOUCH BARRIER</span>
         </h3>
         <p class="text-[11px] text-[#8e99a8] mt-0.5">
-          Lognormal πυκνότητα πιθανότητας γύρω από το Forward (με Carry Drift) • Κλικ στο γράφημα ή σύρσιμο του slider για αλλαγή στόχου
+          Λογαριθμοκανονική πυκνότητα (Lognormal Distribution) γύρω από την Προθεσμιακή Τιμή (Forward Price με Carry)
         </p>
       </div>
       <div class="flex items-center gap-3 text-[11px] mono">
-        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3d76b8]"></span> Spot</span>
-        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#c8963e]"></span> Forward (Drift)</span>
-        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3da678]"></span> Target Barrier</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3d76b8]"></span> Τρέχουσα Τιμή / Spot Price</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#c8963e]"></span> Προθεσμιακή Τιμή / Forward Price</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3da678]"></span> Όριο Στόχου / Target Barrier</span>
       </div>
     </div>
 
@@ -238,27 +238,27 @@
       <svg id="bellCurveSvg" viewBox="0 0 800 240" class="w-full h-auto block select-none cursor-crosshair"></svg>
     </div>
 
-    <!-- Visual Asymmetric Multiplier Bar (Skin in the Game Payoff Bar) -->
+    <!-- Visual Asymmetric Multiplier Bar (Payoff Asymmetry Bar) -->
     <div class="mt-4 p-3 rounded bg-[#161d27] border border-[#232d3b]">
       <div class="flex flex-wrap justify-between items-center gap-2 text-xs mb-2">
-        <span class="font-bold text-[#8e99a8]">ΟΠΤΙΚΟΠΟΙΗΣΗ ΑΣΥΜΜΕΤΡΙΑΣ (SKIN IN THE GAME PAYOFF)</span>
+        <span class="font-bold text-[#8e99a8]">ΑΝΑΛΥΣΗ ΑΣΥΜΜΕΤΡΙΑΣ ΑΠΟΔΟΣΗΣ / PAYOFF ASYMMETRY ANALYSIS</span>
         <button id="asymBitsBadge" onclick="openShannonModal()" class="text-[11px] mono text-[#9b88bf] hover:text-[#d6c7ee] bg-[#221c2e] hover:bg-[#2e253e] px-2.5 py-1 rounded border border-[#3c2f52] hover:border-[#67518a] transition cursor-pointer flex items-center gap-1.5 shadow-sm" title="Κάνε κλικ για ανάλυση Claude Shannon & Kelly Criterion">
-          <span>🔬 Πληροφοριακή Δυσκολία: — Bits</span>
-          <span class="text-[10px] bg-[#3c2f52] text-[#e8eaed] px-1.5 py-0.2 rounded font-sans">Εξήγηση ↗</span>
+          <span>🔬 Πληροφοριακό Περιεχόμενο Shannon: — Bits / Information Content</span>
+          <span class="text-[10px] bg-[#3c2f52] text-[#e8eaed] px-1.5 py-0.2 rounded font-sans">Επεξήγηση ↗</span>
         </button>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center text-xs">
         <div class="md:col-span-3 p-2.5 rounded bg-[#241315] border border-[#c85648]/40">
-          <div class="text-[10px] text-[#c85648] font-bold">1. ΚΟΣΤΟΣ ΑΓΟΡΑΣ (MAX RISK)</div>
+          <div class="text-[10px] text-[#c85648] font-bold">1. ΚΟΣΤΟΣ ΑΓΟΡΑΣ / DEBIT COST (MAX RISK)</div>
           <div id="asymRiskVal" class="text-base font-bold mono text-[#ebe8e1] mt-0.5">—</div>
-          <div class="text-[10px] text-[#8e99a8]">Κίνδυνος αν δεν αγγίξει</div>
+          <div class="text-[10px] text-[#8e99a8]">Μέγιστος κίνδυνος αν δεν αγγίξει</div>
         </div>
 
         <div class="md:col-span-6 flex flex-col items-center justify-center px-2 py-1">
           <div class="flex items-center justify-between w-full text-[11px] font-bold text-[#c8963e] mb-1">
-            <span>Σημείο Εισόδου</span>
+            <span>Σημείο Εισόδου / Entry</span>
             <span id="asymMultLabel" class="text-sm font-extrabold text-[#3da678] mono">⚡ —x Multiple</span>
-            <span>Στόχος Επαφής</span>
+            <span>Στόχος Επαφής / Target</span>
           </div>
           <div class="w-full h-3 rounded-full bg-[#1c2430] border border-[#263548] relative overflow-hidden flex">
             <div id="asymRiskBar" class="h-full bg-[#c85648] transition-all duration-300" style="width: 20%;"></div>
@@ -271,35 +271,34 @@
         </div>
 
         <div class="md:col-span-3 p-2.5 rounded bg-[#13221b] border border-[#3da678]/40 text-right">
-          <div class="text-[10px] text-[#3da678] font-bold">2. ΑΞΙΑ ΣΤΟ TOUCH (PAYOUT)</div>
+          <div class="text-[10px] text-[#3da678] font-bold">2. ΑΞΙΑ ΣΤΟ TOUCH / VALUE AT TOUCH (PAYOUT)</div>
           <div id="asymPayoutVal" class="text-base font-bold mono text-[#ebe8e1] mt-0.5">—</div>
-          <div class="text-[10px] text-[#8e99a8]">Καθαρή αξία στο Touch</div>
+          <div class="text-[10px] text-[#8e99a8]">Καθαρή αξία κατά την επαφή</div>
         </div>
       </div>
     </div>
   </section>
-
   <!-- TABLE OF STRIKES -->
   <section class="card overflow-x-auto">
     <div class="p-3 bg-[#13171f] border-b border-[#26303e] text-xs text-[#9aa4b2] flex justify-between items-center">
-      <span>💡 <b>Οδηγία:</b> Κάνε κλικ σε οποιαδήποτε γραμμή για να επιλέξεις εκείνο το επίπεδο τιμής. Όλες οι πιθανότητες υπολογίζονται με βάση το <b>Forward Drift (Επιτόκιο Carry)</b>.</span>
-      <span class="text-[11px] mono text-[#637083]">Formula: Clean HTML, Zero Math Rendering Glitches</span>
+      <span>💡 <b>Οδηγία Χρήσης / Usage:</b> Επιλογή γραμμής για ανάλυση συγκεκριμένου επιπέδου τιμής. Όλες οι πιθανότητες υπολογίζονται με βάση το <b>Forward Drift (Επιτόκιο Carry / Put-Call Parity)</b>.</span>
+      <span class="text-[11px] mono text-[#637083]">Market-Implied Probability Engine</span>
     </div>
     <table class="w-full text-left border-collapse text-xs">
       <thead>
         <tr class="border-b border-[#26303e]">
-          <th class="p-3">Τιμή-Στόχος</th>
+          <th class="p-3">Τιμή-Στόχος / Target Price</th>
           <th class="p-3">Απόσταση vs Spot</th>
           <th class="p-3">Απόσταση vs Forward</th>
-          <th class="p-3">Vertical Spread</th>
+          <th class="p-3">Κάθετο Άνοιγμα / Spread</th>
           <th class="p-3 text-right">P(Touch) (Adj)</th>
           <th class="p-3 text-right">P(No-Touch)</th>
           <th class="p-3 text-right">P(Expire ITM)</th>
-          <th class="p-3 text-right">Δυσκολία (Bits)</th>
-          <th class="p-3 text-right">Κόστος Αγοράς</th>
+          <th class="p-3 text-right">Πληροφορία / Bits</th>
+          <th class="p-3 text-right">Κόστος / Debit Ask</th>
           <th class="p-3 text-right">Αξία στο Touch</th>
-          <th class="p-3 text-right text-[#3ea87c]">Απόδοση (Multiple)</th>
-          <th class="p-3 text-center">Payoff</th>
+          <th class="p-3 text-right text-[#3ea87c]">Απόδοση / Multiple</th>
+          <th class="p-3 text-center">Απολαβή / Payoff</th>
         </tr>
       </thead>
       <tbody id="probTableBody" class="divide-y divide-[#26303e]/60 mono"></tbody>
@@ -307,19 +306,19 @@
   </section>
 </div>
 
-<!-- ==================== TAB 2: ΧΡΟΝΟΔΙΑΓΡΑΜΜΑ ΣΤΟΧΟΥ ==================== -->
+<!-- ==================== TAB 2: ΧΡΟΝΙΚΟΣ ΟΡΙΖΟΝΤΑΣ ΣΤΟΧΟΥ / TARGET TIMELINE ==================== -->
 <section id="tabTimeline" class="card p-5 hidden">
   <div class="border-b border-[#26303e] pb-3 mb-4 flex flex-wrap justify-between items-center gap-2">
     <div>
       <h2 class="text-base font-bold text-[#4a86c6]">
-        ⏱️ ΧΡΟΝΟΔΙΑΓΡΑΜΜΑ ΣΤΟΧΟΥ: «ΣΗΜΕΡΑ ΕΧΟΥΜΕ ΤΙΜΗ Χ — ΠΟΤΕ ΘΑ ΦΤΑΣΕΙ ΣΤΟ Υ;»
+        ⏱️ ΧΡΟΝΙΚΟΣ ΟΡΙΖΟΝΤΑΣ ΣΤΟΧΟΥ / TARGET PRICE TIMELINE
       </h2>
       <p class="text-xs text-[#9aa4b2] mt-0.5">
-        Αυτόματος συγχρονισμός με το ενεργό Ticker. Υπολογίζει πότε η πιθανότητα επαφής P(Touch) περνάει το 50% (Median Horizon) και το 75%.
+        Υπολογισμός Πιθανότητας Επαφής P(Touch) στον Χρόνο / Time-to-Touch Probability Horizons (Διάμεσος Ορίζοντας 50% &amp; Ορίζοντας 75%)
       </p>
     </div>
     <button onclick="syncTimelineWithLiveChain()" class="px-3 py-1.5 rounded bg-[#1e2837] hover:bg-[#273447] text-[#4a86c6] text-xs font-bold border border-[#26303e] transition">
-      🔄 Επανασυγχρονισμός με το Ticker
+      🔄 Επανασυγχρονισμός / Sync with Ticker
     </button>
   </div>
 
@@ -350,7 +349,7 @@
       <div class="flex items-start gap-2.5">
         <span class="text-base leading-none">3️⃣</span>
         <div>
-          <div class="font-bold text-[#3da678]">Τι σημαίνει για την τσέπη σου;</div>
+          <div class="font-bold text-[#3da678]">Οικονομικό αποτέλεσμα / Financial significance:</div>
           <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
             Δεν αγοράζεις επιλογές 7 ημερών όταν ο διάμεσος χρόνος άγγιξης απαιτεί 45 ημέρες! Συγχρονίζεις τη διάρκεια των θέσεών σου με τα πραγματικά μαθηματικά της αγοράς.
           </div>
@@ -361,19 +360,19 @@
 
   <div class="grid grid-cols-1 md:grid-cols-4 gap-3 bg-[#12161d] p-3.5 rounded border border-[#26303e] mb-5 items-end">
     <div>
-      <label class="block text-xs text-[#9aa4b2] mb-1">Σημερινή Τιμή (Spot)</label>
+      <label class="block text-xs text-[#9aa4b2] mb-1">Τρέχουσα Τιμή / Spot Price (S<sub>0</sub>)</label>
       <input id="tlSpot" type="number" step="any" value="214.13" class="w-full px-3 py-1.5 rounded text-sm font-bold mono" oninput="runTimelineCalculator()" />
     </div>
     <div>
-      <label class="block text-xs text-[#9aa4b2] mb-1">Τιμή-Στόχος (Target)</label>
+      <label class="block text-xs text-[#9aa4b2] mb-1">Τιμή-Στόχος / Target Price</label>
       <input id="tlTarget" type="number" step="any" value="240.00" class="w-full px-3 py-1.5 rounded text-sm font-bold mono text-[#4a86c6]" oninput="runTimelineCalculator()" />
     </div>
     <div>
-      <label class="block text-xs text-[#9aa4b2] mb-1">Ετήσια Μεταβλητότητα IV (%)</label>
+      <label class="block text-xs text-[#9aa4b2] mb-1">Ετήσια Τεκμαρτή Μεταβλητότητα / Implied Volatility (%)</label>
       <input id="tlIv" type="number" step="1" value="45" class="w-full px-3 py-1.5 rounded text-sm mono" oninput="runTimelineCalculator()" />
     </div>
     <div>
-      <label class="block text-xs text-[#9aa4b2] mb-1">Επιτόκιο / Carry Rate (% ετησίως)</label>
+      <label class="block text-xs text-[#9aa4b2] mb-1">Επιτόκιο Διακράτησης / Carry Rate (% ετησίως)</label>
       <input id="tlRate" type="number" step="0.25" value="4.25" class="w-full px-3 py-1.5 rounded text-sm mono text-[#d49a42]" oninput="runTimelineCalculator()" />
     </div>
   </div>
@@ -381,19 +380,19 @@
   <!-- ΚΑΡΤΕΣ ΑΠΑΝΤΗΣΗΣ ΧΡΟΝΟΔΙΑΓΡΑΜΜΑΤΟΣ -->
   <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-5">
     <div class="card p-3.5 border-l-4 border-[#4a86c6]">
-      <div class="text-[11px] text-[#9aa4b2]">ΑΠΑΙΤΟΥΜΕΝΗ ΚΙΝΗΣΗ</div>
+      <div class="text-[11px] text-[#9aa4b2] font-semibold">1. ΑΠΑΙΤΟΥΜΕΝΗ ΚΙΝΗΣΗ / REQUIRED MOVE (%)</div>
       <div id="tlMovePct" class="text-2xl font-bold text-[#4a86c6] mt-1 mono">—</div>
       <div id="tlMoveSub" class="text-xs text-[#9aa4b2] mt-0.5">—</div>
     </div>
     <div class="card p-3.5 border-l-4 border-[#3ea87c]">
-      <div class="text-[11px] text-[#3ea87c] font-bold">ΠΟΤΕ ΠΕΡΝΑΕΙ ΤΟ 50% P(TOUCH);</div>
+      <div class="text-[11px] text-[#3ea87c] font-bold">2. ΔΙΑΜΕΣΟΣ ΟΡΙΖΟΝΤΑΣ 50% / MEDIAN HORIZON P(TOUCH) &ge; 50%</div>
       <div id="tlMedianDays" class="text-2xl font-bold text-[#3ea87c] mt-1 mono">—</div>
       <div id="tlMedianDate" class="text-xs text-[#9aa4b2] mt-0.5">Εκτιμώμενη ημερομηνία 50-50</div>
     </div>
     <div class="card p-3.5 border-l-4 border-[#d49a42]">
-      <div class="text-[11px] text-[#d49a42] font-bold">ΠΟΤΕ ΠΕΡΝΑΕΙ ΤΟ 75% P(TOUCH);</div>
+      <div class="text-[11px] text-[#d49a42] font-bold">3. ΟΡΙΖΟΝΤΑΣ ΥΨΗΛΗΣ ΠΙΘΑΝΟΤΗΤΑΣ 75% / HIGH PROBABILITY HORIZON</div>
       <div id="tlHighDays" class="text-2xl font-bold text-[#d49a42] mt-1 mono">—</div>
-      <div id="tlHighDate" class="text-xs text-[#9aa4b2] mt-0.5">Ορίζοντας υψηλής πιθανότητας</div>
+      <div id="tlHighDate" class="text-xs text-[#9aa4b2] mt-0.5">Ορίζοντας υψηλής πιθανότητας P(Touch) &ge; 75%</div>
     </div>
   </div>
 
@@ -402,15 +401,15 @@
     <div class="flex flex-wrap justify-between items-center gap-2 mb-3 border-b border-[#232d3b] pb-2">
       <div>
         <h3 class="text-xs md:text-sm font-bold text-[#3da678] flex items-center gap-2">
-          <span>📈 ΚΑΜΠΥΛΗ ΠΙΘΑΝΟΤΗΤΑΣ ΣΤΟΝ ΧΡΟΝΟ (TIME-TO-TOUCH TRAJECTORY)</span>
+          <span>📈 ΚΑΜΠΥΛΗ ΠΙΘΑΝΟΤΗΤΑΣ ΣΤΟΝ ΧΡΟΝΟ / TIME-TO-TOUCH TRAJECTORY CURVE</span>
         </h3>
         <p class="text-[11px] text-[#8e99a8] mt-0.5">
           Πώς αυξάνεται η πιθανότητα επαφής όσο περνούν οι ημέρες (1 έως 365 ημέρες) • Σύγκριση πραγματικής αγοράς (με Carry Drift) έναντι απλοϊκής προσέγγισης (χωρίς Carry).
         </p>
       </div>
       <div class="flex items-center gap-3 text-[11px] mono">
-        <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-[#3da678] inline-block"></span> Με Carry Drift (Πραγματικό)</span>
-        <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-[#596575] border-t border-dashed border-[#8e99a8] inline-block"></span> Χωρίς Carry (Απλοϊκό)</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-[#3da678] inline-block"></span> Με Carry Drift (Πραγματικό) / With Carry</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-[#596575] border-t border-dashed border-[#8e99a8] inline-block"></span> Χωρίς Carry (Απλοϊκό) / No Carry</span>
       </div>
     </div>
 
@@ -424,14 +423,14 @@
     <table class="w-full text-left border-collapse text-xs">
       <thead>
         <tr class="border-b border-[#26303e]">
-          <th class="p-3">Χρονικός Ορίζοντας</th>
-          <th class="p-3">Ημερομηνία</th>
+          <th class="p-3">Χρονικός Ορίζοντας / Time Horizon</th>
+          <th class="p-3">Ημερομηνία / Expiration Date</th>
           <th class="p-3 text-right">Forward Τιμή (με Carry)</th>
           <th class="p-3 text-right">P(Touch) (με Carry)</th>
           <th class="p-3 text-right">P(Touch) (χωρίς Carry)</th>
           <th class="p-3 text-right">P(No-Touch)</th>
           <th class="p-3 text-right">P(Expire ITM)</th>
-          <th class="p-3 text-right text-[#3ea87c]">Δίκαιο Multiple</th>
+          <th class="p-3 text-right text-[#3ea87c]">Δίκαιο Multiple / Fair Multiple</th>
         </tr>
       </thead>
       <tbody id="tlTableBody" class="divide-y divide-[#26303e]/60 mono"></tbody>
@@ -439,18 +438,18 @@
   </div>
 </section>
 
-<!-- ==================== TAB 3: GEOMETRIC COVERED CALLS & ALLOCATION ==================== -->
+<!-- ==================== TAB 3: ΣΤΡΑΤΗΓΙΚΕΣ ΠΑΡΑΓΩΓΩΝ & ΦΟΡΟΛΟΓΙΑ ==================== -->
 <section id="tabStrat" class="card p-5 hidden">
   <!-- TAB 3: 3-STEP PEDAGOGICAL ACTION GUIDE -->
   <div class="card p-4 mb-5 bg-[#12161f] border-l-4 border-[#c8963e]">
     <div class="text-[11px] font-bold text-[#c8963e] uppercase tracking-wider mb-2 flex items-center gap-1.5">
-      <span>🧭 ΟΔΗΓΟΣ ΧΡΗΣΤΗ: ΠΩΣ ΛΕΙΤΟΥΡΓΕΙ &amp; ΠΩΣ ΣΤΗΝΕΤΑΙ ΤΟ COVERED CALL ΣΕ 3 ΒΗΜΑΤΑ</span>
+      <span>🧭 ΟΔΗΓΟΣ ΣΤΡΑΤΗΓΙΚΗΣ ΚΑΛΥΜΜΕΝΟΥ CALL / COVERED CALL STRATEGY GUIDE</span>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
       <div class="flex items-start gap-2.5">
         <span class="text-base leading-none">1️⃣</span>
         <div>
-          <div class="font-bold text-[#ebe8e1]">Βήμα 1: Αγορά / Κατοχή Asset (Spot)</div>
+          <div class="font-bold text-[#ebe8e1]">Βήμα 1: Αγορά ή Κατοχή Υποκειμένου / Step 1: Underlying Asset Holding</div>
           <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
             Αγοράζεις ή έχεις ήδη τις μετοχές σου (100x στο TradFi) ή Crypto στο Deribit (από 0.1 BTC / 1 ETH) στην τρέχουσα τιμή Spot (<span class="mono text-[#3d76b8]">S<sub>0</sub></span>). Αυτό αποτελεί το ενέχυρό σου για να μην έχεις απεριόριστο ρίσκο.
           </div>
@@ -459,16 +458,16 @@
       <div class="flex items-start gap-2.5">
         <span class="text-base leading-none">2️⃣</span>
         <div>
-          <div class="font-bold text-[#c8963e]">Βήμα 2: Πώληση Call (Strike &amp; Premium)</div>
+          <div class="font-bold text-[#c8963e]">Βήμα 2: Πώληση Δικαιώματος Αγοράς / Step 2: Sell to Open Call Option</div>
           <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
-            Πουλάς 1 Call Option σε ένα Strike (<span class="mono text-[#c8963e]">K</span>) ψηλότερα. <b>Εισπράττεις άμεσα μετρητά (Premium $)</b> που μειώνουν το κόστος κτήσης σου (<span class="mono text-[#3da678]">Breakeven</span>).
+            Πουλάς 1 Call Option σε ένα Strike (<span class="mono text-[#c8963e]">K</span>) ψηλότερα. <b>Εισπράττεις άμεσα μετρητά (Premium C)</b> που μειώνουν το κόστος κτήσης σου (<span class="mono text-[#3da678]">Breakeven</span>).
           </div>
         </div>
       </div>
       <div class="flex items-start gap-2.5">
         <span class="text-base leading-none">3️⃣</span>
         <div>
-          <div class="font-bold text-[#3da678]">Βήμα 3: Τα 2 Σενάρια Λήξης (Win-Win)</div>
+          <div class="font-bold text-[#3da678]">Βήμα 3: Σενάρια Εκχώρησης &amp; Μη-Άσκησης / Step 3: Assignment vs Expiration</div>
           <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
             • <b>Αν S<sub>T</sub> &ge; K:</b> Παραδίδεις το asset και κλειδώνεις <b>Μέγιστο Κέρδος Μετρητών ($ APR)</b>.<br/>
             • <b>Αν S<sub>T</sub> &lt; K:</b> Κρατάς το asset και το premium, πετυχαίνοντας <b>Αύξηση Τεμαχίων (Unit Yield)</b>!
@@ -481,45 +480,49 @@
   <div class="flex flex-wrap justify-between gap-3 items-center mb-4 text-xs border-b border-[#26303e] pb-4">
     <div class="flex flex-wrap gap-3 items-end">
       <div>
-        <label class="block text-[11px] text-[#9aa4b2] mb-1">Στρατηγική Ανάλυσης</label>
+        <label class="block text-[11px] text-[#9aa4b2] mb-1 font-semibold">Στρατηγική Παραγώγων / Options Strategy</label>
         <select id="stratType" class="px-3 py-1.5 rounded font-bold text-xs" onchange="runStrategyScanner()">
-          <option value="CC">1. Geometric Covered Calls (Απόδοση σε Χρήμα vs Τεμάχια)</option>
-          <option value="VS">2. Touch Spreads σε Όλες τις Λήξεις (Ασύμμετρα Στοιχήματα)</option>
-          <option value="STRADDLE">3. Straddles (Αναμενόμενο Εύρος Κίνησης της Αγοράς)</option>
-          <option value="LONG">4. Απλά Calls &amp; Puts (Κατάταξη Μέγιστης Μόχλευσης)</option>
+          <option value="CC">1. Καλυμμένο Δικαίωμα Αγοράς / Covered Call (Buy-Write)</option>
+          <option value="VS">2. Κάθετα Ανοίγματα / Vertical Spreads (Debit &amp; Credit)</option>
+          <option value="STRADDLE">3. Στρατηγική Αμφίδρομης Μεταβλητότητας / Straddle (Implied Volatility)</option>
+          <option value="LONG">4. Αγορά Δικαιωμάτων / Long Options (Effective Leverage)</option>
         </select>
       </div>
       <div>
-        <label class="block text-[11px] text-[#9aa4b2] mb-1">Slippage (0 έως 1)</label>
+        <label class="block text-[11px] text-[#9aa4b2] mb-1 font-semibold">Ολίσθηση Τιμής / Slippage (0-1)</label>
         <input id="stratSlippage" type="number" step="0.05" min="0" max="1" value="0.25" class="w-24 px-2 py-1.5 rounded mono" />
       </div>
       <div>
-        <label class="block text-[11px] text-[#9aa4b2] mb-1">Min DTE (Μέρες)</label>
+        <label class="block text-[11px] text-[#9aa4b2] mb-1 font-semibold">Ελάχιστη Λήξη / Min DTE</label>
         <input id="stratMinDte" type="number" value="1" class="w-20 px-2 py-1.5 rounded mono" />
       </div>
       <div>
-        <label class="block text-[11px] text-[#9aa4b2] mb-1">Max DTE (Μέρες)</label>
+        <label class="block text-[11px] text-[#9aa4b2] mb-1 font-semibold">Μέγιστη Λήξη / Max DTE</label>
         <input id="stratMaxDte" type="number" value="90" class="w-20 px-2 py-1.5 rounded mono" />
       </div>
       <div>
-        <label class="block text-[11px] text-[#c8963e] mb-1 font-semibold" title="Μέση τιμή κτήσης των μετοχών σου (Κενό = Αγορά σήμερα στο Spot)">Avg Cost ($B$)</label>
-        <input id="stratCostBasis" type="number" step="any" placeholder="Spot" class="w-24 px-2 py-1.5 rounded mono border-[#c8963e]/40" oninput="runStrategyScanner()" />
+        <label class="block text-[11px] text-[#c8963e] mb-1 font-semibold" title="Μέση τιμή κτήσης των μετοχών σου (Κενό = Αγορά σήμερα στο Spot)">Τιμή Κτήσης / Cost Basis (B)</label>
+        <input id="stratCostBasis" type="number" step="any" placeholder="Spot" class="w-24 px-2 py-1.5 rounded mono border-[#c8963e]/40" oninput="syncTaxInputs('stratCostBasis')" />
       </div>
       <div>
         <div class="flex justify-between items-center mb-1">
-          <label class="text-[11px] text-[#c8963e] font-semibold" title="Συντελεστής φόρου υπεραξίας (%) — 15% στην Ελλάδα (Ν. 4172/2013 άρθρο 43)">Φόρος (%)</label>
+          <label class="text-[11px] text-[#c8963e] font-semibold" title="Συντελεστής φόρου υπεραξίας (%) — 15% στην Ελλάδα (Ν. 4172/2013 άρθρο 43)">Φόρος / Tax Rate (%)</label>
           <span class="text-[9px] text-[#8e99a8] flex gap-1 ml-1">
-            <button type="button" onclick="document.getElementById('stratTaxRate').value=15; runStrategyScanner();" class="text-[#3ea87c] hover:underline" title="Ελλάδα (Ν. 4172/2013: 15% υπεραξία)">🇬🇷15%</button>
-            <button type="button" onclick="document.getElementById('stratTaxRate').value=0; runStrategyScanner();" class="text-[#8e99a8] hover:underline" title="Αφορολόγητο (π.χ. UCITS ETF)">0%</button>
-            <button type="button" onclick="document.getElementById('stratTaxRate').value=25; runStrategyScanner();" class="text-[#8e99a8] hover:underline" title="US / Γερμανία">25%</button>
+            <button type="button" onclick="applyTaxRegime('GR_STOCKS')" class="text-[#3ea87c] hover:underline" title="Ελλάδα (Ν. 4172/2013: 15% υπεραξία)">🇬🇷15%</button>
+            <button type="button" onclick="applyTaxRegime('GR_UCITS')" class="text-[#8e99a8] hover:underline" title="Αφορολόγητο (π.χ. UCITS ETF)">0%</button>
+            <button type="button" onclick="applyTaxRegime('DE_ABGELTUNG')" class="text-[#8e99a8] hover:underline" title="US / Γερμανία">26%</button>
           </span>
         </div>
-        <input id="stratTaxRate" type="number" step="0.5" min="0" max="60" value="15" class="w-24 px-2 py-1.5 rounded mono border-[#c8963e]/40" oninput="runStrategyScanner()" />
+        <input id="stratTaxRate" type="number" step="0.5" min="0" max="60" value="15" class="w-24 px-2 py-1.5 rounded mono border-[#c8963e]/40" oninput="syncTaxInputs('stratTaxRate')" />
       </div>
-      <div>
+      <div class="flex items-end gap-2">
         <button onclick="runStrategyScanner()" class="px-4 py-2 rounded bg-[#3ea87c] hover:bg-[#338e68] text-white font-bold transition">
-          Σάρωση Στρατηγικών
+          Σάρωση Στρατηγικών / Scan Strategies
         </button>
+        <label class="flex items-center gap-1.5 text-[11px] text-[#ebe8e1] cursor-pointer pb-2" title="Εμφάνιση μόνο όσων strikes έχουν Net Cash >= Spot στη λήξη">
+          <input type="checkbox" id="stratTaxSafeOnly" onchange="runStrategyScanner()" class="rounded border-[#c8963e]/40 text-[#c8963e]" />
+          <span class="font-semibold text-[#3ea87c]">Tax-Safe Only (Net &ge; Spot)</span>
+        </label>
       </div>
     </div>
     <div id="stratSummaryBadge" class="text-xs font-bold text-[#3ea87c]"></div>
@@ -527,35 +530,216 @@
 
   <div id="stratTheoryNote" class="mb-4 p-3.5 rounded bg-[#13171f] border border-[#26303e] text-xs text-[#e8eaed] leading-relaxed"></div>
 
-  <!-- ==================== STRATEGY 1: GEOMETRIC COVERED CALL COCKPIT ==================== -->
-  <div id="ccCockpitSection" class="hidden mb-5 space-y-4">
+  <!-- ==================== STRATEGY 1: COVERED CALL ANALYSIS ==================== -->
+  <div id="ccAnalysisSection" class="hidden mb-5 space-y-4">
+    <!-- ==================== ΦΟΡΟΛΟΓΙΚΗ ΑΝΑΛΥΣΗ & ΒΑΣΗ ΚΟΣΤΟΥΣ (TAX & COST BASIS ANALYSIS) ==================== -->
+    <div id="taxAnalysisCard" class="card-elevated p-4 rounded-xl border border-[#c8963e]/30 bg-gradient-to-br from-[#12161f] via-[#161c28] to-[#12161f] shadow-xl space-y-4">
+      <!-- Section Header -->
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[#232d3b] pb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl">🏛️</span>
+          <div>
+            <h3 class="text-sm font-bold text-[#ebe8e1] tracking-wide flex items-center gap-2">
+              <span>Φορολογική Ανάλυση &amp; Βάση Κόστους</span>
+              <span class="text-[#8e99a8] font-normal text-xs">/ Tax &amp; Cost Basis Analysis</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-[#c8963e]/20 text-[#c8963e] border border-[#c8963e]/40 font-mono font-bold">
+                Ν. 4172/2013 • Position/Market Model
+              </span>
+            </h3>
+            <p class="text-[11px] text-[#8e99a8] mt-0.5">
+              Διαχωρισμός Περιουσιακών Στοιχείων (Capital Assets) έναντι Μετρητών Διακανονισμού (Settlement Cash)
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="taxRegimeBadge" class="text-xs px-2.5 py-1 rounded bg-[#3da678]/15 text-[#3da678] border border-[#3da678]/40 font-mono font-bold">
+            🇬🇷 15% Φόρος Υπεραξίας
+          </span>
+        </div>
+      </div>
+
+      <!-- Trading Mode Switcher (Fresh Buy-Write vs Pre-Existing) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <button type="button" onclick="setTaxTradingMode('FRESH')" id="btnTaxModeFresh" class="p-3 rounded-lg border text-left transition flex items-start gap-3 bg-[#18202c] border-[#3d76b8]/40 hover:border-[#3d76b8]">
+          <span class="text-2xl mt-0.5">🛒</span>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-xs text-[#3d76b8]">1. Νέα Θέση / Fresh Buy-Write</span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-[#3d76b8]/20 text-[#3d76b8] mono font-bold">Αγορά Μετοχής + Πώληση Call</span>
+            </div>
+            <div class="text-[11px] text-[#ebe8e1] mt-0.5">Ταυτόχρονη αγορά Spot S<sub>0</sub> &amp; πώληση Call</div>
+            <div class="text-[10px] text-[#8e99a8] mt-0.5">Τιμή Κτήσης (Cost Basis) = Spot | Αρχική Εκροή: S<sub>0</sub> - C | Μηδενικός ιστορικός φόρος</div>
+          </div>
+        </button>
+
+        <button type="button" onclick="setTaxTradingMode('PRE_EXISTING')" id="btnTaxModeExisting" class="p-3 rounded-lg border text-left transition flex items-start gap-3 bg-[#1e1916] border-[#c8963e] shadow-md">
+          <span class="text-2xl mt-0.5">💼</span>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-xs text-[#c8963e]">2. Υπάρχουσα Θέση / Pre-Existing Position</span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-[#c8963e]/20 text-[#c8963e] mono font-bold">Cost Basis B &lt; Spot</span>
+            </div>
+            <div class="text-[11px] text-[#ebe8e1] mt-0.5">Κατοχή του υποκειμένου τίτλου από παλαιότερη ημερομηνία</div>
+            <div class="text-[10px] text-[#8e99a8] mt-0.5">Σημερινή Εκροή: $0.00 | Αναβαλλόμενος Φόρος: τ(S<sub>0</sub> - B) | Κίνδυνος Φορολογικής Παγίδας (Tax Cliff)</div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Regime Presets Bar -->
+      <div class="space-y-1.5">
+        <label class="text-[11px] text-[#8e99a8] font-semibold block">Φορολογικό Καθεστώς &amp; Νομοθεσία / Tax Regime:</label>
+        <div class="flex flex-wrap gap-1.5">
+          <button type="button" onclick="applyTaxRegime('GR_STOCKS')" id="btnRegime_GR_STOCKS" class="px-2.5 py-1 rounded text-xs border border-[#3ea87c] bg-[#1a2e24] text-white font-semibold transition">🇬🇷 US/Ξένες Μετοχές (15%)</button>
+          <button type="button" onclick="applyTaxRegime('GR_UCITS')" id="btnRegime_GR_UCITS" class="px-2.5 py-1 rounded text-xs border border-[#2d3848] bg-[#1a2332] text-[#8e99a8] hover:border-[#3ea87c] transition">🛡️ UCITS ETFs (0% Αφορολόγητο)</button>
+          <button type="button" onclick="applyTaxRegime('GR_ATHEX')" id="btnRegime_GR_ATHEX" class="px-2.5 py-1 rounded text-xs border border-[#2d3848] bg-[#1a2332] text-[#8e99a8] hover:border-[#3ea87c] transition">🏛️ Ελληνικές Μετοχές ΧΑΑ (0%)</button>
+          <button type="button" onclick="applyTaxRegime('DERIBIT_CRYPTO')" id="btnRegime_DERIBIT_CRYPTO" class="px-2.5 py-1 rounded text-xs border border-[#2d3848] bg-[#1a2332] text-[#8e99a8] hover:border-[#3ea87c] transition">₿ Deribit Crypto (15%)</button>
+          <button type="button" onclick="applyTaxRegime('DE_ABGELTUNG')" id="btnRegime_DE_ABGELTUNG" class="px-2.5 py-1 rounded text-xs border border-[#2d3848] bg-[#1a2332] text-[#8e99a8] hover:border-[#3ea87c] transition">🇩🇪 Γερμανία (26.38%)</button>
+          <button type="button" onclick="applyTaxRegime('US_CAP_GAINS')" id="btnRegime_US_CAP_GAINS" class="px-2.5 py-1 rounded text-xs border border-[#2d3848] bg-[#1a2332] text-[#8e99a8] hover:border-[#3ea87c] transition">🇺🇸 US (15%)</button>
+          <button type="button" onclick="applyTaxRegime('ZERO_TAX')" id="btnRegime_ZERO_TAX" class="px-2.5 py-1 rounded text-xs border border-[#2d3848] bg-[#1a2332] text-[#8e99a8] hover:border-[#3ea87c] transition">🌐 0% Tax-Free</button>
+        </div>
+      </div>
+
+      <!-- Cost Basis & Tax Rate Controls Bar -->
+      <div id="taxControlsRow" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 bg-[#10141d] p-3 rounded-lg border border-[#232d3b]">
+        <div>
+          <label class="block text-[11px] text-[#c8963e] mb-1 font-semibold">Τιμή Κτήσης / Cost Basis (B)</label>
+          <div class="relative">
+            <span class="absolute left-2.5 top-1.5 text-xs text-[#8e99a8]">$</span>
+            <input id="taxCostBasis" type="number" step="any" placeholder="Spot" class="w-full pl-6 pr-2 py-1.5 rounded mono text-sm bg-[#161c26] border border-[#c8963e]/50 text-white font-bold" oninput="syncTaxInputs('taxCostBasis')" />
+          </div>
+          <div class="flex gap-1 mt-1.5">
+            <button type="button" onclick="setCostBasisPct(1.0)" class="text-[9px] px-1.5 py-0.5 rounded bg-[#1c232e] text-[#8e99a8] hover:text-white hover:bg-[#253040]">Spot</button>
+            <button type="button" onclick="setCostBasisPct(0.9)" class="text-[9px] px-1.5 py-0.5 rounded bg-[#1c232e] text-[#8e99a8] hover:text-white hover:bg-[#253040]">-10%</button>
+            <button type="button" onclick="setCostBasisPct(0.75)" class="text-[9px] px-1.5 py-0.5 rounded bg-[#1c232e] text-[#8e99a8] hover:text-white hover:bg-[#253040]">-25%</button>
+            <button type="button" onclick="setCostBasisPct(0.5)" class="text-[9px] px-1.5 py-0.5 rounded bg-[#1c232e] text-[#8e99a8] hover:text-white hover:bg-[#253040]">-50%</button>
+            <button type="button" onclick="setCostBasisPct(0.25)" class="text-[9px] px-1.5 py-0.5 rounded bg-[#1c232e] text-[#8e99a8] hover:text-white hover:bg-[#253040]">-75%</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] text-[#c8963e] mb-1 font-semibold">Συντελεστής Φόρου / Tax Rate (%)</label>
+          <div class="relative">
+            <input id="taxRateInput" type="number" step="0.5" min="0" max="60" value="15" class="w-full px-2 py-1.5 rounded mono text-sm bg-[#161c26] border border-[#c8963e]/50 text-white font-bold" oninput="syncTaxInputs('taxRateInput')" />
+          </div>
+          <div id="taxLawLabel" class="text-[9px] text-[#8e99a8] mt-1.5 truncate">Ν. 4172/2013 άρθρα 42 &amp; 43</div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] text-[#8e99a8] mb-1">Τρέχουσα Τιμή / Spot Price (S<sub>0</sub>)</label>
+          <div id="taxSpotDisplay" class="mono text-base font-bold text-white py-1.5">—</div>
+          <div class="text-[9px] text-[#8e99a8]">Νόμισμα Διακανονισμού / Numeraire</div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] text-[#8e99a8] mb-1">Αρχική Εκροή Μετρητών / Cash Outlay</label>
+          <div id="taxCashOutlayDisplay" class="mono text-base font-bold text-[#3da678] py-1.5">$0.00</div>
+          <div id="taxCashOutlaySub" class="text-[9px] text-[#8e99a8]">Υπάρχουσα θέση (μηδενικό cash)</div>
+        </div>
+      </div>
+
+      <!-- Real-Time Analytical HUD Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="p-3 rounded-lg bg-[#141923] border border-[#232d3b]">
+          <div class="text-[10px] text-[#8e99a8] uppercase font-bold flex justify-between">
+            <span>Αναβαλλόμενος Φόρος</span>
+            <span>τ(S<sub>0</sub>-B)</span>
+          </div>
+          <div id="hudEmbeddedTax" class="text-xl font-bold mono text-[#ebe8e1] mt-1">$0.00</div>
+          <div id="hudEmbeddedTaxSub" class="text-[10px] text-[#8e99a8] mt-0.5">Unrealized Tax (0% αν λήξει OTM)</div>
+        </div>
+
+        <div class="p-3 rounded-lg bg-[#141923] border border-[#232d3b]">
+          <div class="text-[10px] text-[#c85648] uppercase font-bold flex justify-between">
+            <span>Φόρος Εκχώρησης</span>
+            <span>τ(K-B)</span>
+          </div>
+          <div id="hudTaxCliff" class="text-xl font-bold mono text-[#c85648] mt-1">$0.00</div>
+          <div id="hudTaxCliffSub" class="text-[10px] text-[#8e99a8] mt-0.5">Assignment Tax Cliff</div>
+        </div>
+
+        <div class="p-3 rounded-lg bg-[#141923] border border-[#232d3b]">
+          <div class="text-[10px] text-[#c8963e] uppercase font-bold flex justify-between">
+            <span>Λόγος Φόρου/Ασφαλίστρου</span>
+            <span>Cliff / C</span>
+          </div>
+          <div id="hudT2P" class="text-xl font-bold mono text-[#3da678] mt-1">0.00x</div>
+          <div id="hudT2PSub" class="text-[10px] text-[#3da678] mt-0.5">🟢 Ασφαλής Ζώνη / Safe Zone (&lt;0.5x)</div>
+        </div>
+
+        <div class="p-3 rounded-lg bg-[#141923] border border-[#232d3b]">
+          <div class="text-[10px] text-[#3d76b8] uppercase font-bold flex justify-between">
+            <span>Φορολογικά Ουδέτερη Τιμή</span>
+            <span>Net ≥ S<sub>0</sub></span>
+          </div>
+          <div id="hudTaxNeutral" class="text-xl font-bold mono text-[#3d76b8] mt-1">$0.00</div>
+          <div id="hudTaxNeutralSub" class="text-[10px] text-[#8e99a8] mt-0.5">Tax-Neutral Strike Threshold</div>
+        </div>
+      </div>
+
+      <!-- Pedagogical Warning / Advisory Banner -->
+      <!-- Tax Shield & Roll Defense Helper (Μηχανισμός Αποφυγής Φόρου & Κύλισης) -->
+      <div class="p-3 rounded-lg bg-[#0e131b] border border-[#232d3b] text-xs">
+        <div class="flex items-center justify-between cursor-pointer" onclick="document.getElementById('taxAvoidanceDetails').classList.toggle('hidden')">
+          <div class="flex items-center gap-2">
+            <span class="text-sm">🛡️</span>
+            <span class="font-bold text-[#3ea87c]">Μηχανισμός Αποφυγής Φόρου &amp; Κύλισης / Tax Shield &amp; Roll Defense (0% Φόρος Μετοχής)</span>
+          </div>
+          <span class="text-[10px] text-[#8e99a8] font-mono">▼ Εμφάνιση / Απόκρυψη</span>
+        </div>
+        <div id="taxAvoidanceDetails" class="hidden mt-2.5 pt-2.5 border-t border-[#1e2634] space-y-2 text-[#9aa4b2] text-[11px] leading-relaxed">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="bg-[#141a24] p-2.5 rounded border border-[#232d3b]">
+              <div class="font-bold text-[#ebe8e1] mb-1">1. Κύλιση Θέσης (Roll Up &amp; Out) — Πλήρης Αποφυγή Φόρου:</div>
+              <p>
+                Όταν η τιμή πλησιάζει το Strike ($K$), επαναγοράζουμε το Call (BTC) και πουλάμε νέο σε υψηλότερο strike και μελλοντική λήξη (STO).
+                <b>Η μετοχή δεν πωλείται ποτέ $\implies$ 0% φόρος υπεραξίας μετοχής</b> (παραμένει αναβαλλόμενος για πάντα), ενώ η ζημιά από το κλείσιμο του call δημιουργεί φορολογική ασπίδα παραγώγου.
+              </p>
+            </div>
+            <div class="bg-[#141a24] p-2.5 rounded border border-[#232d3b]">
+              <div class="font-bold text-[#ebe8e1] mb-1">2. Φόρμουλα Καθαρών Μετρητών: $\text{Gross} = \frac{X}{1 - (\tau \cdot u)}$</div>
+              <p>
+                Αν χρειαστείς μετρητά $X$, το μεικτό ποσό υπολογίζεται βάσει του πραγματικού φορολογικού συντελεστή $\tau \cdot u$, όπου $u = \frac{S_0 - B}{S_0}$ το ποσοστό υπεραξίας. 
+                Έτσι αποφεύγεις την υπερβολική ρευστοποίηση που ενεργοποιεί ανεπιθύμητο φόρο.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="taxAdvisoryBanner" class="p-3 rounded-lg bg-[#18202c] border border-[#3d76b8]/40 text-xs text-[#ebe8e1] leading-relaxed flex items-start gap-2.5">
+        <span class="text-base mt-0.5">💡</span>
+        <div id="taxAdvisoryText">
+          <b>Φορολογική Ανάλυση:</b> Επιλέξτε συμβόλαιο Covered Call παρακάτω για να αναλυθεί σε πραγματικό χρόνο η φορολογική ασυμμετρία OTM vs Assignment.
+        </div>
+      </div>
+    </div>
+
     <!-- Presets bar: Conservative, Sweet-Spot, Aggressive -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
       <button onclick="selectCcProfile('CONSERVATIVE')" id="btnCcCons" class="card-elevated p-3 text-left border-l-4 border-[#3d76b8] hover:border-[#4a86c6] transition">
         <div class="flex justify-between items-center text-xs">
-          <span class="font-bold text-[#3d76b8]">🛡️ 1. ΣΥΝΤΗΡΗΤΙΚΟ (DEEP BUFFER)</span>
-          <span class="text-[10px] text-[#8e99a8] mono">Max Cushion</span>
+          <span class="font-bold text-[#3d76b8]">🛡️ 1. Συντηρητικό / Conservative</span>
+          <span class="text-[10px] text-[#8e99a8] mono">Deep Buffer</span>
         </div>
         <div class="text-xs text-[#ebe8e1] font-semibold mt-1">Βαθύ μαξιλάρι πτώσης &gt; 10%</div>
-        <div class="text-[11px] text-[#8e99a8] mt-0.5">Για προστασία κεφαλαίου με σταθερό yield</div>
+        <div class="text-[11px] text-[#8e99a8] mt-0.5">Προστασία κεφαλαίου με σταθερή απόδοση</div>
       </button>
 
       <button onclick="selectCcProfile('BALANCED')" id="btnCcBal" class="card-elevated p-3 text-left border-l-4 border-[#c8963e] hover:border-[#e0aa4f] bg-[#1a2332] transition">
         <div class="flex justify-between items-center text-xs">
-          <span class="font-bold text-[#c8963e]">⚖️ 2. ΙΣΟΡΡΟΠΗΜΕΝΟ (SWEET SPOT)</span>
-          <span class="text-[10px] text-[#c8963e] font-bold mono">★ Recommended</span>
+          <span class="font-bold text-[#c8963e]">⚖️ 2. Ισορροπημένο / Balanced</span>
+          <span class="text-[10px] text-[#c8963e] font-bold mono">★ Sweet Spot</span>
         </div>
-        <div class="text-xs text-[#ebe8e1] font-semibold mt-1">Pareto-Optimal Frontier</div>
-        <div class="text-[11px] text-[#8e99a8] mt-0.5">Βέλτιστη σχέση απόδοσης APR και μαξιλαριού</div>
+        <div class="text-xs text-[#ebe8e1] font-semibold mt-1">Βέλτιστο Όριο Αποδοτικότητας (Pareto Frontier)</div>
+        <div class="text-[11px] text-[#8e99a8] mt-0.5">Ισορροπία ετήσιας απόδοσης APR και μαξιλαριού</div>
       </button>
 
       <button onclick="selectCcProfile('AGGRESSIVE')" id="btnCcAggr" class="card-elevated p-3 text-left border-l-4 border-[#3da678] hover:border-[#4bbd8b] transition">
         <div class="flex justify-between items-center text-xs">
-          <span class="font-bold text-[#3da678]">🚀 3. ΕΠΙΘΕΤΙΚΟ (MAX APR)</span>
-          <span class="text-[10px] text-[#8e99a8] mono">ATM Yield</span>
+          <span class="font-bold text-[#3da678]">🚀 3. Επιθετικό / Aggressive</span>
+          <span class="text-[10px] text-[#8e99a8] mono">Max Cash APR</span>
         </div>
-        <div class="text-xs text-[#ebe8e1] font-semibold mt-1">Μέγιστη άμεση χρηματική απόδοση</div>
-        <div class="text-[11px] text-[#8e99a8] mt-0.5">Κοντά στην τιμή Spot (ATM) για κορυφαίο cash flow</div>
+        <div class="text-xs text-[#ebe8e1] font-semibold mt-1">Μέγιστη άμεση χρηματική απόδοση (ATM)</div>
+        <div class="text-[11px] text-[#8e99a8] mt-0.5">Κοντά στην τιμή Spot για κορυφαίο cash flow</div>
       </button>
     </div>
 
@@ -563,14 +747,14 @@
     <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[#232d3b] pb-2">
       <div class="flex items-center gap-2">
         <button onclick="switchCcView('PAYOFF')" id="btnCcViewPayoff" class="px-3 py-1.5 rounded bg-[#c8963e] text-white font-bold text-xs transition">
-          📊 Διάγραμμα Payoff &amp; Προσομοίωση Σεναρίων (Κλασικό Hockey Stick)
+          📊 Διάγραμμα Καθαρής Απολαβής στη Λήξη / Net Payoff Diagram at Expiration
         </button>
         <button onclick="switchCcView('FRONTIER')" id="btnCcViewFrontier" class="px-3 py-1.5 rounded bg-[#1c232e] text-[#8e99a8] hover:text-[#ebe8e1] font-bold text-xs transition">
-          📈 Geometric Efficient Frontier (Μαξιλάρι % vs Ετήσιο APR %)
+          📈 Καμπύλη Αποδοτικότητας / Efficient Frontier (APR vs Buffer)
         </button>
       </div>
       <div class="text-[11px] text-[#8e99a8] mono">
-        Ενεργό: <span id="ccCurrentViewBadge" class="text-[#ebe8e1] font-bold">Payoff Curve</span>
+        Ενεργό / Active: <span id="ccCurrentViewBadge" class="text-[#ebe8e1] font-bold">Payoff Curve</span>
       </div>
     </div>
 
@@ -579,17 +763,17 @@
       <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
         <div>
           <h4 class="text-xs font-bold text-[#3da678] flex items-center gap-2">
-            <span>⚡ ΚΑΜΠΥΛΗ ΑΠΟΔΟΣΗΣ ΣΤΗ ΛΗΞΗ (COVERED CALL PAYOFF AT EXPIRY)</span>
+            <span>⚡ ΔΙΑΓΡΑΜΜΑ ΚΑΘΑΡΗΣ ΑΠΟΛΑΒΗΣ ΣΤΗ ΛΗΞΗ / NET PAYOFF DIAGRAM AT EXPIRATION</span>
           </h4>
           <p class="text-[11px] text-[#8e99a8] mt-0.5">
-            Πράσινη σκίαση = Μαξιλάρι προστασίας από το premium • Χρυσή οριζόντια γραμμή = Πλατό μέγιστου κέρδους • Σύρε το slider παρακάτω για δοκιμή σεναρίων τιμής
+            Πράσινη σκίαση = Μαξιλάρι προστασίας από το ασφάλιστρο (Downside Buffer) • Χρυσή οριζόντια γραμμή = Μέγιστη καθαρή απολαβή (Capped Payoff) • Κόκκινη διακεκομμένη γραμμή = Φορολογικός γκρεμός εκχώρησης (Assignment Tax Cliff)
           </p>
         </div>
         <div class="flex items-center gap-3 text-[11px] mono">
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#c85648]"></span> Breakeven</span>
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3d76b8]"></span> Spot</span>
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#c8963e]"></span> Strike</span>
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3da678]"></span> Μαξιλάρι</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#c85648]"></span> Νεκρό Σημείο / Breakeven</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3d76b8]"></span> Τρέχουσα Τιμή / Spot</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#c8963e]"></span> Τιμή Εξάσκησης / Strike</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3da678]"></span> Μαξιλάρι / Buffer</span>
         </div>
       </div>
 
@@ -601,8 +785,8 @@
       <div class="mt-3 p-3.5 rounded bg-[#161d27] border border-[#232d3b]">
         <div class="flex flex-wrap justify-between items-center gap-2 text-xs mb-1.5">
           <span class="font-bold text-[#c8963e] flex items-center gap-1.5">
-            <span>🎯 ΔΟΚΙΜΗ ΣΕΝΑΡΙΟΥ ΛΗΞΗΣ:</span>
-            <span class="text-[#8e99a8] font-normal">Τι γίνεται αν η τιμή κλείσει στα:</span>
+            <span>🎯 ΠΡΟΣΟΜΟΙΩΣΗ ΤΙΜΗΣ ΣΤΗ ΛΗΞΗ / EXPIRATION PRICE SCENARIO SIMULATION:</span>
+            <span class="text-[#8e99a8] font-normal">Εκτιμώμενη τιμή κλεισίματος στη λήξη:</span>
           </span>
           <span id="ccSimExpiryPriceLabel" class="text-sm font-bold text-[#3da678] mono">—</span>
         </div>
@@ -618,117 +802,39 @@
       <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
         <div>
           <h4 class="text-xs font-bold text-[#c8963e] flex items-center gap-2">
-            <span>📈 GEOMETRIC EFFICIENT FRONTIER: ΠΡΟΣΤΑΣΙΑ ΠΤΩΣΗΣ VS ΕΤΗΣΙΑ ΑΠΟΔΟΣΗ (APR)</span>
+            <span>📈 ΚΑΜΠΥΛΗ ΑΠΟΔΟΤΙΚΟΤΗΤΑΣ / EFFICIENT FRONTIER: ΠΡΟΣΤΑΣΙΑ ΠΤΩΣΗΣ ΕΝΑΝΤΙ ΕΤΗΣΙΑΣ ΑΠΟΔΟΣΗΣ (APR)</span>
           </h4>
           <p class="text-[11px] text-[#8e99a8] mt-0.5">
-            Κάθε κύκλος είναι ένα Strike. Κάνε κλικ σε οποιοδήποτε σημείο για άμεση ανάλυση. Η χρυσή καμπύλη ενώνει τα κυρίαρχα (sweet-spot) συμβόλαια.
+            Γεωμετρική βελτιστοποίηση ανά τιμή εξάσκησης (Strike). Επιλογή σημείου για άμεση ανάλυση. Η χρυσή καμπύλη συνδέει τα κυρίαρχα συμβόλαια (Optimal Pareto Frontier).
           </p>
         </div>
         <div class="flex items-center gap-3 text-[11px] mono">
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3d76b8]"></span> Συντηρητικό</span>
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#c8963e]"></span> Sweet Spot</span>
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3da678]"></span> Επιθετικό (Max APR)</span>
-        </div>
-      </div>
-      <div class="relative w-full overflow-hidden bg-[#0d1117] rounded border border-[#232d3b] p-1">
-        <svg id="ccFrontierSvg" viewBox="0 0 800 280" class="w-full h-auto block select-none cursor-pointer"></svg>
-      </div>
-    </div>
-
-    <!-- Active Strike Focus Cards (Dual Economic Reality) -->
-    <div id="ccActiveCardContainer" class="grid grid-cols-1 md:grid-cols-3 gap-3">
-      <!-- Card 1: Cash Yield if Assigned -->
-      <div class="card p-3.5 border-l-4 border-[#3da678] bg-[#141b22]">
-        <div class="flex justify-between items-center text-[11px] text-[#3da678] font-bold">
-          <span>1. ΧΡΗΜΑΤΙΚΗ ΑΠΟΔΟΣΗ ($/€ CASH)</span>
-          <span class="text-[10px] text-[#8e99a8]">Αν ασκηθεί (Assigned)</span>
-        </div>
-        <div id="ccCardCashYield" class="text-2xl font-bold text-[#3da678] mt-1 mono">+0.00%</div>
-        <div id="ccCardCashSub" class="text-xs text-[#ebe8e1] font-semibold mt-0.5">APR: — | Κέρδος: —</div>
-        <p class="text-[11px] text-[#8e99a8] mt-2 leading-relaxed">
-          Αν η τιμή στη λήξη κλείσει πάνω από το Strike, παραδίδεις το asset και κλειδώνεις αυτό το μέγιστο κέρδος σε ευρώ/δολάρια.
-        </p>
-      </div>
-
-      <!-- Card 2: Asset Compounding if Unassigned -->
-      <div class="card p-3.5 border-l-4 border-[#3d76b8] bg-[#141b22]">
-        <div class="flex justify-between items-center text-[11px] text-[#3d76b8] font-bold">
-          <span>2. ΣΥΣΣΩΡΕΥΣΗ ΤΕΜΑΧΙΩΝ (UNITS)</span>
-          <span class="text-[10px] text-[#8e99a8]">Αν δεν ασκηθεί (OTM)</span>
-        </div>
-        <div id="ccCardUnitYield" class="text-2xl font-bold text-[#3d76b8] mt-1 mono">+0.00%</div>
-        <div id="ccCardUnitSub" class="text-xs text-[#ebe8e1] font-semibold mt-0.5">Δωρεάν Επανεπένδυση Premium</div>
-        <p class="text-[11px] text-[#8e99a8] mt-2 leading-relaxed">
-          Αν η τιμή παραμείνει κάτω από το Strike, κρατάς το 100% των μετοχών/Satoshis σου ΚΑΙ το premium, αυξάνοντας τα τεμάχιά σου.
-        </p>
-      </div>
-
-      <!-- Card 3: Downside Breakeven Buffer -->
-      <div class="card p-3.5 border-l-4 border-[#c8963e] bg-[#141b22]">
-        <div class="flex justify-between items-center text-[11px] text-[#c8963e] font-bold">
-          <span>3. ΜΑΞΙΛΑΡΙ ΑΣΦΑΛΕΙΑΣ (BREAKEVEN)</span>
-          <span class="text-[10px] text-[#8e99a8]">Προστασία Πτώσης</span>
-        </div>
-        <div id="ccCardCushion" class="text-2xl font-bold text-[#c8963e] mt-1 mono">—</div>
-        <div id="ccCardCushionSub" class="text-xs text-[#ebe8e1] font-semibold mt-0.5">Νεκρό Σημείο: —</div>
-        <p class="text-[11px] text-[#8e99a8] mt-2 leading-relaxed">
-          Η τιμή μπορεί να καταρρεύσει μέχρι αυτό το επίπεδο πριν αρχίσεις να καταγράφεις έστω και 0.01€ καθαρή ζημιά.
-        </p>
-      </div>
-    </div>
-
-    <!-- Practical Broker Execution Ticket (How to set it up) -->
-    <div class="card p-4 bg-[#141a24] border border-[#2b384c]">
-      <div class="flex flex-wrap justify-between items-center gap-2 mb-2 border-b border-[#232d3b] pb-2">
-        <div class="text-xs font-bold text-[#ebe8e1] flex items-center gap-2">
-          <span>📋 ΟΔΗΓΟΣ ΕΚΤΕΛΕΣΗΣ ΣΤΟΝ BROKER ΣΟΥ (BUY-WRITE TICKET)</span>
-          <span class="text-[10px] px-2 py-0.2 rounded bg-[#1e2430] text-[#8e99a8] border border-[#2b384c]">Step-by-Step Order</span>
-        </div>
-        <a id="ccSelectedPayoffLink" href="#" target="_blank" class="px-3.5 py-1.5 rounded bg-[#3da678] hover:bg-[#338e68] text-white font-bold text-xs transition flex items-center gap-1.5">
-          <span>Άνοιγμα Payoff Στρατηγικής</span> ↗
-        </a>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs mono">
-        <div class="p-2.5 rounded bg-[#0f141c] border border-[#232d3b]">
-          <div class="text-[10px] text-[#8e99a8] font-sans">ΣΚΕΛΟΣ 1 (ΕΝΕΧΥΡΟ)</div>
-          <div id="ccTicketLeg1" class="text-[#3d76b8] font-bold mt-0.5">HOLD / BUY Asset (TradFi: 100x | Deribit: 0.1x)</div>
-          <div class="text-[10px] text-[#596575] mt-0.5">Spot: —</div>
-        </div>
-        <div class="p-2.5 rounded bg-[#0f141c] border border-[#232d3b]">
-          <div class="text-[10px] text-[#8e99a8] font-sans">ΣΚΕΛΟΣ 2 (SHORT CALL)</div>
-          <div id="ccTicketLeg2" class="text-[#c8963e] font-bold mt-0.5">SELL TO OPEN 1 Call @ —</div>
-          <div class="text-[10px] text-[#596575] mt-0.5">Strike: — | DTE: —</div>
-        </div>
-        <div class="p-2.5 rounded bg-[#0f141c] border border-[#232d3b]">
-          <div class="text-[10px] text-[#8e99a8] font-sans">ΚΑΘΑΡΟ ΚΟΣΤΟΣ (NET DEBIT)</div>
-          <div id="ccTicketNetDebit" class="text-[#ebe8e1] font-bold mt-0.5">—</div>
-          <div id="ccTicketCredit" class="text-[10px] text-[#3da678] mt-0.5">Άμεση Είσπραξη: —</div>
-        </div>
-        <div class="p-2.5 rounded bg-[#0f141c] border border-[#232d3b]">
-          <div class="text-[10px] text-[#8e99a8] font-sans">ΣΤΟΧΟΣ / ΜΑΞΙΛΑΡΙ</div>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3d76b8]"></span> Συντηρητικό / Conservative</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#c8963e]"></span> Sweet Spot (Βέλτιστο)</span>
+          <span class="flex items-center gap-1.5"><span class="w-          <div class="text-[10px] text-[#8e99a8] font-sans">ΜΕΓΙΣΤΗ ΑΠΟΔΟΣΗ &amp; ΜΑΞΙΛΑΡΙ / TARGET &amp; BUFFER</div>
           <div id="ccTicketTarget" class="text-[#3da678] font-bold mt-0.5">Max: —</div>
-          <div id="ccTicketBuffer" class="text-[10px] text-[#c8963e] mt-0.5">Μαξιλάρι: —</div>
+          <div id="ccTicketBuffer" class="text-[10px] text-[#c8963e] mt-0.5">Μαξιλάρι / Buffer: —</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ==================== STRATEGY 2: STRADDLES VOLATILITY CORRIDOR COCKPIT ==================== -->
-  <div id="straddlesCockpitSection" class="hidden mb-5 space-y-4">
+  <!-- ==================== STRATEGY 2: STRADDLES VOLATILITY CORRIDOR / ΔΙΑΔΡΟΜΟΣ ΜΕΤΑΒΛΗΤΟΤΗΤΑΣ ==================== -->
+  <div id="straddlesAnalysisSection" class="hidden mb-5 space-y-4">
     <div class="card p-4 bg-[#12171f] border border-[#232d3b]">
       <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
         <div>
           <h4 class="text-xs font-bold text-[#d49a42] flex items-center gap-2">
-            <span>📊 MARKET IMPLIED VOLATILITY CORRIDOR: ΑΝΑΜΕΝΟΜΕΝΟ ΕΥΡΟΣ ΚΙΝΗΣΗΣ ΣΤΟΝ ΧΡΟΝΟ</span>
+            <span>📊 ΔΙΑΔΡΟΜΟΣ ΤΕΚΜΑΡΤΗΣ ΜΕΤΑΒΛΗΤΟΤΗΤΑΣ / IMPLIED VOLATILITY CORRIDOR</span>
           </h4>
           <p class="text-[11px] text-[#8e99a8] mt-0.5">
-            Πόσο αναμένει η αγορά να κινηθεί το asset ανά λήξη (DTE) • Πάνω όριο = Call Breakeven, Κάτω όριο = Put Breakeven
+            Αναμενόμενο εύρος κίνησης ανά ημερομηνία λήξης (DTE) / Market-Implied Price Range per Expiration • Πάνω όριο = Call Breakeven, Κάτω όριο = Put Breakeven
           </p>
         </div>
         <div class="flex items-center gap-3 text-[11px] mono">
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3da678]"></span> Πάνω Breakeven</span>
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3d76b8]"></span> Spot</span>
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#c85648]"></span> Κάτω Breakeven</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3da678]"></span> Πάνω Breakeven / Upper</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3d76b8]"></span> Τρέχουσα Τιμή / Spot</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#c85648]"></span> Κάτω Breakeven / Lower</span>
         </div>
       </div>
       <div class="relative w-full overflow-hidden bg-[#0d1117] rounded border border-[#232d3b] p-1">
@@ -739,33 +845,33 @@
     <!-- Straddles Horizon Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
       <div class="card p-3 border-l-4 border-[#3d76b8]">
-        <div class="text-[10px] text-[#8e99a8] font-bold">ΒΡΑΧΥΠΡΟΘΕΣΜΟ ΕΥΡΟΣ (7-14 ΗΜΕΡΕΣ)</div>
+        <div class="text-[10px] text-[#8e99a8] font-bold">ΒΡΑΧΥΠΡΟΘΕΣΜΟ ΕΥΡΟΣ (7-14 ΗΜΕΡΕΣ) / SHORT-TERM RANGE</div>
         <div id="straddleCardShort" class="text-xl font-bold mono text-[#ebe8e1] mt-0.5">±—%</div>
         <div class="text-[10px] text-[#8e99a8]">Αναμενόμενη κίνηση 1-2 εβδομάδων</div>
       </div>
       <div class="card p-3 border-l-4 border-[#d49a42]">
-        <div class="text-[10px] text-[#d49a42] font-bold">ΜΕΣΟΠΡΟΘΕΣΜΟ ΕΥΡΟΣ (30 ΗΜΕΡΕΣ)</div>
+        <div class="text-[10px] text-[#d49a42] font-bold">ΜΕΣΟΠΡΟΘΕΣΜΟ ΕΥΡΟΣ (30 ΗΜΕΡΕΣ) / MEDIUM-TERM RANGE</div>
         <div id="straddleCardMid" class="text-xl font-bold mono text-[#d49a42] mt-0.5">±—%</div>
         <div class="text-[10px] text-[#8e99a8]">Αναμενόμενη κίνηση 1 μηνός</div>
       </div>
       <div class="card p-3 border-l-4 border-[#3da678]">
-        <div class="text-[10px] text-[#3da678] font-bold">ΜΑΚΡΟΠΡΟΘΕΣΜΟ ΕΥΡΟΣ (60-90 ΗΜΕΡΕΣ)</div>
+        <div class="text-[10px] text-[#3da678] font-bold">ΜΑΚΡΟΠΡΟΘΕΣΜΟ ΕΥΡΟΣ (60-90 ΗΜΕΡΕΣ) / LONG-TERM RANGE</div>
         <div id="straddleCardLong" class="text-xl font-bold mono text-[#3da678] mt-0.5">±—%</div>
         <div class="text-[10px] text-[#8e99a8]">Αναμενόμενη κίνηση τριμήνου</div>
       </div>
     </div>
   </div>
 
-  <!-- ==================== STRATEGY 3: VERTICAL SPREADS COCKPIT ==================== -->
-  <div id="vsCockpitSection" class="hidden mb-5 space-y-4">
+  <!-- ==================== STRATEGY 3: VERTICAL SPREADS / ΚΑΘΕΤΑ ΑΝΟΙΓΜΑΤΑ ==================== -->
+  <div id="vsAnalysisSection" class="hidden mb-5 space-y-4">
     <div class="card p-4 bg-[#12171f] border border-[#232d3b]">
       <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
         <div>
           <h4 class="text-xs font-bold text-[#3ea87c] flex items-center gap-2">
-            <span>⚡ VERTICAL SPREADS FRONTIER: ΠΟΛΛΑΠΛΑΣΙΑΣΤΗΣ (MULTIPLE) VS P(TOUCH)</span>
+            <span>⚡ ΟΡΙΟ ΑΠΟΔΟΤΙΚΟΤΗΤΑΣ ΚΑΘΕΤΩΝ ΑΝΟΙΓΜΑΤΩΝ / VERTICAL SPREADS RISK-REWARD FRONTIER</span>
           </h4>
           <p class="text-[11px] text-[#8e99a8] mt-0.5">
-            Εντοπισμός ασύμμετρων στοιχημάτων: Υψηλό Multiple με ρεαλιστική πιθανότητα επαφής • Κλικ σε σημείο για ανάλυση
+            Πολλαπλασιαστής Κέρδους (Multiple) έναντι Πιθανότητας Επαφής P(Touch) • Επιλογή σημείου για αναλυτική αξιολόγηση
           </p>
         </div>
       </div>
@@ -775,16 +881,16 @@
     </div>
   </div>
 
-  <!-- ==================== STRATEGY 4: LONG OPTIONS COCKPIT ==================== -->
-  <div id="longCockpitSection" class="hidden mb-5 space-y-4">
+  <!-- ==================== STRATEGY 4: LONG OPTIONS / ΑΓΟΡΑ ΔΙΚΑΙΩΜΑΤΩΝ ==================== -->
+  <div id="longAnalysisSection" class="hidden mb-5 space-y-4">
     <div class="card p-4 bg-[#12171f] border border-[#232d3b]">
       <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
         <div>
           <h4 class="text-xs font-bold text-[#9b88bf] flex items-center gap-2">
-            <span>🚀 LONG OPTIONS: ΠΡΑΓΜΑΤΙΚΗ ΜΟΧΛΕΥΣΗ (LEVERAGE) VS ΑΠΟΣΤΑΣΗ SPOT</span>
+            <span>🚀 ΑΓΟΡΑ ΔΙΚΑΙΩΜΑΤΩΝ ΜΕ ΜΟΧΛΕΥΣΗ / LONG OPTIONS EFFECTIVE LEVERAGE</span>
           </h4>
           <p class="text-[11px] text-[#8e99a8] mt-0.5">
-            Πόση πραγματική μόχλευση (Spot / Κόστος) προσφέρει κάθε συμβόλαιο σε σχέση με την απόσταση από το Spot
+            Πραγματική Μόχλευση (Spot / Premium) έναντι Απόστασης Τιμής Εξάσκησης από το Spot
           </p>
         </div>
       </div>
@@ -798,9 +904,9 @@
   <details id="ccTableDetails" class="mt-4 border border-[#232d3b] rounded-lg overflow-hidden bg-[#12161d]" open>
     <summary class="p-3 bg-[#151b23] text-xs font-bold text-[#8e99a8] hover:text-[#ebe8e1] cursor-pointer flex justify-between items-center select-none">
       <span class="flex items-center gap-2">
-        <span>📊</span> <span id="ccTableSummaryTitle">Αναλυτικός Πίνακας Strikes &amp; Δεδομένων</span>
+        <span>📊</span> <span id="ccTableSummaryTitle">Αναλυτικός Πίνακας Δικαιωμάτων &amp; Στρατηγικών / Options Strikes &amp; Strategy Table</span>
       </span>
-      <span class="text-[11px] text-[#3d76b8] mono">Κλικ για Εμφάνιση / Απόκρυψη ▼</span>
+      <span class="text-[11px] text-[#3d76b8] mono">Κλικ για Εμφάνιση ή Απόκρυψη / Click to Toggle ▼</span>
     </summary>
     <div class="overflow-x-auto">
       <table class="w-full text-left border-collapse text-xs">
@@ -811,27 +917,27 @@
   </details>
 </section>
 
-<!-- ==================== TAB 4: ΠΡΑΞΕΟΛΟΓΙΑ & ΘΕΜΕΛΙΑ ΑΓΟΡΑΣ ==================== -->
+<!-- ==================== TAB 4: ΘΕΩΡΙΑ ΑΓΟΡΑΣ & ΤΙΜΟΛΟΓΗΣΗ ΠΑΡΑΓΩΓΩΝ ==================== -->
 <section id="tabTheory" class="card p-5 hidden leading-relaxed text-xs space-y-5">
   <div class="border-b border-[#26303e] pb-3">
     <h2 class="text-base font-bold text-[#4a86c6]">
-      📜 ΠΡΑΞΕΟΛΟΓΙΚΑ ΘΕΜΕΛΙΑ &amp; ΜΗΧΑΝΙΚΗ ΤΩΝ OPTIONS (MISES &amp; ROTHBARD)
+      📜 ΘΕΩΡΗΤΙΚΑ ΘΕΜΕΛΙΑ &amp; ΤΙΜΟΛΟΓΗΣΗ ΠΑΡΑΓΩΓΩΝ / DERIVATIVES THEORY &amp; PRICING MECHANISMS
     </h2>
     <p class="text-xs text-[#9aa4b2] mt-0.5">
-      Γιατί η αγορά των options είναι η μόνη αντικειμενική αλήθεια κατανομής πιθανοτήτων στον κόσμο.
+      Αντικειμενική Τιμολόγηση Αγοράς, Ισοτιμία Put-Call &amp; Οικονομικός Υπολογισμός / Objective Market Pricing, Put-Call Parity &amp; Economic Calculation.
     </p>
   </div>
 
   <!-- TAB 4: 3-STEP PEDAGOGICAL ACTION GUIDE -->
   <div class="card p-4 mb-5 bg-[#12161f] border-l-4 border-[#9b88bf]">
     <div class="text-[11px] font-bold text-[#9b88bf] uppercase tracking-wider mb-2 flex items-center gap-1.5">
-      <span>🧭 ΟΔΗΓΟΣ ΧΡΗΣΤΗ: ΠΩΣ ΔΙΑΒΑΖΕΤΑΙ Η ΠΡΑΞΕΟΛΟΓΙΑ &amp; ΤΟ PUT-CALL PARITY</span>
+      <span>🧭 ΟΔΗΓΟΣ ΘΕΩΡΙΑΣ &amp; ΙΣΟΤΙΜΙΑΣ PUT-CALL / THEORY &amp; PUT-CALL PARITY GUIDE</span>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
       <div class="flex items-start gap-2.5">
         <span class="text-base leading-none">1️⃣</span>
         <div>
-          <div class="font-bold text-[#ebe8e1]">Τι βλέπεις εδώ;</div>
+          <div class="font-bold text-[#ebe8e1]">Τι απεικονίζεται / What is shown:</div>
           <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
             Το <b>Διάγραμμα Ισορροπίας Put-Call Parity &amp; Carry Flow</b>. Απεικονίζει πώς συνδέονται αδιάσπαστα το Spot, το Forward, τα Calls, τα Puts και το Risk-Free επιτόκιο χωρίς καμία θεωρητική αυθαιρεσία.
           </div>
@@ -840,7 +946,7 @@
       <div class="flex items-start gap-2.5">
         <span class="text-base leading-none">2️⃣</span>
         <div>
-          <div class="font-bold text-[#c8963e]">Τι να κάνεις;</div>
+          <div class="font-bold text-[#c8963e]">Ενέργεια χρήστη / Action:</div>
           <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
             Σύρε τα sliders του <b>Επιτοκίου Carry (r)</b> και των <b>Ημερών (DTE)</b> παρακάτω. Δες τη χρυσή σφήνα Carry Wedge να ανοίγει ζωντανά, αποδεικνύοντας γιατί η τιμή Forward απομακρύνεται από το Spot.
           </div>
@@ -849,7 +955,7 @@
       <div class="flex items-start gap-2.5">
         <span class="text-base leading-none">3️⃣</span>
         <div>
-          <div class="font-bold text-[#3da678]">Τι σημαίνει για την τσέπη σου;</div>
+          <div class="font-bold text-[#3da678]">Οικονομική ανάλυση / Financial analysis:</div>
           <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
             Δεν πέφτεις ποτέ θύμα «δωρεάν arbitrage» ή ψευδαισθήσεων. Αν ένα Call φαίνεται «ακριβό», είναι γιατί <b>το χρήμα έχει επιτόκιο (Time Preference)</b>. Στην αγορά δεν υπάρχει δωρεάν γεύμα.
           </div>
@@ -863,16 +969,16 @@
     <div class="flex flex-wrap justify-between items-center gap-2 mb-3 border-b border-[#232d3b] pb-2">
       <div>
         <h3 class="text-xs md:text-sm font-bold text-[#c8963e] flex items-center gap-2">
-          <span>⚖️ ΔΙΑΓΡΑΜΜΑ ΙΣΟΡΡΟΠΙΑΣ PUT-CALL PARITY &amp; CARRY WEDGE (S₀ &middot; eʳᵀ = F)</span>
+          <span>⚖️ ΔΙΑΓΡΑΜΜΑ ΙΣΟΡΡΟΠΙΑΣ PUT-CALL PARITY &amp; ΣΦΗΝΑ FORWARD (S₀ &middot; eʳᵀ = F) / PUT-CALL PARITY &amp; CARRY WEDGE</span>
         </h3>
         <p class="text-[11px] text-[#8e99a8] mt-0.5">
-          Η απόλυτη σχέση μη-αρμπιτράζ: C &minus; P = S₀ &minus; K &middot; e<sup>&minus;rT</sup> • Ρύθμισε το επιτόκιο και τη διάρκεια για να δεις τη σφήνα του Forward
+          Η απόλυτη σχέση μη-αρμπιτράζ / Fundamental No-Arbitrage Condition: C &minus; P = S₀ &minus; K &middot; e<sup>&minus;rT</sup> • Ρύθμισε το επιτόκιο και τη διάρκεια για να δεις τη σφήνα του Forward
         </p>
       </div>
       <div class="flex items-center gap-3 text-[11px] mono">
-        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3d76b8]"></span> Spot S₀</span>
-        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#c8963e]"></span> Forward F (Drift)</span>
-        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3da678]"></span> Parity Zero-Arbitrage</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3d76b8]"></span> Spot S₀ / Τρέχουσα Τιμή</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#c8963e]"></span> Forward F / Προθεσμιακή Τιμή</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3da678]"></span> Parity / Ισοτιμία Μη-Αρμπιτράζ</span>
       </div>
     </div>
 
@@ -885,14 +991,14 @@
     <div class="mt-3.5 grid grid-cols-1 md:grid-cols-2 gap-3 p-3 rounded bg-[#161d27] border border-[#232d3b] text-xs">
       <div>
         <div class="flex justify-between items-center mb-1">
-          <span class="text-[#8e99a8] font-bold">1. Επιτόκιο Χρηματοδότησης / Carry Rate (r):</span>
+          <span class="text-[#8e99a8] font-bold">1. Επιτόκιο Διακράτησης / Carry Rate (r):</span>
           <span id="parityRateLabel" class="text-[#c8963e] font-bold mono">4.50%</span>
         </div>
         <input id="parityRateSlider" type="range" min="0" max="15" step="0.25" value="4.50" class="w-full cursor-pointer accent-[#c8963e]" oninput="updateParityDiagram()" />
       </div>
       <div>
         <div class="flex justify-between items-center mb-1">
-          <span class="text-[#8e99a8] font-bold">2. Χρονικός Ορίζοντας (DTE):</span>
+          <span class="text-[#8e99a8] font-bold">2. Χρονικός Ορίζοντας / Time Horizon (DTE):</span>
           <span id="parityDteLabel" class="text-[#3d76b8] font-bold mono">30 ημέρες</span>
         </div>
         <input id="parityDteSlider" type="range" min="7" max="365" step="1" value="30" class="w-full cursor-pointer accent-[#3d76b8]" oninput="updateParityDiagram()" />
@@ -902,157 +1008,157 @@
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div class="card-elevated p-4">
-      <h3 class="font-bold text-[#4a86c6] text-sm mb-2">1. Η Πραξεολογία &amp; Το «Skin in the Game»</h3>
+      <h3 class="font-bold text-[#4a86c6] text-sm mb-2">1. Οικονομική Δράση &amp; Τοποθέτηση Κεφαλαίου / Economic Action &amp; Capital Allocation (Mises &amp; Rothbard)</h3>
       <p class="text-[#9aa4b2] space-y-2">
-        Υιοθετούμε την <b>πραξεολογική προσέγγιση των Ludwig von Mises και Murray Rothbard</b>. Στην οικονομία, τα λόγια είναι φθηνά («talk is cheap»). Όταν ένας finfluencer σχεδιάζει γραμμές σε ένα γράφημα και ισχυρίζεται ότι <i>«η μετοχή Χ θα πάει στα 250€»</i>, εκφράζει μια γνώμη χωρίς κανένα προσωπικό κόστος.
+        Υιοθετούμε την <b>πραξεολογική προσέγγιση των Ludwig von Mises και Murray Rothbard</b>. Στην οικονομία, τα λόγια είναι φθηνά («talk is cheap»). Όταν ένας αναλυτής εκφράζει προσωπικές εκτιμήσεις χωρίς κεφαλαιακή δέσμευση, πρόκειται για άποψη χωρίς κόστος.
         <br/><br/>
-        Αντίθετα, η αγορά των Options είναι ο <b>μοναδικός μηχανισμός στον πλανήτη όπου χιλιάδες συμμετέχοντες τοποθετούν δισεκατομμύρια πραγματικού κεφαλαίου πάνω στον χρόνο και την τιμή</b>. Η τεκμαρτή κατανομή πιθανοτήτων (Market-Implied Probability) δεν είναι πρόβλεψη ενός «γκουρού»· είναι η αντικειμενική τιμή ισορροπίας της ανθρωπότητας.
+        Αντίθετα, η αγορά των Options είναι ο <b>μηχανισμός όπου χιλιάδες συμμετέχοντες τοποθετούν πραγματικό κεφάλαιο πάνω στον χρόνο και την τιμή</b>. Η τεκμαρτή κατανομή πιθανοτήτων (Market-Implied Probability) δεν είναι πρόβλεψη ενός «γκουρού»· είναι η αντικειμενική τιμή ισορροπίας της αγοράς.
       </p>
     </div>
 
     <div class="card-elevated p-4">
-      <h3 class="font-bold text-[#d49a42] text-sm mb-2">2. Το Χρήμα ως Αγαθό &amp; Το Zero-Sum Παίγνιο</h3>
+      <h3 class="font-bold text-[#d49a42] text-sm mb-2">2. Το Χρήμα ως Μέσο Ανταλλαγής &amp; Παίγνιο Μηδενικού Αθροίσματος / Money as Medium of Exchange &amp; Zero-Sum Game</h3>
       <p class="text-[#9aa4b2] space-y-2">
-        Το χρήμα δεν είναι αφηρημένο «μέτρο αξίας», αλλά απλώς ένα ακόμα οικονομικό αγαθό — το πιο εμπορεύσιμο μέσο ανταλλαγής. Είναι το απαραίτητο εργαλείο για τον οικονομικό υπολογισμό (Economic Calculation) και την εκτίμηση του PnL.
+        Το χρήμα δεν είναι αφηρημένο «μέτρο αξίας», αλλά το πιο εμπορεύσιμο οικονομικό αγαθό — μέσο ανταλλαγής και εργαλείο οικονομικού υπολογισμού (Economic Calculation).
         <br/><br/>
-        Σε καθαρά χρηματικούς όρους, τα παράγωγα συμβόλαια είναι <b>παίγνιο μηδενικού αθροίσματος (Zero-Sum Game)</b>. Κανένας δεν μπορεί να έχει μόνιμο «edge» απέναντι στην αγορά. Τα δεδομένα της αγοράς (Orderbook) υπερέχουν πάντα οποιουδήποτε στατιστικού μοντέλου: <i>Market Data &gt; Statistical Models</i>.
+        Σε καθαρά χρηματικούς όρους, τα παράγωγα συμβόλαια είναι <b>παίγνιο μηδενικού αθροίσματος (Zero-Sum Game)</b>. Κανένας δεν μπορεί να έχει μόνιμο πλεονέκτημα απέναντι στην αγορά. Τα πραγματικά δεδομένα του βιβλίου εντολών (Orderbook) υπερέχουν πάντα οποιουδήποτε θεωρητικού μοντέλου: <i>Market Data &gt; Statistical Models</i>.
       </p>
     </div>
 
     <div class="card-elevated p-4">
-      <h3 class="font-bold text-[#3ea87c] text-sm mb-2">3. Drift &amp; Carry με Απλά Λόγια (Put-Call Parity)</h3>
+      <h3 class="font-bold text-[#3ea87c] text-sm mb-2">3. Επιτόκιο Διακράτησης &amp; Προθεσμιακή Τιμή / Cost of Carry &amp; Forward Pricing (Put-Call Parity)</h3>
       <p class="text-[#9aa4b2] space-y-2">
-        <b>Γιατί η τιμή Forward είναι ψηλότερη από το Spot;</b><br/>
+        <b>Γιατί η προθεσμιακή τιμή Forward διαφέρει από την τρέχουσα τιμή Spot;</b><br/>
         Το χρήμα έχει επιτόκιο λόγω χρονικής προτίμησης (Time Preference): 100€ σήμερα αξίζουν περισσότερο από 100€ σε 6 μήνες. Αν μια μετοχή έχει Spot 200€ και το επιτόκιο είναι 4%, η τιμή ισορροπίας για παράδοση σε ένα χρόνο είναι <b>Forward = 208€</b> (<i>F = S &times; e<sup>r&middot;T</sup></i>).
         <br/><br/>
-        Η θεμελιώδης σχέση <b>Put-Call Parity</b> (<i>C &minus; P = S &minus; K &times; e<sup>&minus;r&middot;T</sup></i>) συνδέει αδιάσπαστα τα Options, τα Futures και το Spot χωρίς καμία θεωρητική αυθαιρεσία. Αν δεν διορθώσουμε για το Carry, θα υπερτιμήσουμε τα Calls και θα υποτιμήσουμε τα Puts!
+        Η θεμελιώδης σχέση <b>Put-Call Parity</b> (<i>C &minus; P = S &minus; K &times; e<sup>&minus;r&middot;T</sup></i>) συνδέει αδιάσπαστα τα Options, τα Futures και το Spot χωρίς θεωρητική αυθαιρεσία.
       </p>
     </div>
 
     <div class="card-elevated p-4">
-      <h3 class="font-bold text-[#9b7ad6] text-sm mb-2">4. P(Touch) vs P(Expire) &amp; Το Στενό Vertical Spread</h3>
+      <h3 class="font-bold text-[#9b88bf] text-sm mb-2">4. Πιθανότητα Επαφής έναντι Λήξης &amp; Κάθετα Ανοίγματα / Touch vs Expiration Probability &amp; Vertical Spreads</h3>
       <p class="text-[#9aa4b2] space-y-2">
         <b>Γιατί η πιθανότητα επαφής P(Touch) είναι περίπου διπλάσια από το P(Expire);</b><br/>
         Όταν η τιμή ενός asset αγγίξει το επίπεδο-στόχο για πρώτη φορά, βρίσκεται ακριβώς πάνω στο όριο. Από εκείνο το σημείο και μετά, έχει περίπου 50% πιθανότητα να παραμείνει από πάνω και 50% πιθανότητα να γυρίσει πίσω. Επομένως, <b>P(Touch) &approx; 2 &middot; P(Expire)</b>.
         <br/><br/>
-        Ένα στενό Vertical Spread (K1 / K2) γύρω από τον στόχο κοστίζει λίγα λεπτά σήμερα. Τη στιγμή του Touch γίνεται At-The-Money (ATM) και αξίζει περίπου το <b>50% του εύρους του</b>, χαρίζοντας τεράστια ασύμμετρη απόδοση (π.χ. 15x).
+        Ένα στενό Vertical Spread (K1 / K2) γύρω από τον στόχο κοστίζει λίγα λεπτά σήμερα. Τη στιγμή του Touch γίνεται At-The-Money (ATM) και αξίζει περίπου το <b>50% του εύρους του</b>, προσφέροντας ασύμμετρη απόδοση (π.χ. 15x).
       </p>
     </div>
   </div>
 </section>
 
-<!-- ==================== TAB 5: FINFLUENCER MYTHBUSTERS & PRAXEOLOGY HUB ==================== -->
+<!-- ==================== TAB 5: RISK MANAGEMENT & STRESS TESTING ==================== -->
 <section id="tabMyths" class="card p-5 hidden leading-relaxed text-xs space-y-6">
   <div class="border-b border-[#26303e] pb-3 flex flex-wrap justify-between items-center gap-2">
     <div>
       <div class="flex items-center gap-2">
-        <span class="text-xl">🥊</span>
+        <span class="text-xl">🛡️</span>
         <h2 class="text-base font-bold text-[#c85648] uppercase tracking-wide">
-          FINFLUENCER MYTHBUSTERS &amp; PRAXEOLOGICAL FALLACY DEBUNKER
+          5. ΔΙΑΧΕΙΡΙΣΗ ΚΙΝΔΥΝΟΥ &amp; ΔΟΚΙΜΕΣ ΑΚΡΑΙΩΝ ΣΕΝΑΡΙΩΝ / RISK MANAGEMENT &amp; STRESS TESTING
         </h2>
       </div>
       <p class="text-xs text-[#9aa4b2] mt-0.5">
-        Μαθηματική και πραξεολογική αποδόμηση των 6 μεγαλύτερων μύθων των options που εξαπατούν και καταστρέφουν τους retail επενδυτές.
+        Ποσοτική ανάλυση κινδύνου χαρτοφυλακίου, δοκιμές ακραίων καταστάσεων (Stress Testing) και αποδόμηση συνήθων επενδυτικών σφαλμάτων στα παράγωγα.
       </p>
     </div>
     <div class="flex items-center gap-2 text-xs">
       <button onclick="openShannonModal()" class="px-3 py-1.5 rounded bg-[#221c2e] hover:bg-[#2e253e] text-[#9b88bf] font-bold border border-[#3c2f52] transition flex items-center gap-1.5 shadow-sm">
-        <span>🔬 Ανάλυση Claude Shannon (Bits) ↗</span>
+        <span>🔬 Θεωρία Πληροφοριών Shannon &amp; Kelly / Shannon Information Theory &amp; Kelly Criterion ↗</span>
       </button>
     </div>
   </div>
 
-  <!-- TAB 5: 3-STEP PEDAGOGICAL ACTION GUIDE -->
+  <!-- TAB 5: 3-STEP RISK EVALUATION FRAMEWORK -->
   <div class="card p-4 bg-[#12161f] border-l-4 border-[#c85648]">
     <div class="text-[11px] font-bold text-[#c85648] uppercase tracking-wider mb-2 flex items-center gap-1.5">
-      <span>🧭 ΟΔΗΓΟΣ ΧΡΗΣΤΗ: ΠΩΣ ΑΠΟΔΟΜΟΥΝΤΑΙ ΟΙ ΜΥΘΟΙ ΤΩΝ OPTIONS ΣΕ 3 ΒΗΜΑΤΑ</span>
+      <span>🧭 ΟΔΗΓΟΣ ΑΞΙΟΛΟΓΗΣΗΣ ΚΙΝΔΥΝΟΥ / RISK EVALUATION FRAMEWORK</span>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
       <div class="flex items-start gap-2.5">
         <span class="text-base leading-none">1️⃣</span>
         <div>
-          <div class="font-bold text-[#ebe8e1]">Τι βλέπεις εδώ;</div>
+          <div class="font-bold text-[#ebe8e1]">Πεδίο Ανάλυσης / Scope of Analysis:</div>
           <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
-            Τη <b>σκληρή πραγματικότητα των αριθμών</b> πίσω από τις πιο διαδεδομένες θεωρίες: Max Pain, 0DTE Lottery Tickets, 90% Win-Rate Put Selling, IV ως πρόγνωση, γραμμές στήριξης και δωρεάν μερίσματα.
+            Ποσοτική αξιολόγηση των 6 κρίσιμων παραγόντων κινδύνου: Max Pain &amp; Pin Risk, 0DTE &amp; Ασυμμετρία Κατανομής, Πώληση Put &amp; Παχιές Ουρές (Fat Tails), Ασφάλιστρο Μεταβλητότητας (VRP), Καθεστώτα Dealer Gamma (GEX), και Επίδραση Μερισμάτων.
           </div>
         </div>
       </div>
       <div class="flex items-start gap-2.5">
         <span class="text-base leading-none">2️⃣</span>
         <div>
-          <div class="font-bold text-[#c8963e]">Τι να κάνεις;</div>
+          <div class="font-bold text-[#c8963e]">Δοκιμές Σεναρίων / Stress Simulation:</div>
           <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
-            Δοκίμασε τους <b>2 ζωντανούς προσομοιωτές</b>: τον <i>0DTE Risk of Ruin Simulator</i> και τον <i>Taleb Turkey Shock Calculator</i> για να δεις με τα μάτια σου πότε εξαϋλώνεται το κεφάλαιο.
+            Εκτέλεση υπολογισμών στον <b>Υπολογιστή Πιθανότητας Καταστροφής (Probability of Ruin Calculator)</b> και στη <b>Δοκιμή Ακραίων Διακυμάνσεων (Tail Shock Stress Test)</b> για εκτίμηση επίδρασης σε ακραία γεγονότα.
           </div>
         </div>
       </div>
       <div class="flex items-start gap-2.5">
         <span class="text-base leading-none">3️⃣</span>
         <div>
-          <div class="font-bold text-[#3da678]">Τι σημαίνει για την τσέπη σου;</div>
+          <div class="font-bold text-[#3da678]">Διαχείριση Κεφαλαίου / Capital Protection:</div>
           <div class="text-[#8e99a8] mt-0.5 leading-relaxed">
-            Σταματάς να πληρώνεις αθέατους «φόρους μεταβλητότητας» (Volatility Tax) στους market makers και αντιμετωπίζεις την αγορά με <b>αυστηρό πραξεολογικό Skin in the Game</b>.
+            Αποφυγή συστηματικών απωλειών από υπερτιμημένα ασφάλιστρα και εφαρμογή αυστηρών κανόνων διαχείρισης κινδύνου και κατανομής κεφαλαίου.
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- THE 6 MYTHBUSTER CARDS GRID -->
+  <!-- THE 6 RISK FACTOR PANELS -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-    <!-- MYTH 1: MAX PAIN -->
+    <!-- RISK FACTOR 1: MAX PAIN & PIN RISK -->
     <div class="card-elevated p-4 border border-[#232d3b] hover:border-[#4a86c6] transition">
       <div class="flex justify-between items-start mb-2 border-b border-[#232d3b] pb-2">
         <div>
-          <span class="text-[10px] px-2 py-0.5 rounded bg-[#1e2837] text-[#4a86c6] font-bold border border-[#263548]">ΜΥΘΟΣ #1</span>
-          <h3 class="font-bold text-[#ebe8e1] text-sm mt-1">«Η Θεωρία του Max Pain &amp; η Συνωμοσία των Market Makers»</h3>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-[#1e2837] text-[#4a86c6] font-bold border border-[#263548]">ΠΑΡΑΓΟΝΤΑΣ ΚΙΝΔΥΝΟΥ #1 / RISK FACTOR #1</span>
+          <h3 class="font-bold text-[#ebe8e1] text-sm mt-1">Συγκέντρωση Ανοικτών Θέσεων &amp; Κίνδυνος Καρφώματος / Open Interest Concentration &amp; Pin Risk (Max Pain)</h3>
         </div>
         <span class="text-xl">🎯</span>
       </div>
       <div class="text-xs space-y-2">
         <div class="p-2.5 rounded bg-[#241315] border border-[#c85648]/40 text-[#f08a7d]">
-          <b>Ο Ισχυρισμός Finfluencer:</b> <i>«Την Παρασκευή η Wall Street και η Citadel θα σπρώξουν την τιμή στο strike του Max Pain για να λήξουν όλα τα συμβόλαια άχρηστα και να μας κλέψουν τα premiums!»</i>
+          <b>Επικρατούσα Αντίληψη Αγοράς / Market Misconception:</b> <i>«Στη λήξη, οι Market Makers χειραγωγούν την τιμή προς το Strike με το μεγαλύτερο Max Pain ώστε όλα τα συμβόλαια να λήξουν άχρηστα.»</i>
         </div>
         <div class="p-2.5 rounded bg-[#13221b] border border-[#1e4433] text-[#a3e6be]">
-          <b>Η Πραξεολογική Αλήθεια (Delta-Neutral Hedging):</b> Οι Market Makers <b>δεν παίρνουν κατεύθυνση τιμής</b>. Είναι υποχρεωμένοι από τη διαχείριση κινδύνου τους να είναι αυστηρά <b>Delta &amp; Gamma Neutral</b> ($\Delta_{\text{portfolio}} \approx 0$). Αντισταθμίζουν διαρκώς αγοράζοντας ή πουλώντας το υποκείμενο asset ($S$). Το Max Pain είναι απλώς το ιστορικό σημείο συσσώρευσης παλιών θέσεων (Open Interest).
+          <b>Μηχανισμός Αγοράς / Quantitative Mechanism (Delta-Neutral Hedging):</b> Οι Market Makers διατηρούν αυστηρά ουδέτερες θέσεις Delta και Gamma ($\Delta_{\text{portfolio}} \approx 0$). Αντισταθμίζουν δυναμικά αγοράζοντας ή πωλώντας το υποκείμενο asset ($S$). Το Max Pain αποτελεί απλώς το ιστορικό σημείο συσσώρευσης ανοικτών συμβολαίων (Open Interest) και όχι στόχο κατεύθυνσης τιμής.
         </div>
         <p class="text-[#8e99a8] leading-relaxed">
-          Αντίθετα, το λεγόμενο <b>Pin Risk</b> (όταν η τιμή μένει ακριβώς πάνω στο strike στη λήξη) αποτελεί <b>εφιάλτη για τους Market Makers</b> λόγω της ακραίας αβεβαιότητας αν οι πελάτες θα ασκήσουν τα συμβόλαια (Exercise Uncertainty), αναγκάζοντάς τους σε επικίνδυνα over-hedging trades μετά το κλείσιμο!
+          Ο πραγματικός κίνδυνος για τους Market Makers στη λήξη είναι το <b>Pin Risk</b> (όταν η τιμή κλείνει ακριβώς πάνω στο Strike), καθώς η αβεβαιότητα άσκησης (Exercise Uncertainty) καθιστά την ακριβή αντιστάθμιση εξαιρετικά δύσκολη και επικίνδυνη.
         </p>
       </div>
     </div>
 
-    <!-- MYTH 2: 0DTE & OTM LOTTERY TICKETS + LIVE SIMULATOR -->
+    <!-- RISK FACTOR 2: 0DTE & OTM OPTIONS + RUIN CALCULATOR -->
     <div class="card-elevated p-4 border border-[#232d3b] hover:border-[#c85648] transition">
       <div class="flex justify-between items-start mb-2 border-b border-[#232d3b] pb-2">
         <div>
-          <span class="text-[10px] px-2 py-0.5 rounded bg-[#2e1518] text-[#c85648] font-bold border border-[#482025]">ΜΥΘΟΣ #2</span>
-          <h3 class="font-bold text-[#ebe8e1] text-sm mt-1">«Τα 0DTE &amp; Out-of-the-Money Calls είναι Φθηνά Λαχεία Χαμηλού Ρίσκου»</h3>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-[#2e1518] text-[#c85648] font-bold border border-[#482025]">ΠΑΡΑΓΟΝΤΑΣ ΚΙΝΔΥΝΟΥ #2 / RISK FACTOR #2</span>
+          <h3 class="font-bold text-[#ebe8e1] text-sm mt-1">Συμβόλαια Μηδενικής Λήξης &amp; Μακρινά Εκτός Χρήματος Δικαιώματα / 0DTE &amp; Deep OTM Options Pricing</h3>
         </div>
         <span class="text-xl">🎰</span>
       </div>
       <div class="text-xs space-y-2">
         <div class="p-2.5 rounded bg-[#241315] border border-[#c85648]/40 text-[#f08a7d]">
-          <b>Ο Ισχυρισμός Finfluencer:</b> <i>«Αγοράζω Calls με $0.05. Χάνω μόνο 5 δολάρια, αλλά αν γίνει ένα ξέσπασμα κερδίζω 1000%! Χαμηλό ρίσκο, άπειρο κέρδος!»</i>
+          <b>Επικρατούσα Αντίληψη Αγοράς / Market Misconception:</b> <i>«Η αγορά δικαιωμάτων πολύ χαμηλού κόστους (0DTE ή βαθιά OTM) προσφέρει ασύμμετρο κέρδος με ελάχιστο κίνδυνο απώλειας.»</i>
         </div>
         <div class="p-2.5 rounded bg-[#13221b] border border-[#1e4433] text-[#a3e6be]">
-          <b>Η Πραξεολογική Αλήθεια (The Lottery Ticket &amp; Ruin Fallacy):</b> Τα μακρινά OTM options υποφέρουν από το <b>Volatility Smile</b> (είναι εξωφρενικά υπερτιμημένα) και το <b>Bid-Ask Spread</b>. Το μαθηματικό Expected Value είναι συντριπτικά αρνητικό ($-EV$).
+          <b>Μηχανισμός Αγοράς / Quantitative Mechanism (Implied Volatility Smile &amp; Negative Expectancy):</b> Τα βαθιά OTM options τιμολογούνται με σημαντικό premium (Volatility Smile) και επιβαρύνονται με υψηλό Bid-Ask Spread. Η μαθηματική προσδοκώμενη τιμή (Expected Value, $-EV$) είναι αρνητική για τον συστηματικό αγοραστή, οδηγώντας σε σχεδόν βέβαιη εξάντληση κεφαλαίου σε επαναλαμβανόμενες σειρές.
         </div>
 
         <!-- Interactive 0DTE Ruin Simulator -->
         <div class="mt-3 p-3 rounded bg-[#0f141c] border border-[#232d3b] space-y-2">
           <div class="flex justify-between items-center text-[11px] font-bold text-[#c8963e]">
-            <span>🕹️ LIVE RUIN CALCULATOR: Τι παθαίνει το κεφάλαιο;</span>
+            <span>🕹️ ΥΠΟΛΟΓΙΣΤΗΣ ΠΙΘΑΝΟΤΗΤΑΣ ΚΑΤΑΣΤΡΟΦΗΣ / PROBABILITY OF RUIN CALCULATOR</span>
             <span id="ruinOddsBadge" class="mono text-[#c85648]">Ruin: 92.3%</span>
           </div>
           <div class="grid grid-cols-2 gap-2">
             <div>
-              <label class="text-[10px] text-[#8e99a8]">Πιθανότητα Επιτυχίας ($P$): <span id="ruinProbLabel" class="text-[#ebe8e1] font-bold">10%</span></label>
+              <label class="text-[10px] text-[#8e99a8]">Πιθανότητα Επιτυχίας / Success Prob ($P$): <span id="ruinProbLabel" class="text-[#ebe8e1] font-bold">10%</span></label>
               <input id="ruinProbSlider" type="range" min="1" max="25" step="1" value="10" class="w-full accent-[#c8963e]" oninput="runRuinSimulator()" />
             </div>
             <div>
-              <label class="text-[10px] text-[#8e99a8]">Διαδοχικά Trades ($N$): <span id="ruinTradesLabel" class="text-[#ebe8e1] font-bold">25</span></label>
+              <label class="text-[10px] text-[#8e99a8]">Διαδοχικές Συναλλαγές / Successive Trades ($N$): <span id="ruinTradesLabel" class="text-[#ebe8e1] font-bold">25</span></label>
               <input id="ruinTradesSlider" type="range" min="5" max="50" step="5" value="25" class="w-full accent-[#3d76b8]" oninput="runRuinSimulator()" />
             </div>
           </div>
@@ -1063,40 +1169,40 @@
       </div>
     </div>
 
-    <!-- MYTH 3: THE TURKEY PROBLEM (PUT SELLING) + LIVE SHOCK SIMULATOR -->
+    <!-- RISK FACTOR 3: NAKED OPTION SELLING + TAIL SHOCK SIMULATOR -->
     <div class="card-elevated p-4 border border-[#232d3b] hover:border-[#d49a42] transition">
       <div class="flex justify-between items-start mb-2 border-b border-[#232d3b] pb-2">
         <div>
-          <span class="text-[10px] px-2 py-0.5 rounded bg-[#2b2214] text-[#d49a42] font-bold border border-[#44351d]">ΜΥΘΟΣ #3</span>
-          <h3 class="font-bold text-[#ebe8e1] text-sm mt-1">«Πούλα 10-Delta Puts — 90% Win Rate = Σίγουρο Παθητικό Εισόδημα!»</h3>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-[#2b2214] text-[#d49a42] font-bold border border-[#44351d]">ΠΑΡΑΓΟΝΤΑΣ ΚΙΝΔΥΝΟΥ #3 / RISK FACTOR #3</span>
+          <h3 class="font-bold text-[#ebe8e1] text-sm mt-1">Πώληση Ακάλυπτων Δικαιωμάτων &amp; Ακραίες Αποκλίσεις / Naked Option Selling &amp; Fat-Tail Risk</h3>
         </div>
         <span class="text-xl">🦃</span>
       </div>
       <div class="text-xs space-y-2">
         <div class="p-2.5 rounded bg-[#241315] border border-[#c85648]/40 text-[#f08a7d]">
-          <b>Ο Ισχυρισμός Finfluencer:</b> <i>«Το 90% των options λήγει άχρηστο. Πούλα out-of-the-money puts κάθε εβδομάδα, μάζευε μετρητά σαν τράπεζα και κοιμήσου ήσυχος!»</i>
+          <b>Επικρατούσα Αντίληψη Αγοράς / Market Misconception:</b> <i>«Η συστηματική πώληση Puts χαμηλού Delta (10-Delta) με 90% ποσοστό επιτυχίας αποτελεί ασφαλή στρατηγική τακτικού εισοδήματος.»</i>
         </div>
         <div class="p-2.5 rounded bg-[#13221b] border border-[#1e4433] text-[#a3e6be]">
-          <b>Η Πραξεολογική Αλήθεια (The Taleb Turkey Fallacy &amp; Fat Tails):</b> Όπως έγραψε ο Nassim Nicholas Taleb: <i>«Η γαλοπούλα ταΐζεται για 1.000 μέρες νομίζοντας ότι ο χασάπης την αγαπάει, μέχρι την παραμονή των Ευχαριστιών»</i>. Η πώληση naked options χαρακτηρίζεται από <b>ακραία αρνητική λοξότητα (Negative Skewness &amp; Leptokurtosis)</b>.
+          <b>Μηχανισμός Αγοράς / Quantitative Mechanism (Negative Skewness &amp; Leptokurtosis):</b> Η πώληση ακάλυπτων δικαιωμάτων χαρακτηρίζεται από αρνητική ασυμμετρία και λεπτοκύρτωση (Fat Tails). Συχνά μικρά κέρδη εξανεμίζονται από σπάνιες αλλά σφοδρές διορθώσεις της αγοράς (γεγονότα Taleb / Black Swan), όπου οι απώλειες υπερβαίνουν κατά πολύ τα σωρευμένα ασφάλιστρα μηνών ή ετών.
         </div>
 
-        <!-- Interactive Turkey Shock Calculator -->
+        <!-- Interactive Tail Shock Calculator -->
         <div class="mt-3 p-3 rounded bg-[#0f141c] border border-[#232d3b] space-y-2">
           <div class="flex justify-between items-center text-[11px] font-bold text-[#d49a42]">
-            <span>🦃 TALEB TURKEY CALCULATOR: Το σοκ του 4-Sigma</span>
+            <span>📉 ΔΟΚΙΜΗ ΑΚΡΑΙΩΝ ΔΙΑΚΥΜΑΝΣΕΩΝ / TAIL SHOCK STRESS TEST</span>
             <span id="turkeyNetBadge" class="mono text-[#c85648]">Καθαρό PnL: -$18,400</span>
           </div>
           <div class="grid grid-cols-2 gap-2">
             <div>
-              <label class="text-[10px] text-[#8e99a8]">Εβδομαδιαίο Premium ($): <span id="turkeyPremLabel" class="text-[#ebe8e1] font-bold">$150</span></label>
+              <label class="text-[10px] text-[#8e99a8]">Εισπραχθέν Ασφάλιστρο / Premium ($): <span id="turkeyPremLabel" class="text-[#ebe8e1] font-bold">$150</span></label>
               <input id="turkeyPremSlider" type="range" min="50" max="500" step="25" value="150" class="w-full accent-[#d49a42]" oninput="runTailShockSimulator()" />
             </div>
             <div>
-              <label class="text-[10px] text-[#8e99a8]">Γεγονός-Σοκ (Tail Event):</label>
+              <label class="text-[10px] text-[#8e99a8]">Σενάριο Ακραίας Διακύμανσης / Shock Scenario:</label>
               <select id="turkeyShockSelect" class="w-full px-2 py-1 text-xs rounded bg-[#161d27] border border-[#232d3b]" onchange="runTailShockSimulator()">
-                <option value="12">-12% Flash Crash (Covid/War)</option>
-                <option value="20">-20% Black Monday Shock</option>
-                <option value="35">-35% Systemic Meltdown</option>
+                <option value="12">-12% Διόρθωση Αγοράς / Market Correction</option>
+                <option value="20">-20% Συστημικό Σοκ / Systemic Market Shock</option>
+                <option value="35">-35% Ακραία Κατάρρευση / Severe Meltdown</option>
               </select>
             </div>
           </div>
@@ -1107,24 +1213,58 @@
       </div>
     </div>
 
-    <!-- MYTH 4: IV IS A FORECAST -->
+    <!-- RISK FACTOR 4: IV & VRP -->
     <div class="card-elevated p-4 border border-[#232d3b] hover:border-[#9b88bf] transition">
       <div class="flex justify-between items-start mb-2 border-b border-[#232d3b] pb-2">
         <div>
-          <span class="text-[10px] px-2 py-0.5 rounded bg-[#201d2d] text-[#9b88bf] font-bold border border-[#352c4e]">ΜΥΘΟΣ #4</span>
-          <h3 class="font-bold text-[#ebe8e1] text-sm mt-1">«Το Implied Volatility (IV) είναι Πρόβλεψη της Μελλοντικής Κίνησης»</h3>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-[#201d2d] text-[#9b88bf] font-bold border border-[#352c4e]">ΠΑΡΑΓΟΝΤΑΣ ΚΙΝΔΥΝΟΥ #4 / RISK FACTOR #4</span>
+          <h3 class="font-bold text-[#ebe8e1] text-sm mt-1">Τεκμαρτή Μεταβλητότητα &amp; Ασφάλιστρο Κινδύνου / Implied Volatility &amp; Volatility Risk Premium (VRP)</h3>
         </div>
         <span class="text-xl">🔮</span>
       </div>
       <div class="text-xs space-y-2">
         <div class="p-2.5 rounded bg-[#241315] border border-[#c85648]/40 text-[#f08a7d]">
-          <b>Ο Ισχυρισμός Finfluencer:</b> <i>«Το IV ανέβηκε στο 55%, άρα η αγορά προβλέπει τεράστιο ράλι ή μεγάλη πτώση! Το IV είναι η πρόγνωση καιρού της Wall Street.»</i>
+          <b>Επικρατούσα Αντίληψη Αγοράς / Market Misconception:</b> <i>«Η υψηλή τεκμαρτή μεταβλητότητα (IV) αποτελεί πρόβλεψη της αγοράς για επερχόμενη μεγάλη κατευθυντική κίνηση.»</i>
         </div>
         <div class="p-2.5 rounded bg-[#13221b] border border-[#1e4433] text-[#a3e6be]">
-          <b>Η Πραξεολογική Αλήθεια (Volatility Risk Premium - VRP):</b> Το IV <b>δεν είναι πρόβλεψη</b>. Είναι η <b>τιμή ισορροπίας του ασφαλίστρου κινδύνου</b> στην αγορά. Επειδή οι άνθρωποι διακατέχονται από αποστροφή κινδύνου και προτίμηση βεβαιότητας, πληρώνουν συστηματικά υπεραξία (overpay) για προστασία.
+          <b>Μηχανισμός Αγοράς / Quantitative Mechanism (Pricing of Uncertainty):</b> Το Implied Volatility δεν συνιστά πρόγνωση αλλά <b>τιμή ισορροπίας της ασφάλισης κινδύνου</b>. Λόγω της αποστροφής κινδύνου των συμμετεχόντων, τα δικαιώματα διαπραγματεύονται ιστορικά με επιπλέον ασφάλιστρο (overpriced protection).
         </div>
         <p class="text-[#8e99a8] leading-relaxed">
-          Ιστορικά σε πάνω από 40 χρόνια δεδομένων στον S&amp;P 500, το <b>Implied Volatility είναι συστηματικά υψηλότερο από το Realized Volatility</b> ($IV &gt; RV$) κατά μέσο όρο κατά 2 έως 4 μονάδες. Αυτό το άνοιγμα ονομάζεται <b>Volatility Risk Premium ($\text{VRP} = \mathbb{E}[IV] - \mathbb{E}[RV] &gt; 0$)</b>. Το IV δεν προβλέπει το μέλλον· τιμολογεί τον ανθρώπινο φόβο!
+          Ιστορικά στοιχεία δεκαετιών στον S&amp;P 500 καταδεικνύουν ότι η Τεκμαρτή Μεταβλητότητα υπερβαίνει συστηματικά την Πραγματοποιηθείσα Μεταβλητότητα ($IV &gt; RV$) κατά 2 έως 4 μονάδες. Αυτή η διαφορά αποτελεί το <b>Ασφάλιστρο Κινδύνου Μεταβλητότητας (Volatility Risk Premium, VRP)</b>: $\text{VRP} = \mathbb{E}[IV] - \mathbb{E}[RV] &gt; 0$.
+        </p>
+      </div>
+    </div>
+
+    <!-- RISK FACTOR 5: DEALER GAMMA EXPOSURE (GEX) -->
+    <div class="card-elevated p-4 border border-[#232d3b] hover:border-[#3d76b8] transition">
+      <div class="flex justify-between items-start mb-2 border-b border-[#232d3b] pb-2">
+        <div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-[#171f2d] text-[#3d76b8] font-bold border border-[#23334c]">ΠΑΡΑΓΟΝΤΑΣ ΚΙΝΔΥΝΟΥ #5 / RISK FACTOR #5</span>
+          <h3 class="font-bold text-[#ebe8e1] text-sm mt-1">Ροές Αντιστάθμισης Ειδικών Διαπραγματευτών / Dealer Gamma Exposure &amp; Market Dynamics (GEX)</h3>
+        </div>
+        <span class="text-xl">📐</span>
+      </div>
+      <div class="text-xs space-y-2">
+        <div class="p-2.5 rounded bg-[#241315] border border-[#c85648]/40 text-[#f08a7d]">
+          <b>Επικρατούσα Αντίληψη Αγοράς / Market Misconception:</b> <i>«Γραμμές τεχνικής ανάλυσης, στηρίξεις και αντιστάσεις καθορίζουν από μόνες τους τα σημεία αντιστροφής της τιμής.»</i>
+        </div>
+        <div class="p-2.5 rounded bg-[#13221b] border border-[#1e4433] text-[#a3e6be]">
+          <b>Μηχανισμός Αγοράς / Quantitative Mechanism (Institutional Hedging Regimes):</b> Η συμπεριφορά της αγοράς επηρεάζεται καθοριστικά από τις υποχρεωτικές συναλλαγές αντιστάθμισης των Market Makers (Hedging Flows) με βάση το Gamma του βιβλίου εντολών:
+        </div>
+        <ul c      <button onclick="closeShannonModal()" class="px-3 py-1 rounded bg-[#1f2735] hover:bg-[#2b364a] text-white font-bold transition">
+        Κλείσιμο / Close
+      </button>
+    </div>
+  </div>
+</div>
+<!-- Modular Options Engine (GitHub Pages & Zero-Build Compatible) -->�φής, reflection principle και κατανομής vertical spreads βασίζονται στον κορμό του <a href="https://github.com/DimitrisAndreou/options-tools" target="_blank" class="text-[#4a86c6] hover:underline font-bold">DimitrisAndreou/options-tools</a>.
+      </span>
+      <button onclick="closeShannonModal()" class="px-3 py-1 rounded bg-[#1f2735] hover:bg-[#2b364a] text-white font-bold transition">
+        Κλείσιμο / Close
+      </button>
+    </div>
+  </div>
+</div>500, το <b>Implied Volatility είναι συστηματικά υψηλότερο από το Realized Volatility</b> ($IV &gt; RV$) κατά μέσο όρο κατά 2 έως 4 μονάδες. Αυτό το άνοιγμα ονομάζεται <b>Volatility Risk Premium ($\text{VRP} = \mathbb{E}[IV] - \mathbb{E}[RV] &gt; 0$)</b>. Το IV δεν προβλέπει το μέλλον· τιμολογεί τον ανθρώπινο φόβο!
         </p>
       </div>
     </div>
@@ -1180,7 +1320,7 @@
 <!-- FOOTER -->
 <footer class="mt-10 pt-4 border-t border-[#26303e] text-[11px] text-[#637083] flex flex-wrap justify-between gap-2">
   <div>
-    Options Probabilistic Superstructure • Praxeological Market Reality
+    Αναλυτής Πιθανοτήτων &amp; Στρατηγικών Παραγώγων • Options Probability &amp; Strategy Analyzer
   </div>
   <div>
     Core options engine adapted from

@@ -1,5 +1,5 @@
 /**
- * Options Probabilistic Superstructure — Visx SVG Visualizations & Chart Engines
+ * Options Probability & Strategy Analyzer — Visx SVG Visualizations & Chart Engines
  * High-performance, GPU-accelerated mathematical SVG paths, Monotone Splines, and Tooltips.
  */
 
@@ -84,7 +84,7 @@ function visxHideTooltip() {
   if (tip) tip.classList.add('hidden');
 }
 
-// --- TAB 1: VISX SUPERSTRUCTURE BELL CURVE & TOUCH BARRIER ---
+// --- TAB 1: PROBABILITY DISTRIBUTION BELL CURVE & TOUCH BARRIER ---
 function renderSuperstructureBellChart(spot, forward, target, pTouch, pExpire, spreads) {
   const svg = document.getElementById('bellCurveSvg');
   if (!svg || spot <= 0) return;
